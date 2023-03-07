@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} Blogs {% endblock title %}
+{% load static %}
+{% comment %} {% load humanize %} {% endcomment %}
+{% block content %}
+<div class="container">
+  <div class="row ">
+    <div class="col">
+      
+      {% for blog in blogs %}
+<br>    
+      <div class="card" style="width: 58rem;">
+  <img src="{{blog.photo_url}}" class="carmd-img-top" alt="..."height="150" width="150"> 
+  <div class="card-body">
+    <h5 class="card-title"> <a href="{{blog.get_absolute_url}}">{{blog.title}}</a> </h5>
+    <p> user : {{blog.user}} ,views : {{blog.views}} 44, comments :{{blog.comments}} 66, likes: {{blog.likes}}55,minutes read  date :{{blog.created}}</p> 
+    <p class="card-text">
+       {{blog.content}}</p> content:
+       <p> category : {{blog.category}}</p> 
+       {% for tag in blog.tags.all %}
+       <button type="button" class="btn btn-primary">{{ tag }}  </button>
+
+
+{% endfor %}
+
+  </div>
+</div>
+
+        {% empty %}
+no blogs
+      {% endfor %}
+        
+    </div>
+  
+    
+  </div>
+</div>
+
+{% endblock content %}

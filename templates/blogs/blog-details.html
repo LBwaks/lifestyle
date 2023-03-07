@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Blog Detail{% endblock title %}
+{% comment %} {% load 'static' %} {% endcomment %}
+{% block content %}
+
+<div class="container">
+  <div class="row ">
+    <div class="col">
+      
+    
+
+      <div class="card" style="width: 58rem;">
+  <img src="{{blog.photo_url}}" class="card-immg-top" alt="..." height="150" width="150">
+  <div class="card-body">
+    <h5 class="card-title"> <a href="">{{blog.title}}</a> </h5>
+    <p> user : {{blog.user}} ,views : {{blog.views}} 44, comments :{{blog.comments}} 66, likes: {{blog.likes}}55,minutes read {{blog.created}}</p> 
+    <p class="card-text">content:
+       {{blog.content}}</p>
+       <p> category : {{blog.category}}</p> 
+      tagssss::: {% for tag in blog.tags.all %}
+<button type="button" class="btn btn-primary">{{ tag }}  </button>
+{% endfor %}
+
+<p>refence :{{blog.reference}}</p>  
+<a href="{% url 'edit-blog' blog.slug %}" class="btn btn-success">Edir Blog</a> <br>
+<a hx-refresh ="{% url 'blogs' %}" hx-delete="{% url 'delete-blog' blog.slug %}" hx-confirm="Yes I want" class="btn btn-danger">Delete Blog</a>
+</div>
+</div>
+
+ 
+        
+    </div>
+  
+    
+  </div>
+</div>
+
+{% endblock content %}

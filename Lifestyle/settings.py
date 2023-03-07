@@ -43,9 +43,12 @@ INSTALLED_APPS = [
     "Blog",
     # installed app
     "ckeditor",
+    "ckeditor_uploader",
     "taggit",
     "django_extensions",
     "hitcount",
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -128,9 +131,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+# static settings
+
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR/ 'staticfiles')
+STATICFILES_DIRS =[
+    os.path.join(BASE_DIR , 'static')
+]
+
+# media settings
 MEDIA_URL ="/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR /'media')
+CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -139,3 +151,48 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # hitcount settings
 HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 7 }
+# crispy form
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# ckeditor
+CKEDITOR_ALLOW_NONIMAGE_FILES = False 
+CKEDITOR_RESTRICT_BY_DATE = True
+CKEDITOR_THUMBNAIL_SIZE = (500, 500)
+
+CKEDITOR_CONFIGS = {
+    # 'default': {
+    #     'width': '150%',
+    #     'toolbar': 'Custom',
+    #     # Specify Custom Shit - GPL License -
+    #     'toolbar_Custom': [
+    #         ['Bold', 'Italic', 'Underline', '-', 'Image', 'Link', 'CodeSnippet', '-', 'NumberedList', 'BulletedList', 'HorizontalRule', '-', 'Undo', 'Redo'],
+    #     ], 'extraPlugins': 'codesnippet'
+    #     # Remove Dialog Tabs
+    #     'removeDialogTabs': 'image:advanced;image:Link',
+    # }
+}
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        # 'height': 'auto',
+        'width': 'auto',
+        # 'toolbar_Custom': [
+        #     # [ 'Strike',  'Undo', 'Redo'],
+        #     ['Styles','Format','Undo', 'Redo','Bold', 'Italic', 'Underline'],
+        #     ['TextColor', 'BGColor'],
+        #     ['NumberedList', 'BulletedList',  'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        #     # ['Link', 'Unlink', 'Anchor'],
+        #     # ['Image', 'Flash', 'Table', 'HorizontalRule'],
+        
+        #     # [ 'Source']
+        # ]
+        # Remove Dialog Tabs
+        # 'removeDialogTabs': 'link:advanced;',
+        'removeDialogTabs': 'link:advanced;link:upload;link:target;image:advanced;image:Link',
+        
+        
+    }
+}

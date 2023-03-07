@@ -1,10 +1,13 @@
-from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django_extensions.db.fields import AutoSlugField
 from hitcount.models import HitCountMixin
 from taggit.managers import TaggableManager
+
+from .validators import validate_file_size
 
 # Create your models here.
 
@@ -61,7 +64,7 @@ class Blog(models.Model):
     )
     title = models.CharField(_("Title"), max_length=50)
     slug = AutoSlugField(populate_from="title", slugify_function=my_slugify_function)
-    content = RichTextField(_("Content"))
+    content = RichTextUploadingField(_("Content"))
     category = models.ForeignKey(
         "Category", verbose_name=_("blog_category"), on_delete=models.CASCADE
     )
@@ -72,11 +75,14 @@ class Blog(models.Model):
         height_field=None,
         width_field=None,
         max_length=None,
+        validators=[validate_file_size],
+        blank=True,
+        null=True,
     )
     # hit_count_generic = GenericRelation(
     # HitCount, object_id_field='object_pk',
     # related_query_name='hit_count_generic_relation')
-    reference = models.URLField(_("Reference"), max_length=200)
+
     is_published = models.BooleanField(_("Is Published"), default=False)
     is_featured = models.BooleanField(_("Is Featured"), default=False)
     updated = models.DateTimeField(_("Updated"), auto_now=True, auto_now_add=False)
@@ -97,8 +103,13 @@ class Blog(models.Model):
     #     """Save method for Blog."""
     #     pass
 
-    # def get_absolute_url(self):
-    #     """Return absolute url for Blog."""
-    #     return ""
+    def get_absolute_url(self):
+        """Return absolute url for Blog."""
+        return reverse("blog-detail", kwargs={"slug": self.slug})
+    
+    @property
+    def photo_url(self):
+        if self.photo and hasattr(self.photo,'url'):
+            return self.photo.url
 
     # TODO: Define custom methods here
