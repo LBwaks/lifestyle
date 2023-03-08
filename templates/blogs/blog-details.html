@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}Blog Detail{% endblock title %}
 {% comment %} {% load 'static' %} {% endcomment %}
+{% load hitcount_tags %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <div class="container">
-  <div class="row ">
-    <div class="col">
+  <div class="row">
+    <div class="col-lg-8 col-md-8">
       
     
 
@@ -13,7 +15,7 @@
   <img src="{{blog.photo_url}}" class="card-immg-top" alt="..." height="150" width="150">
   <div class="card-body">
     <h5 class="card-title"> <a href="">{{blog.title}}</a> </h5>
-    <p> user : {{blog.user}} ,views : {{blog.views}} 44, comments :{{blog.comments}} 66, likes: {{blog.likes}}55,minutes read {{blog.created}}</p> 
+    <p> <i class="fa-regular fa-user"></i>: {{blog.user}} ,<i class="fa-sharp fa-regular fa-eye"></i>: , <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments}} 66, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}55,minutes read <i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
     <p class="card-text">content:
        {{blog.content}}</p>
        <p> category : {{blog.category}}</p> 
@@ -26,9 +28,59 @@
 <a hx-refresh ="{% url 'blogs' %}" hx-delete="{% url 'delete-blog' blog.slug %}" hx-confirm="Yes I want" class="btn btn-danger">Delete Blog</a>
 </div>
 </div>
+{% if user.is_authenticated %}
 
- 
+<form action="" method="POST">
+   {% csrf_token %}
+  {% comment %} {{ form | crispy }} {% endcomment %}
+  {{ form.as_p}}
+    {% comment %} <div>
+             <label for="comment">Type Comment here</label>
+            {{ form.comment }} {% csrf_token %} <input type="submit" value="Post"></div>
+         </div> {% endcomment %}
+ <button type="submit"> Submit</button>
+ <br><br><br><br><br>
+</form>
+{% else %}
+login to comment
+{% endif %}
+<hr>
+<hr>
+<hr>
+{% for comment in comments %}
+{% if comment.is_parent %}
+<h3><b>{{comment.user}} : </b> {{comment.comment}}</h3>
+&nbsp; &nbsp; &nbsp;
+<form action="" method="POST">
+   {% csrf_token %}
+  
+    <div>
+            &nbsp; &nbsp; &nbsp; <label for="comment">Reply</label>
+&nbsp; &nbsp; &nbsp;<input type="text" name="comment" id=""><input type="hidden" name="parent" value={{comment.pk}}>
+            <input type="submit" value="Post"></div>
+         </div>
+ <br>
+</form>
+{% endif %}
+{% for replies in comment.children %}
+<h3>  &nbsp;&nbsp;&nbsp; <b>{{comment.user}}</b> : {{replies.comment}}</h3>
+
+{% endfor %}
+{% empty %}
+<p>no comments</p>
+{% endfor %} 
+
+
+</div>
+<div class="col-lg-4 col-md-4 ">
+        <h3>Popular post </h3>
         
+        {% for blog in popular_blogs %}
+           <a href="{{blog.get_absolute_url}}">{{blog.title}}</a>
+           {% empty %}
+           <p>No popular blog</p>
+        {% endfor %}
+          
     </div>
   
     

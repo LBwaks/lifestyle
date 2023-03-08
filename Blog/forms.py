@@ -5,7 +5,7 @@ from django.utils.translation import gettext as _
 from taggit.forms import *
 from taggit.models import Tag
 
-from .models import Blog, Category
+from .models import Blog, Category, Comment
 from .validators import validate_file_size
 
 
@@ -111,3 +111,17 @@ class EditBlogForm(forms.ModelForm):
                     )
 
             return photo
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = (
+            "comment",
+            "parent",
+        )
+        widgets = {
+            "comment": forms.TextInput(
+                attrs={"class": "form-control comment" "required"}
+            )
+        }

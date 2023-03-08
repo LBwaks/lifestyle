@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category,Blog
+from .models import Category,Blog,Comment
 # Register your models here.
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -41,3 +41,17 @@ class BlogAdmin(admin.ModelAdmin):
             obj.user= request.user
             obj.save()        
         return super().save_model(request, obj, form, change)
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    '''Admin View for Comment'''
+
+#     list_display = ('user',)
+    # list_filter = ('',)
+    # inlines = [
+    #     Inline,
+    # ]
+    # raw_id_fields = ('',)
+    # readonly_fields = ('',)
+    # search_fields = ('',)
+    # date_hierarchy = ''
+    # ordering = ('',)

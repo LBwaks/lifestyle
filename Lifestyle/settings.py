@@ -150,7 +150,7 @@ CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # hitcount settings
-HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 7 }
+HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 37365 }
 # crispy form
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
