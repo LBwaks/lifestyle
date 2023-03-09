@@ -53,10 +53,7 @@ class BlogDetailView(HitCountDetailView):
                     parent = None
 
                 new_comment = form.save(commit=False)
-                # new_comment.user = self.request.user
-                # new_comment.blog=self.get_object()
-                # new_comment.comment= comment
-                # new_comment.parent= parent
+                
                 new_comment = Comment(
                     comment=comment,
                     user=self.request.user,
@@ -65,12 +62,7 @@ class BlogDetailView(HitCountDetailView):
                 )
                 new_comment.save()
             return redirect(self.request.path_info)
-            # blog= get_object_or_404(Blog,slug=slug) 
-            # context={
-            #     'blog':blog,'form':form,
-            # }
-            # return render (request,'blogs/blog-details.html',context)
-
+           
 
 class BlogCreateView(CreateView):
     model = Blog

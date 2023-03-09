@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 from decouple import config
+from django.conf import settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
     # created app
     "Blog",
     # installed app
@@ -49,6 +52,10 @@ INSTALLED_APPS = [
     "hitcount",
     "crispy_forms",
     "crispy_bootstrap5",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
 ]
 
 MIDDLEWARE = [
@@ -95,7 +102,14 @@ DATABASES = {
         "PORT": config("PORT"),
     }
 }
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+RECIPIENT_ADDRESS = config('RECIPIENT_ADDRESS')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -134,14 +148,12 @@ USE_TZ = True
 # static settings
 
 STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR/ 'staticfiles')
-STATICFILES_DIRS =[
-    os.path.join(BASE_DIR , 'static')
-]
+STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 # media settings
-MEDIA_URL ="/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR /'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR / "media")
 CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 # Default primary key field type
@@ -150,14 +162,14 @@ CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # hitcount settings
-HITCOUNT_KEEP_HIT_ACTIVE = { 'days': 37365 }
+HITCOUNT_KEEP_HIT_ACTIVE = {"days": 37365}
 # crispy form
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # ckeditor
-CKEDITOR_ALLOW_NONIMAGE_FILES = False 
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
 CKEDITOR_RESTRICT_BY_DATE = True
 CKEDITOR_THUMBNAIL_SIZE = (500, 500)
 
@@ -175,10 +187,10 @@ CKEDITOR_CONFIGS = {
 }
 
 CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Custom',
+    "default": {
+        "toolbar": "Custom",
         # 'height': 'auto',
-        'width': 'auto',
+        "width": "auto",
         # 'toolbar_Custom': [
         #     # [ 'Strike',  'Undo', 'Redo'],
         #     ['Styles','Format','Undo', 'Redo','Bold', 'Italic', 'Underline'],
@@ -186,13 +198,71 @@ CKEDITOR_CONFIGS = {
         #     ['NumberedList', 'BulletedList',  'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
         #     # ['Link', 'Unlink', 'Anchor'],
         #     # ['Image', 'Flash', 'Table', 'HorizontalRule'],
-        
         #     # [ 'Source']
         # ]
         # Remove Dialog Tabs
         # 'removeDialogTabs': 'link:advanced;',
-        'removeDialogTabs': 'link:advanced;link:upload;link:target;image:advanced;image:Link',
-        
-        
+        "removeDialogTabs": "link:advanced;link:upload;link:target;image:advanced;image:Link",
     }
 }
+
+# allauth
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+SITE_ID = 2
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL= "/"
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        "APP": {
+            "client_id": config('client_id'), 
+            "secret": config('secret'), 
+            "key": ""}
+    }
+}
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = settings.LOGIN_URL
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = None
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
+ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN =180
+ACCOUNT_EMAIL_MAX_LENGT =254
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT =5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT =300
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION =False
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE =False
+ACCOUNT_LOGIN_ON_PASSWORD_RESET =False
+ACCOUNT_LOGOUT_REDIRECT_URL =settings.LOGOUT_REDIRECT_URL
+ACCOUNT_PREVENT_ENUMERATION =True
+ACCOUNT_RATE_LIMITS = {
+    # Change password view (for users already logged in
+    "change_password": "5/m",
+    # Email management (e.g. add, remove, change primary
+    "manage_email": "10/m",
+    # Request a password reset, global rate limit per IP
+    "reset_password": "20/m",
+    # Rate limit measured per individual email address
+    "reset_password_email": "5/m",
+    # Password reset (the view the password reset email links to.
+    "reset_password_from_key": "20/m",
+    # Signups.
+    "signup": "20/m",
+    # NOTE: Login is already protected via `ACCOUNT_LOGIN_ATTEMPTS_LIMIT`
+}
+ACCOUNT_SESSION_REMEMBER =None
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE =True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE =True
+ACCOUNT_SIGNUP_REDIRECT_URL =settings.LOGIN_REDIRECT_URL
+ACCOUNT_USERNAME_BLACKLIST =['admin']
+ACCOUNT_UNIQUE_EMAIL =True
+ACCOUNT_USERNAME_MIN_LENGTH =5
+ACCOUNT_USERNAME_REQUIRED =True
+

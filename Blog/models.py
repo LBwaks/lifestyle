@@ -110,6 +110,12 @@ class Blog(models.Model):
     def get_absolute_url(self):
         """Return absolute url for Blog."""
         return reverse("blog-detail", kwargs={"slug": self.slug})
+    def get_read_time(self):
+        from html import unescape
+        from django.utils.html import strip_tags
+        string =self.title + unescape(strip_tags(self.content))
+        total_words = len((string).split())
+        return round(total_words/265)
 
     @property
     def photo_url(self):
@@ -121,7 +127,7 @@ class Comment(models.Model):
     """Model definition for Comment."""
 
     # TODO: Define fields here
-    blog = models.ForeignKey(Blog, verbose_name=_("blog_comment"), on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, verbose_name=_("blog_comment"),related_name="comments", on_delete=models.CASCADE)
     user = models.ForeignKey(User, verbose_name=_("blog_user"), on_delete=models.CASCADE)
     comment = models.TextField(_("Comment"))
     created = models.DateTimeField(auto_now_add=True)
