@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Blog Detail{% endblock title %}
 {% comment %} {% load 'static' %} {% endcomment %}
-{% load hitcount_tags %}
+{% comment %} {% load hitcount_tags %} {% endcomment %}
 {% load crispy_forms_tags %}
 {% block content %}
 
@@ -12,22 +12,21 @@
     
 
       <div class="card" style="width: 58rem;">
-        
-  <img src="{{blog.photo_url}}" class="card-immg-top" alt="..." height="150" width="150">
+  <img src="{{profile.profile_url}}" class="card-immg-top" alt="..." height="150" width="150">
   <div class="card-body">
-    <h5 class="card-title"> <a href="">{{blog.title}}</a> </h5>
-    <p> <i class="fa-regular fa-user"></i>: {{blog.user.user_profile.firstname}} {{blog.user.user_profile.lastname}},<i class="fa-sharp fa-regular fa-eye"></i>:{% get_hit_count for blog %} , <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments.count}}, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}|{{blog.get_read_time}} minutes read||<i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
-   <p class="card-text"> <a href="{% url 'user-profile' blog.user.user_profile.slug %}">Owner profile</a> </p>
-    <p class="card-text">content:
-       {{blog.content}}</p>
-       <p> category : {{blog.category}}</p> 
-      tagssss::: {% for tag in blog.tags.all %}
-<button type="button" class="btn btn-primary">{{ tag }}  </button>
-{% endfor %}
-
-<p>refence :{{blog.reference}}</p>  
-<a href="{% url 'edit-blog' blog.slug %}" class="btn btn-success">Edir Blog</a> <br>
-<a hx-refresh ="{% url 'blogs' %}" hx-delete="{% url 'delete-blog' blog.slug %}" hx-confirm="Yes I want" class="btn btn-danger">Delete Blog</a>
+ <p>firstname :{{profile.firstname}}</p>    
+ <p>lastname :{{profile.lastname}}</p> 
+ <p>tell :{{profile.tell}}</p> 
+ <p>gender :{{profile.gender}}</p> 
+ <p>dob :{{profile.dob}}</p> 
+ <p>location :{{profile.location}}</p> 
+<p>bio :{{profile.bio}}</p> 
+<p>twitter:{{profile.twitter}}</p>  
+<p>facebook :{{profile.facebook}}</p> 
+<p>instagram :{{profile.instagram }}</p> 
+<p>website :{{profile.website}}</p> 
+<a href="{% url 'update-profile' profile.slug %}" class="btn btn-success">Update</a> <br>
+{% comment %} <a hx-refresh ="{% url 'blogs' %}" hx-delete="{% url 'delete-blog' blog.slug %}" hx-confirm="Yes I want" class="btn btn-danger">Delete Blog</a> {% endcomment %}
 </div>
 </div>
 {% if user.is_authenticated %}

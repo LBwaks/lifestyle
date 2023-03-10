@@ -5,8 +5,8 @@ from django.utils.translation import gettext as _
 from taggit.forms import *
 from taggit.models import Tag
 
-from .models import Blog, Category, Comment
-from .validators import validate_file_size
+from .models import Blog,  Comment
+
 
 
 class BlogForm(forms.ModelForm):

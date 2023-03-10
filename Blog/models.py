@@ -56,7 +56,7 @@ class Category(models.Model):
 
 
 # Create your models here.
-class Blog(models.Model):
+class Blog(models.Model,HitCountMixin):
     """Model definition for Blog."""
 
     # TODO: Define fields here

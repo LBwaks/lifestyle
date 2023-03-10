@@ -7,9 +7,10 @@ from django.views.generic import (
     DetailView,
     ListView,
     UpdateView,
+    TemplateView
 )
 from hitcount.views import HitCountDetailView
-
+from django.contrib.auth.models import User
 from .forms import BlogForm,  EditBlogForm,CommentForm
 from .models import Blog,Comment
 
@@ -107,3 +108,15 @@ def DeleteBlog(request, slug):
     if request.method == "DELETE":
         blog.delete()
     return HTTPResponseHXRedirect(redirect_to=reverse_lazy("blogs"))
+
+
+class UsersListView(TemplateView):
+    model = Blog
+    template_name = "blogs/user-blogs.html"
+    
+    def get_context_data(self,**kwargs):
+        context = super(UsersListView,self).get_context_data(**kwargs)
+        blog_by = get_object_or_404(User,username=self.kwargs.get('username'))
+        context["blogs"] = Blog.objects.filter(user=blog_by)
+        return context
+    
