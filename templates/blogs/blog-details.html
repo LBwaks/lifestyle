@@ -3,6 +3,7 @@
 {% comment %} {% load 'static' %} {% endcomment %}
 {% load hitcount_tags %}
 {% load crispy_forms_tags %}
+{% load social_share %}
 {% block content %}
 
 <div class="container">
@@ -18,7 +19,18 @@
     <h5 class="card-title"> <a href="">{{blog.title}}</a> </h5>
     <p> <i class="fa-regular fa-user"></i>: {{blog.user.user_profile.firstname}} {{blog.user.user_profile.lastname}},<i class="fa-sharp fa-regular fa-eye"></i>:{% get_hit_count for blog %} , <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments.count}}, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}|{{blog.get_read_time}} minutes read||<i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
    <p class="card-text"> <a href="{% url 'user-profile' blog.user.user_profile.slug %}">Owner profile</a> </p>
-    <p class="card-text">content:
+   <p class="card-text"> social share :{% post_to_facebook object_or_url '<i class="fa-brands fa-facebook"></i>' %}
+    <br>  
+    {% post_to_twitter "New Song: {{object.title}}. Check it out!" object_or_url '<i class="fa-brands fa-twitter"></i>' %}
+    <br>
+    {% post_to_gplus object_or_url "Post to Google+!" %}
+{% post_to_linkedin object_or_url %}
+{% send_email object.title "New Song: {{object.title}}. Check it out!" object_or_url "Share via email" %}
+{% post_to_reddit "New Song: {{object.title}}" object_or_url %}
+{% post_to_telegram "New Song: {{object.title}}" object_or_url %}
+{% post_to_whatsapp object_or_url "Share via WhatsApp" %}
+   </p> 
+   <p class="card-text">content:
        {{blog.content}}</p>
        <p> category : {{blog.category}}</p> 
       tagssss::: {% for tag in blog.tags.all %}
