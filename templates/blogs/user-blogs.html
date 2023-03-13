@@ -16,7 +16,7 @@
     <h5 class="card-title"> <a href="{{blog.get_absolute_url}}">{{blog.title}}</a> </h5>
     <p> <i class="fa-regular fa-user"></i>: {{blog.user}} ,<i class="fa-sharp fa-regular fa-eye"></i>: {% get_hit_count for blog %} 44, <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments}} 66, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}55,minutes read <i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
     <p class="card-text">
-       {{blog.content}}</p> content:
+       {{blog.content |truncatewords_html:10}}</p> content:
        <p> category : {{blog.category}}</p> 
        {% for tag in blog.tags.all %}
        <button type="button" class="btn btn-primary">{{ tag }}  </button>
@@ -30,7 +30,35 @@
         {% empty %}
 no blogs
       {% endfor %}
-        
+        {% if blogs.has_previous %}
+  <a href="?page={{ blogs.previous_page_number }}">« Previous page</a>
+
+  {% if blogs.number > 3 %}
+    <a href="?page=1">1</a>
+    {% if blogs.number > 4 %}
+      <span>...</span>
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% for num in blogs.paginator.page_range %}
+  {% if blogs.number == num %}
+    <a href="?page={{ num }}">{{ num }}</a>
+  {% elif num > blogs.number|add:'-3' and num < blogs.number|add:'3' %}
+    <a href="?page={{ num }}">{{ num }}</a>
+  {% endif %}
+{% endfor %}
+
+{% if blogs.has_next %}
+  {% if blogs.number < blogs.paginator.num_pages|add:'-3' %}
+    <span>...</span>
+    <a href="?page={{ blogs.paginator.num_pages }}">{{ blogs.paginator.num_pages }}</a>
+  {% elif blogs.number < blogs.paginator.num_pages|add:'-2' %}
+    <a href="?page={{ blogs.paginator.num_pages }}">{{ blogs.paginator.num_pages }}</a>
+  {% endif %}
+
+  <a href="?page={{ blogs.next_page_number }}">Next Page »</a>
+{% endif %}
     </div>
   
     

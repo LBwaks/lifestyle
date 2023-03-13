@@ -8,7 +8,7 @@
   <div class="row ">
     <div class="col">
       
-      {% for blog in blogs %}
+      {% for blog in object_list %}
 <br>    
       <div class="card" style="width: 58rem;">
   <img src="{{blog.photo_url}}" class="carmd-img-top" alt="..."height="150" width="150"> 
@@ -16,7 +16,7 @@
     <h5 class="card-title"> <a href="{{blog.get_absolute_url}}">{{blog.title}}</a> </h5>
     <p> <i class="fa-regular fa-user"></i>: {{blog.user}} ,<i class="fa-sharp fa-regular fa-eye"></i>: {% get_hit_count for blog %} 44, <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments}} 66, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}55,minutes read <i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
     <p class="card-text">
-       {{blog.content}}</p> content:
+       {{blog.content | truncatewords_html:20}}</p> content:
        <p> category : {{blog.category}}</p> 
        {% for tag in blog.tags.all %}
        <button type="button" class="btn btn-primary">{{ tag }}  </button>
@@ -30,6 +30,35 @@
         {% empty %}
 no blogs
       {% endfor %}
+     {% if page_obj.has_previous %}
+  <a href="?page={{ page_obj.previous_page_number }}">« Previous page</a>
+
+  {% if page_obj.number > 3 %}
+    <a href="?page=1">1</a>
+    {% if page_obj.number > 4 %}
+      <span>...</span>
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% for num in page_obj.paginator.page_range %}
+  {% if page_obj.number == num %}
+    <a href="?page={{ num }}">{{ num }}</a>
+  {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+    <a href="?page={{ num }}">{{ num }}</a>
+  {% endif %}
+{% endfor %}
+
+{% if page_obj.has_next %}
+  {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+    <span>...</span>
+    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+  {% elif page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
+    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+  {% endif %}
+
+  <a href="?page={{ page_obj.next_page_number }}">Next Page »</a>
+{% endif %}
         
     </div>
   

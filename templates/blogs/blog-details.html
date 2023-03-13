@@ -17,7 +17,7 @@
   <img src="{{blog.photo_url}}" class="card-immg-top" alt="..." height="150" width="150">
   <div class="card-body">
     <h5 class="card-title"> <a href="">{{blog.title}}</a> </h5>
-    <p> <i class="fa-regular fa-user"></i>: {{blog.user.user_profile.firstname}} {{blog.user.user_profile.lastname}},<i class="fa-sharp fa-regular fa-eye"></i>:{% get_hit_count for blog %} , <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments.count}}, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}|{{blog.get_read_time}} minutes read||<i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
+    <p> <i class="fa-regular fa-user"></i>: <a href="{% url 'user-blog' blog.user.username %}">{{blog.user.user_profile.firstname}} {{blog.user.user_profile.lastname}},</a> <i class="fa-sharp fa-regular fa-eye"></i>:{% get_hit_count for blog %} , <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments.count}}, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}|{{blog.get_read_time}} minutes read||<i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
    <p class="card-text"> <a href="{% url 'user-profile' blog.user.user_profile.slug %}">Owner profile</a> </p>
    <p class="card-text"> social share :{% post_to_facebook object_or_url '<i class="fa-brands fa-facebook"></i>' %}
     <br>  

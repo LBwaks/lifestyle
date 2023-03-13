@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -6,13 +7,14 @@ from django.views.generic import (
     DeleteView,
     DetailView,
     ListView,
+    TemplateView,
     UpdateView,
-    TemplateView
 )
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from hitcount.views import HitCountDetailView
-from django.contrib.auth.models import User
-from .forms import BlogForm,  EditBlogForm,CommentForm
-from .models import Blog,Comment
+
+from .forms import BlogForm, CommentForm, EditBlogForm
+from .models import Blog, Comment
 
 # Create your views here.
 
@@ -20,11 +22,12 @@ from .models import Blog,Comment
 class BlogListView(ListView):
     model = Blog
     template_name = "blogs/blog-list.html"
+    paginate_by = 1
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["blogs"] = Blog.objects.all()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["blogs"] = Blog.objects.all()
+    #     return context
 
 
 class BlogDetailView(HitCountDetailView):
@@ -43,7 +46,7 @@ class BlogDetailView(HitCountDetailView):
 
         return context
 
-    def post(self, request,slug, *args, **kwargs):
+    def post(self, request, slug, *args, **kwargs):
         if self.request.method == "POST":
             form = CommentForm(self.request.POST)
             if form.is_valid():
@@ -54,7 +57,7 @@ class BlogDetailView(HitCountDetailView):
                     parent = None
 
                 new_comment = form.save(commit=False)
-                
+
                 new_comment = Comment(
                     comment=comment,
                     user=self.request.user,
@@ -63,7 +66,7 @@ class BlogDetailView(HitCountDetailView):
                 )
                 new_comment.save()
             return redirect(self.request.path_info)
-           
+
 
 class BlogCreateView(CreateView):
     model = Blog
@@ -110,13 +113,25 @@ def DeleteBlog(request, slug):
     return HTTPResponseHXRedirect(redirect_to=reverse_lazy("blogs"))
 
 
-class UsersListView(TemplateView):
+class UsersListView(ListView):
     model = Blog
     template_name = "blogs/user-blogs.html"
+
+
+    def get_context_data(self, **kwargs):
+        context = super(UsersListView, self).get_context_data(**kwargs)
+        blog_by = get_object_or_404(User, username=self.kwargs.get("username"))
+        blogs = Blog.objects.filter(user=blog_by)
     
-    def get_context_data(self,**kwargs):
-        context = super(UsersListView,self).get_context_data(**kwargs)
-        blog_by = get_object_or_404(User,username=self.kwargs.get('username'))
-        context["blogs"] = Blog.objects.filter(user=blog_by)
+        page_num = self.request.GET.get('page',1)
+        paginator = Paginator(blogs,2)
+        try :
+            blogs = paginator.page(page_num)
+        except PageNotAnInteger:
+            blogs =paginator.page(1)
+        except EmptyPage:
+            blogs =paginator.page(paginator.num_pages)
+        context ={
+            'blogs':blogs,
+        }
         return context
-    
