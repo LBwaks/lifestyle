@@ -12,9 +12,9 @@
       
     
 
-      <div class="card" style="width: 58rem;">
+      <div class="card" >
         
-  <img src="{{blog.photo_url}}" class="card-immg-top" alt="..." height="150" width="150">
+  <img src="{{blog.photo_url}}" class="card-immg-top" >
   <div class="card-body">
     <h5 class="card-title"> <a href="">{{blog.title}}</a> </h5>
     <p> <i class="fa-regular fa-user"></i>: <a href="{% url 'user-blog' blog.user.username %}">{{blog.user.user_profile.firstname}} {{blog.user.user_profile.lastname}},</a> <i class="fa-sharp fa-regular fa-eye"></i>:{% get_hit_count for blog %} , <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments.count}}, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}|{{blog.get_read_time}} minutes read||<i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
@@ -34,7 +34,8 @@
        {{blog.content}}</p>
        <p> category : {{blog.category}}</p> 
       tagssss::: {% for tag in blog.tags.all %}
-<button type="button" class="btn btn-primary">{{ tag }}  </button>
+{% comment %} <button type="button" class="btn btn-primary">{{ tag }}  </button> {% endcomment %}
+<a href="{% url 'tags' tag.name %}" class="btn btn-primary"> {{tag}} ,,,,{{tag.name}}</a>
 {% endfor %}
 
 <p>refence :{{blog.reference}}</p>  
@@ -42,6 +43,8 @@
 <a hx-refresh ="{% url 'blogs' %}" hx-delete="{% url 'delete-blog' blog.slug %}" hx-confirm="Yes I want" class="btn btn-danger">Delete Blog</a>
 </div>
 </div>
+
+
 {% if user.is_authenticated %}
 
 <form action="" method="POST">
@@ -51,7 +54,7 @@
     {% comment %} <div>
              <label for="comment">Type Comment here</label>
             {{ form.comment }} {% csrf_token %} <input type="submit" value="Post"></div>
-         </div> {% endcomment %}
+         {% endcomment %}
  <button type="submit"> Submit</button>
  <br><br><br><br><br>
 </form>
@@ -72,7 +75,7 @@ login to comment
             &nbsp; &nbsp; &nbsp; <label for="comment">Reply</label>
 &nbsp; &nbsp; &nbsp;<input type="text" name="comment" id=""><input type="hidden" name="parent" value={{comment.pk}}>
             <input type="submit" value="Post"></div>
-         </div>
+         
  <br>
 </form>
 {% endif %}
@@ -86,6 +89,7 @@ login to comment
 
 
 </div>
+
 <div class="col-lg-4 col-md-4 ">
         <h3>Popular post </h3>
         
@@ -93,6 +97,13 @@ login to comment
            <a href="{{blog.get_absolute_url}}">{{blog.title}}</a>
            {% empty %}
            <p>No popular blog</p>
+        {% endfor %}
+
+        <h3>similar</h3>
+        {% for blog in similar_blogs %}
+        <a href="{{blog.get_absolute_url}}"> {{blog.title}}</a> <br>
+        {% empty %}
+        no similar
         {% endfor %}
           
     </div>

@@ -2,23 +2,21 @@
 {% block title %} Blogs {% endblock title %}
 {% load static %}
 {% comment %} {% load humanize %} {% endcomment %}
-{% load resent_blogs %}
-{% load tags %}
 {% load hitcount_tags %}
 {% block content %}
 <div class="container">
   <div class="row ">
-    <div class="col-md-8">
+    <div class="col">
       
-      {% for blog in object_list %}
+      {% for blog in blogs %}
 <br>    
-      <div class="card" style="">
+      <div class="card" style="width: 58rem;">
   <img src="{{blog.photo_url}}" class="carmd-img-top" alt="..."height="150" width="150"> 
   <div class="card-body">
     <h5 class="card-title"> <a href="{{blog.get_absolute_url}}">{{blog.title}}</a> </h5>
     <p> <i class="fa-regular fa-user"></i>: {{blog.user}} ,<i class="fa-sharp fa-regular fa-eye"></i>: {% get_hit_count for blog %} 44, <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments}} 66, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}55,minutes read <i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
     <p class="card-text">
-       {{blog.content | truncatewords_html:20}}</p> content:
+       {{blog.content |truncatewords_html:10}}</p> content:
        <p> category : {{blog.category}}</p> 
        {% for tag in blog.tags.all %}
        <button type="button" class="btn btn-primary">{{ tag }}  </button>
@@ -26,58 +24,43 @@
 
 {% endfor %}
 
-  </div>
+ </div>
 </div>
 
         {% empty %}
 no blogs
       {% endfor %}
-     {% if page_obj.has_previous %}
-  <a href="?page={{ page_obj.previous_page_number }}">« Previous page</a>
+        {% if blogs.has_previous %}
+  <a href="?page={{ blogs.previous_page_number }}">« Previous page</a>
 
-  {% if page_obj.number > 3 %}
+  {% if blogs.number > 3 %}
     <a href="?page=1">1</a>
-    {% if page_obj.number > 4 %}
+    {% if blogs.number > 4 %}
       <span>...</span>
     {% endif %}
   {% endif %}
 {% endif %}
 
-{% for num in page_obj.paginator.page_range %}
-  {% if page_obj.number == num %}
+{% for num in blogs.paginator.page_range %}
+  {% if blogs.number == num %}
     <a href="?page={{ num }}">{{ num }}</a>
-  {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+  {% elif num > blogs.number|add:'-3' and num < blogs.number|add:'3' %}
     <a href="?page={{ num }}">{{ num }}</a>
   {% endif %}
 {% endfor %}
 
-{% if page_obj.has_next %}
-  {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+{% if blogs.has_next %}
+  {% if blogs.number < blogs.paginator.num_pages|add:'-3' %}
     <span>...</span>
-    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
-  {% elif page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
-    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+    <a href="?page={{ blogs.paginator.num_pages }}">{{ blogs.paginator.num_pages }}</a>
+  {% elif blogs.number < blogs.paginator.num_pages|add:'-2' %}
+    <a href="?page={{ blogs.paginator.num_pages }}">{{ blogs.paginator.num_pages }}</a>
   {% endif %}
 
-  <a href="?page={{ page_obj.next_page_number }}">Next Page »</a>
+  <a href="?page={{ blogs.next_page_number }}">Next Page »</a>
 {% endif %}
-        
     </div>
-  <div class="col-md-4">
-    <h2><u>reccent blogs</u></h2>
-    {% resent_blogs  as blogs %}
-{% for resent_blog in blogs %}
-<p>title: {{resent_blog.title}}</p>
-{% empty %}
-no recent blogs
-{% endfor %}
-
-<h2>tags </h2>
-{% tags as tags %}
-{% for tag in tags %}
-<button class="btn btn-secondary">{{tag.name}}</button>
-{% endfor %}
-  </div>
+  
     
   </div>
 </div>

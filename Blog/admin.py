@@ -6,7 +6,7 @@ class CategoryAdmin(admin.ModelAdmin):
     '''Admin View for Category'''
 
     list_display = ('name','description','is_published','is_featured','created_date')
-    
+    list_editable =('is_published','is_featured')
     # raw_id_fields = ('',)
     # readonly_fields = ('',)
     # search_fields = ('',)
@@ -21,6 +21,7 @@ class BlogAdmin(admin.ModelAdmin):
 
     list_display = ('user','title','category','tag_list','is_published','is_featured','updated')
     list_filter = ('tags','category')
+    list_editable =('is_published','is_featured')
     # inlines = [
     #     Inline,
     # ]

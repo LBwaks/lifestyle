@@ -57,7 +57,9 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
-    'django_social_share',
+    "django_social_share",
+    "django_cleanup.apps.CleanupConfig",
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [
@@ -104,14 +106,14 @@ DATABASES = {
         "PORT": config("PORT"),
     }
 }
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-RECIPIENT_ADDRESS = config('RECIPIENT_ADDRESS')
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -215,17 +217,14 @@ AUTHENTICATION_BACKENDS = [
 ]
 SITE_ID = 2
 LOGIN_REDIRECT_URL = "blogs"
-LOGOUT_REDIRECT_URL= "blogs"
+LOGOUT_REDIRECT_URL = "blogs"
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         # For each OAuth based provider, either add a ``SocialApp``
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
-        "APP": {
-            "client_id": config('client_id'), 
-            "secret": config('secret'), 
-            "key": ""}
+        "APP": {"client_id": config("client_id"), "secret": config("secret"), "key": ""}
     }
 }
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
@@ -236,14 +235,14 @@ ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
 ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN =180
-ACCOUNT_EMAIL_MAX_LENGT =254
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT =5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT =300
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION =False
-ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE =False
-ACCOUNT_LOGIN_ON_PASSWORD_RESET =False
-ACCOUNT_LOGOUT_REDIRECT_URL =settings.LOGOUT_REDIRECT_URL
-ACCOUNT_PREVENT_ENUMERATION =True
+ACCOUNT_EMAIL_MAX_LENGT = 254
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = False
+ACCOUNT_LOGOUT_REDIRECT_URL = settings.LOGOUT_REDIRECT_URL
+ACCOUNT_PREVENT_ENUMERATION = True
 ACCOUNT_RATE_LIMITS = {
     # Change password view (for users already logged in
     "change_password": "5/m",
@@ -259,12 +258,11 @@ ACCOUNT_RATE_LIMITS = {
     "signup": "20/m",
     # NOTE: Login is already protected via `ACCOUNT_LOGIN_ATTEMPTS_LIMIT`
 }
-ACCOUNT_SESSION_REMEMBER =None
-ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE =True
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE =True
-ACCOUNT_SIGNUP_REDIRECT_URL =settings.LOGIN_REDIRECT_URL
-ACCOUNT_USERNAME_BLACKLIST =['admin']
-ACCOUNT_UNIQUE_EMAIL =True
-ACCOUNT_USERNAME_MIN_LENGTH =5
-ACCOUNT_USERNAME_REQUIRED =True
-
+ACCOUNT_SESSION_REMEMBER = None
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_SIGNUP_REDIRECT_URL = settings.LOGIN_REDIRECT_URL
+ACCOUNT_USERNAME_BLACKLIST = ["admin"]
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_MIN_LENGTH = 5
+ACCOUNT_USERNAME_REQUIRED = True

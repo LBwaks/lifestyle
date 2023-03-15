@@ -1,9 +1,13 @@
 import uuid
+from io import BytesIO
 
 from django.contrib.auth.models import User
+from django.core.files import File
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext as _
+from PIL import Image
+from Blog.validators import validate_file_size
 
 # Create your models here.
 my_gender = [
@@ -11,6 +15,16 @@ my_gender = [
     ("Female", "Female"),
     ("Prefer not to say", "Prefer not to say"),
 ]
+
+# compress profile image
+def compress(profile):
+    im = Image.open(profile)
+    im_io = BytesIO()
+    im = im.resize((150, 150),Image.ANTIALIAS)
+    im.save(im_io, "JPEG", quality=70)
+    # im_io.seek(0)
+    new_image = File(im_io, name=profile.name)
+    return new_image
 
 
 class Profile(models.Model):
@@ -31,17 +45,18 @@ class Profile(models.Model):
     profile = models.ImageField(
         _("Profile Picture"),
         upload_to="user/profiles",
-        height_field=None,
-        width_field=None,
-        max_length=None,
+        # height_field=None,
+        # width_field=None,
+        # max_length=None,
         null=True,
         blank=True,
+        validators=[validate_file_size]
     )
     twitter = models.URLField(_("Twitter"), max_length=200)
     facebook = models.URLField(_("Facebook"), max_length=200)
     instagram = models.URLField(_("Instagram"), max_length=200)
     website = models.URLField(_("Website"), max_length=200)
-    created = models.DateTimeField(  auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         """Meta definition for Profile."""
@@ -53,13 +68,17 @@ class Profile(models.Model):
         """Unicode representation of Profile."""
         return str(self.firstname) + " " + str(self.lastname)
 
-    # def save(self):
-    #     """Save method for Profile."""
-    #     pass
+    def save(self,*args, **kwargs):
+        """Save method for Profile."""
+        new_profile = compress(self.profile)
+        self.profile = new_profile
+        super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         """Return absolute url for Profile."""
-        return reverse("user-profile", kwargs={"slug", self.slug})
+        return reverse("user-profile", kwargs={"slug":self.slug})
+        
+
     @property
     def profile_url(self):
         if self.profile and hasattr(self.profile, "url"):

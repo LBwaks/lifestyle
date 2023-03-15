@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from taggit.models import Tag
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -10,7 +11,7 @@ from django.views.generic import (
     TemplateView,
     UpdateView,
 )
-from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from hitcount.views import HitCountDetailView
 
 from .forms import BlogForm, CommentForm, EditBlogForm
@@ -37,6 +38,9 @@ class BlogDetailView(HitCountDetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        blog = get_object_or_404(Blog, slug= self.kwargs.get('slug'))
+        similar_blogs = blog.tags.similar_objects()[:5]
+        context['similar_blogs']=similar_blogs
         context["popular_blogs"] = (
             Blog.objects.order_by("-hit_count_generic__hits")[:5],
         )
@@ -113,25 +117,58 @@ def DeleteBlog(request, slug):
     return HTTPResponseHXRedirect(redirect_to=reverse_lazy("blogs"))
 
 
+class BlogTagsListView(ListView):
+    model = Blog
+    template_name = "blogs/tag-blogs.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tag= get_object_or_404(Tag, name = self.kwargs.get('name'))
+        blogs= Blog.objects.filter(tags = tag)
+        context["blogs"] = blogs
+        return context
+    
+
 class UsersListView(ListView):
     model = Blog
     template_name = "blogs/user-blogs.html"
-
 
     def get_context_data(self, **kwargs):
         context = super(UsersListView, self).get_context_data(**kwargs)
         blog_by = get_object_or_404(User, username=self.kwargs.get("username"))
         blogs = Blog.objects.filter(user=blog_by)
-    
-        page_num = self.request.GET.get('page',1)
-        paginator = Paginator(blogs,2)
-        try :
+
+        page_num = self.request.GET.get("page", 1)
+        paginator = Paginator(blogs, 2)
+        try:
             blogs = paginator.page(page_num)
         except PageNotAnInteger:
-            blogs =paginator.page(1)
+            blogs = paginator.page(1)
         except EmptyPage:
-            blogs =paginator.page(paginator.num_pages)
-        context ={
-            'blogs':blogs,
+            blogs = paginator.page(paginator.num_pages)
+        context = {
+            "blogs": blogs,
+        }
+        return context
+
+
+class MyBlogsListView(ListView):
+    model = Blog
+    template_name = "blogs/my-blogs.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        my_blogs = Blog.objects.filter(user=self.request.user)
+        context["my_blogs"] = my_blogs
+
+        page_num = self.request.GET.get("page", 1)
+        paginator = Paginator(my_blogs, 2)
+        try:
+            my_blogs = paginator.page(page_num)
+        except PageNotAnInteger:
+            my_blogs = paginator.page(1)
+        except EmptyPage:
+            my_blogs = paginator.page(paginator.num_pages)
+        context = {
+            "my_blogs": my_blogs,
         }
         return context

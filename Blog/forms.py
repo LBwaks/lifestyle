@@ -5,8 +5,7 @@ from django.utils.translation import gettext as _
 from taggit.forms import *
 from taggit.models import Tag
 
-from .models import Blog,  Comment
-
+from .models import Blog, Comment
 
 
 class BlogForm(forms.ModelForm):
@@ -53,7 +52,7 @@ class BlogForm(forms.ModelForm):
     def clean_photo(self):
         photo = self.cleaned_data.get("photo", False)
         if photo:
-            if photo.size > 5 * 1024 * 1024:
+            if photo.size > 5*1024*1024:
                 raise ValidationError(
                     _("Photo should be less than 5mbs"), code="invalid"
                 )
