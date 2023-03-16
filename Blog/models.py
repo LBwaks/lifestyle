@@ -10,10 +10,11 @@ from django.utils.translation import gettext as _
 from django_extensions.db.fields import AutoSlugField
 from hitcount.models import HitCount, HitCountMixin
 from PIL import Image
+from django.contrib.postgres.search import SearchVectorField
 from taggit.managers import TaggableManager
 from .managers import CategoryManager, BlogManager
 from .validators import validate_file_size
-
+from django.contrib.postgres.indexes import GinIndex
 # Create your models here.
 
 
@@ -106,6 +107,7 @@ class Blog(models.Model, HitCountMixin):
     )
     objects = models.Manager()
     publishedBlogs = BlogManager()
+    # search_vector = SearchVectorField(null=True)
     is_published = models.BooleanField(_("Is Published"), default=True)
     is_featured = models.BooleanField(_("Is Featured"), default=False)
     updated = models.DateTimeField(_("Updated"), auto_now=True, auto_now_add=False)
@@ -117,6 +119,9 @@ class Blog(models.Model, HitCountMixin):
         verbose_name = "Blog"
         verbose_name_plural = "Blogs"
         ordering = ("created",)
+        # indexes =[
+        #      GinIndex(name='NewGinIndex',fields=['title','content',],opclasses=['gin_trgm_ops','gin_trgm_ops'])
+        # ]
 
     def __str__(self):
         """Unicode representation of Blog."""

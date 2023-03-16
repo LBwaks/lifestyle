@@ -16,6 +16,7 @@
   <img src="{{blog.photo_url}}" class="carmd-img-top" alt="..."height="150" width="150"> 
   <div class="card-body">
     <h5 class="card-title"> <a href="{{blog.get_absolute_url}}">{{blog.title}}</a> </h5>
+    <p>tittle headline :{{blog.headline | safe}}</p>
     <p> <i class="fa-regular fa-user"></i>: {{blog.user}} ,<i class="fa-sharp fa-regular fa-eye"></i>: {% get_hit_count for blog %} 44, <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments}} 66, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}55,minutes read <i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
     <p class="card-text">
        {{blog.content | truncatewords_html:20}}</p> content:

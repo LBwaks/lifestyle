@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
+from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchRank, SearchVector,SearchHeadline
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponseRedirect
-from taggit.models import Tag
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -11,8 +12,8 @@ from django.views.generic import (
     TemplateView,
     UpdateView,
 )
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from hitcount.views import HitCountDetailView
+from taggit.models import Tag
 
 from .forms import BlogForm, CommentForm, EditBlogForm
 from .models import Blog, Comment
@@ -23,7 +24,7 @@ from .models import Blog, Comment
 class BlogListView(ListView):
     model = Blog
     template_name = "blogs/blog-list.html"
-    paginate_by = 1
+    paginate_by = 10
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -38,9 +39,9 @@ class BlogDetailView(HitCountDetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        blog = get_object_or_404(Blog, slug= self.kwargs.get('slug'))
+        blog = get_object_or_404(Blog, slug=self.kwargs.get("slug"))
         similar_blogs = blog.tags.similar_objects()[:5]
-        context['similar_blogs']=similar_blogs
+        context["similar_blogs"] = similar_blogs
         context["popular_blogs"] = (
             Blog.objects.order_by("-hit_count_generic__hits")[:5],
         )
@@ -120,13 +121,14 @@ def DeleteBlog(request, slug):
 class BlogTagsListView(ListView):
     model = Blog
     template_name = "blogs/tag-blogs.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tag= get_object_or_404(Tag, name = self.kwargs.get('name'))
-        blogs= Blog.objects.filter(tags = tag)
+        tag = get_object_or_404(Tag, name=self.kwargs.get("name"))
+        blogs = Blog.objects.filter(tags=tag)
         context["blogs"] = blogs
         return context
-    
+
 
 class UsersListView(ListView):
     model = Blog
@@ -172,3 +174,19 @@ class MyBlogsListView(ListView):
             "my_blogs": my_blogs,
         }
         return context
+
+
+class SearchListView(ListView):
+    model = Blog
+    template_name = "pages/search.html"
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        search_vector = SearchVector("title", weight='A')+SearchVector( "content", weight='B')+SearchVector( "tags",weight='B')
+        search_query = SearchQuery(query)
+        search_headline = SearchHeadline('title',search_query)
+        return (Blog.objects.annotate(
+            search=search_vector, rank=SearchRank(search_vector,search_query)).annotate(headline=search_headline)
+        .filter(rank__gte=0.3)
+        .order_by('-rank'))
+        

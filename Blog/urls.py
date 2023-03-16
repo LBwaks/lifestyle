@@ -8,12 +8,14 @@ from .views import (
     BlogUpdateView,
     DeleteBlog,
     MyBlogsListView,
+    SearchListView,
     UsersListView,
 )
 
 urlpatterns = [
     path("", BlogListView.as_view(), name="blogs"),
     path("my-blogs/", MyBlogsListView.as_view(), name="my-blogs"),
+    path("search/", SearchListView.as_view(), name="search"),
     path("<slug>/", BlogDetailView.as_view(), name="blog-detail"),
     path(
         "add-blog",
