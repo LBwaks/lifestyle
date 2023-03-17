@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}About us {% endblock title %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+  <div class="card-body">
+{% for about in aboutus %}
+{{about.about}}
+{% endfor %}
+  </div>
+</div>
+        </div>
+        
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for work in works %} 
+ 
+  <div class="col">
+    <div class="card">
+      <img src="{{work.image.url}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{work.title}}</h5>
+        <p class="card-text">{{work.content}}</p>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  no work
+
+{% endfor %} 
+</div>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for team in teams %} 
+ 
+  <div class="col">
+    <div class="card">
+      <img src="{{team.profile.url}}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">{{team.fname}} {{team.lname}}</h5>
+        <p class="card-text">{{team.bio}}</p>
+        <p class="card-text">role:{{team.role}}</p>
+        <p class="card-text">twitter:{{team.twitter}}</p>
+        <p class="card-text">facebook:{{team.facebook}}</p>
+        <p class="card-text">:instagram{{team.instagram}}</p>
+        <p class="card-text">mail:{{team.email}}</p>
+        
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  no team
+
+{% endfor %} 
+</div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock content %}

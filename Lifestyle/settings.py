@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # created app
     "Blog",
     "Accounts",
+    "Pages",
     # installed app
     "ckeditor",
     "ckeditor_uploader",

@@ -7,6 +7,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from PIL import Image
+
 from Blog.validators import validate_file_size
 
 # Create your models here.
@@ -20,7 +21,7 @@ my_gender = [
 def compress(profile):
     im = Image.open(profile)
     im_io = BytesIO()
-    im = im.resize((150, 150),Image.ANTIALIAS)
+    im = im.resize((150, 150), Image.ANTIALIAS)
     im.save(im_io, "JPEG", quality=70)
     # im_io.seek(0)
     new_image = File(im_io, name=profile.name)
@@ -50,12 +51,32 @@ class Profile(models.Model):
         # max_length=None,
         null=True,
         blank=True,
-        validators=[validate_file_size]
+        validators=[validate_file_size],
     )
-    twitter = models.URLField(_("Twitter"), max_length=200)
-    facebook = models.URLField(_("Facebook"), max_length=200)
-    instagram = models.URLField(_("Instagram"), max_length=200)
-    website = models.URLField(_("Website"), max_length=200)
+    twitter = models.URLField(
+        _("Twitter"),
+        max_length=200,
+        null=True,
+        blank=True,
+    )
+    facebook = models.URLField(
+        _("Facebook"),
+        max_length=200,
+        null=True,
+        blank=True,
+    )
+    instagram = models.URLField(
+        _("Instagram"),
+        max_length=200,
+        null=True,
+        blank=True,
+    )
+    website = models.URLField(
+        _("Website"),
+        max_length=200,
+        null=True,
+        blank=True,
+    )
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -68,7 +89,7 @@ class Profile(models.Model):
         """Unicode representation of Profile."""
         return str(self.firstname) + " " + str(self.lastname)
 
-    def save(self,*args, **kwargs):
+    def save(self, *args, **kwargs):
         """Save method for Profile."""
         new_profile = compress(self.profile)
         self.profile = new_profile
@@ -76,8 +97,7 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         """Return absolute url for Profile."""
-        return reverse("user-profile", kwargs={"slug":self.slug})
-        
+        return reverse("user-profile", kwargs={"slug": self.slug})
 
     @property
     def profile_url(self):
