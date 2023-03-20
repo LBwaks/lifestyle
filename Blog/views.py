@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchRank, SearchVector,SearchHeadline
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+import random
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -41,6 +42,7 @@ class BlogDetailView(HitCountDetailView):
         context = super().get_context_data(**kwargs)
         blog = get_object_or_404(Blog, slug=self.kwargs.get("slug"))
         similar_blogs = blog.tags.similar_objects()[:5]
+        # similar_blogs = random.choice(similar_blogs)
         context["similar_blogs"] = similar_blogs
         context["popular_blogs"] = (
             Blog.objects.order_by("-hit_count_generic__hits")[:5],
