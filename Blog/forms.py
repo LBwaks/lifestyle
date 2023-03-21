@@ -120,7 +120,8 @@ class CommentForm(forms.ModelForm):
             "parent",
         )
         widgets = {
-            "comment": forms.TextInput(
+            "comment": forms.Textarea(
                 attrs={"class": "form-control comment" "required"}
-            )
+            ),
+            'parent': forms.HiddenInput()
         }

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.postgres",
+    'django.contrib.humanize',
     # created app
     "Blog",
     "Accounts",

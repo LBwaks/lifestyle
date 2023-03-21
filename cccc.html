@@ -1,0 +1,100 @@
+{% comment %} <div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-md-8">
+       {% endcomment %}
+    
+
+      <div class="card" >
+        
+  <img src="{{blog.photo_url}}" class="card-immg-top" >
+  <div class="card-body">
+   
+    <p> <i class="fa-regular fa-user"></i>: <a href="{% url 'user-blog' blog.user.username %}">{{blog.user.user_profile.firstname}} {{blog.user.user_profile.lastname}},</a> <i class="fa-sharp fa-regular fa-eye"></i>:{% get_hit_count for blog %} , <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments.count}}, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}|{{blog.get_read_time}} minutes read||<i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
+   <p class="card-text"> <a href="{% url 'user-profile' blog.user.user_profile.slug %}">Owner profile</a> </p>
+  
+    <br>  
+    
+    <br>
+    {% post_to_gplus object_or_url "Post to Google+!" %}
+
+{% post_to_reddit "New Song: {{object.title}}" object_or_url %}
+
+
+   </p> 
+   
+       <p> category : {{blog.category}}</p> 
+    
+
+<p>refence :{{blog.reference}}</p>  
+<a href="{% url 'edit-blog' blog.slug %}" class="btn btn-success">Edir Blog</a> <br>
+<a hx-refresh ="{% url 'blogs' %}" hx-delete="{% url 'delete-blog' blog.slug %}" hx-confirm="Yes I want" class="btn btn-danger">Delete Blog</a>
+</div>
+</div>
+
+
+{% if user.is_authenticated %}
+
+<form action="" method="POST">
+   {% csrf_token %}
+  {% comment %} {{ form | crispy }} {% endcomment %}
+  {{ form.as_p}}
+    {% comment %} <div>
+             <label for="comment">Type Comment here</label>
+            {{ form.comment }} {% csrf_token %} <input type="submit" value="Post"></div>
+         {% endcomment %}
+ <button type="submit"> Submit</button>
+ <br><br><br><br><br>
+</form>
+{% else %}
+login to comment
+{% endif %}
+<hr>
+<hr>
+<hr>
+{% for comment in comments %}
+{% if comment.is_parent %}
+<h3><b>{{comment.user}} : </b> {{comment.comment}}</h3>
+&nbsp; &nbsp; &nbsp;
+<form action="" method="POST">
+   {% csrf_token %}
+  
+    <div>
+            &nbsp; &nbsp; &nbsp; <label for="comment">Reply</label>
+&nbsp; &nbsp; &nbsp;<input type="text" name="comment" id=""><input type="hidden" name="parent" value={{comment.pk}}>
+            <input type="submit" value="Post"></div>
+         
+ <br>
+</form>
+{% endif %}
+{% for replies in comment.children %}
+<h3>  &nbsp;&nbsp;&nbsp; <b>{{comment.user}}</b> : {{replies.comment}}</h3>
+
+{% endfor %}
+{% empty %}
+<p>no comments</p>
+{% endfor %} 
+
+
+{% comment %} </div>
+
+<div class="col-lg-4 col-md-4 "> {% endcomment %}
+        <h3>Popular post </h3>
+        
+        {% for blog in popular_blogs %}
+           <a href="{{blog.get_absolute_url}}">{{blog.title}}</a>
+           {% empty %}
+           <p>No popular blog</p>
+        {% endfor %}
+
+        <h3>similar</h3>
+        {% for blog in similar_blogs %}
+        <a href="{{blog.get_absolute_url}}"> {{blog.title}}</a> <br>
+        {% empty %}
+        no similar
+        {% endfor %}
+          
+    {% comment %} </div>
+  
+    
+  </div>
+</div> {% endcomment %}
