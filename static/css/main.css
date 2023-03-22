@@ -4969,42 +4969,6 @@ ul.custom-flex {
   margin-bottom: 0;
 }
 
-blockquote {
-  position: relative;
-  color: #fff;
-  font-weight: 400;
-  clear: both;
-  z-index: 1;
-  margin: 40px 0;
-  text-align: left;
-  padding: 40px;
-  background-color: #473BF0;
-  border: none;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-blockquote .icon i {
-  font-size: 30px;
-  color: #fff;
-  display: block;
-  margin-bottom: 20px;
-}
-
-blockquote h4 {
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 24px;
-  color: #fff;
-}
-
-blockquote span {
-  font-size: 13px;
-  display: block;
-  margin-top: 20px;
-  color: #fff;
-}
-
 .post-details .list {
   padding-left: 30px;
 }
@@ -5203,20 +5167,20 @@ blockquote span {
   border-bottom: 1px dashed #473BF0;
   font-size: 20px !important;
   font-weight: 600 !important;
-  margin-bottom: 40px !important;
-  padding-bottom: 20px;
+  margin-bottom: 20px !important;
+  padding-bottom: 10px;
 }
 
 .comment-reply-title {
   border-bottom: 1px dashed #473BF0;
   font-size: 20px !important;
   font-weight: 600 !important;
-  margin-bottom: 40px !important;
-  padding-bottom: 20px;
+  margin-bottom: 10px !important;
+  padding-bottom: 10px;
 }
 
 .post-comments .comments-list li {
-  padding-left: 130px;
+  padding-left: 80px;
   position: relative;
   font-size: 14px;
 }
@@ -5224,25 +5188,25 @@ blockquote span {
 .post-comments .comments-list li .comment-img {
   position: absolute;
   left: 0;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 
 .post-comments .comments-list li .comment-img img {
-  max-width: 100px;
-  max-height: 100px;
-  border-radius: 5px;
+  max-width: 50px;
+  max-height: 50px;
+  border-radius: 3px;
 }
 
 .post-comments .comments-list li .comment-desc .desc-top {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   position: relative;
   display: block;
 }
 
 .post-comments .comments-list li .comment-desc .desc-top h6 {
   font-size: 17px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   font-weight: 500;
 }
 
@@ -5283,12 +5247,12 @@ blockquote span {
 }
 
 .post-comments .comments-list li.children {
-  margin-left: 130px;
+  margin-left: 100px;
 }
 
 .post-comments .comments-list li:not(:first-child) {
-  padding-top: 30px;
-  margin-top: 30px;
+  padding-top: 10px;
+  margin-top: 10px;
   border-top: 1px dashed #eee;
 }
 
@@ -5466,18 +5430,18 @@ blockquote span {
 }
 
 .sidebar .widget.popular-feeds .single-popular-feed .feed-img img {
-  width: 80px;
+  width: 60px;
   border-radius: 5px;
-  height: 80px;
+  height: 60px;
   overflow: hidden;
   display: block;
 }
 
 .sidebar .widget.popular-feeds .single-popular-feed .feed-desc .post-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  line-height: 1.5;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  line-height: 1.2;
 }
 
 .sidebar .widget.popular-feeds .single-popular-feed .feed-desc .post-title a {
@@ -5491,7 +5455,7 @@ blockquote span {
 
 .sidebar .widget.popular-feeds .single-popular-feed .feed-desc .time {
   font-weight: 400;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .sidebar .widget.popular-feeds .single-popular-feed .feed-desc .time > i {

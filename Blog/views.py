@@ -1,7 +1,15 @@
-from django.contrib.auth.models import User
-from django.contrib.postgres.search import SearchHeadline, SearchQuery, SearchRank, SearchVector,SearchHeadline
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 import random
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.contrib.postgres.search import (
+    SearchHeadline,
+    SearchQuery,
+    SearchRank,
+    SearchVector,
+)
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -17,7 +25,7 @@ from hitcount.views import HitCountDetailView
 from taggit.models import Tag
 
 from .forms import BlogForm, CommentForm, EditBlogForm
-from .models import Blog, Comment
+from .models import Blog, Category, Comment
 
 # Create your views here.
 
@@ -42,11 +50,12 @@ class BlogDetailView(HitCountDetailView):
         context = super().get_context_data(**kwargs)
         blog = get_object_or_404(Blog, slug=self.kwargs.get("slug"))
         similar_blogs = blog.tags.similar_objects()[:5]
+
         # similar_blogs = random.choice(similar_blogs)
         context["similar_blogs"] = similar_blogs
-        context["popular_blogs"] = (
-            Blog.objects.order_by("-hit_count_generic__hits")[:5],
-        )
+        popular_blogs= Blog.objects.order_by("-hit_count_generic__hits")[:5]
+        
+        context['popular_blogs']=popular_blogs
         context["comments"] = Comment.objects.filter(blog=self.get_object())
         # context['comment_count'] = comments.count()
         context["form"] = CommentForm()
@@ -75,7 +84,7 @@ class BlogDetailView(HitCountDetailView):
             return redirect(self.request.path_info)
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
     template_name = "blogs/add-blog.html"
     form_class = BlogForm
@@ -87,7 +96,7 @@ class BlogCreateView(CreateView):
         return super(BlogCreateView, self).form_valid(form)
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
     template_name = "blogs/edit-blog.html"
     form_class = EditBlogForm
@@ -99,7 +108,7 @@ class BlogUpdateView(UpdateView):
         return super(BlogUpdateView, self).form_valid(form)
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
     model = Blog
     # template_name = "TEMPLATE_NAME"
     success_url = reverse_lazy("blogs")
@@ -112,7 +121,7 @@ class HTTPResponseHXRedirect(HttpResponseRedirect):
 
     status_code = 200
 
-
+@login_required
 def DeleteBlog(request, slug):
     blog = get_object_or_404(Blog, slug=slug)
     if request.method == "DELETE":
@@ -129,6 +138,17 @@ class BlogTagsListView(ListView):
         tag = get_object_or_404(Tag, name=self.kwargs.get("name"))
         blogs = Blog.objects.filter(tags=tag)
         context["blogs"] = blogs
+        return context
+
+
+class CategoryListView(ListView):
+    model = Category
+    template_name = "blogs/category-blogs.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = get_object_or_404(Category, name=self.kwargs.get("name"))
+        context["blogs"] = Blog.objects.filter(category=category)
         return context
 
 
@@ -155,7 +175,7 @@ class UsersListView(ListView):
         return context
 
 
-class MyBlogsListView(ListView):
+class MyBlogsListView(LoginRequiredMixin, ListView):
     model = Blog
     template_name = "blogs/my-blogs.html"
 
@@ -184,11 +204,18 @@ class SearchListView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get("q")
-        search_vector = SearchVector("title", weight='A')+SearchVector( "content", weight='B')+SearchVector( "tags",weight='B')
+        search_vector = (
+            SearchVector("title", weight="A")
+            + SearchVector("content", weight="B")
+            + SearchVector("tags", weight="B")
+        )
         search_query = SearchQuery(query)
-        search_headline = SearchHeadline('title',search_query)
-        return (Blog.objects.annotate(
-            search=search_vector, rank=SearchRank(search_vector,search_query)).annotate(headline=search_headline)
-        .filter(rank__gte=0.3)
-        .order_by('-rank'))
-        
+        search_headline = SearchHeadline("title", search_query)
+        return (
+            Blog.objects.annotate(
+                search=search_vector, rank=SearchRank(search_vector, search_query)
+            )
+            .annotate(headline=search_headline)
+            .filter(rank__gte=0.3)
+            .order_by("-rank")
+        )

@@ -10,6 +10,7 @@ from .views import (
     MyBlogsListView,
     SearchListView,
     UsersListView,
+    CategoryListView,
 )
 
 urlpatterns = [
@@ -26,4 +27,5 @@ urlpatterns = [
     path("delete-blog/<slug>", DeleteBlog, name="delete-blog"),
     path("user-blog/<username>", UsersListView.as_view(), name="user-blog"),
     path("tags/<name>", BlogTagsListView.as_view(), name="tags"),
+    path('categories/<name>',CategoryListView.as_view(),name='categories'),
 ]

@@ -1,36 +1,5 @@
-{% comment %} <div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-md-8">
-       {% endcomment %}
+<!-- 
     
-
-      <div class="card" >
-        
-  <img src="{{blog.photo_url}}" class="card-immg-top" >
-  <div class="card-body">
-   
-    <p> <i class="fa-regular fa-user"></i>: <a href="{% url 'user-blog' blog.user.username %}">{{blog.user.user_profile.firstname}} {{blog.user.user_profile.lastname}},</a> <i class="fa-sharp fa-regular fa-eye"></i>:{% get_hit_count for blog %} , <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments.count}}, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}|{{blog.get_read_time}} minutes read||<i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
-   <p class="card-text"> <a href="{% url 'user-profile' blog.user.user_profile.slug %}">Owner profile</a> </p>
-  
-    <br>  
-    
-    <br>
-    {% post_to_gplus object_or_url "Post to Google+!" %}
-
-{% post_to_reddit "New Song: {{object.title}}" object_or_url %}
-
-
-   </p> 
-   
-       <p> category : {{blog.category}}</p> 
-    
-
-<p>refence :{{blog.reference}}</p>  
-<a href="{% url 'edit-blog' blog.slug %}" class="btn btn-success">Edir Blog</a> <br>
-<a hx-refresh ="{% url 'blogs' %}" hx-delete="{% url 'delete-blog' blog.slug %}" hx-confirm="Yes I want" class="btn btn-danger">Delete Blog</a>
-</div>
-</div>
-
 
 {% if user.is_authenticated %}
 
@@ -77,24 +46,7 @@ login to comment
 
 {% comment %} </div>
 
-<div class="col-lg-4 col-md-4 "> {% endcomment %}
-        <h3>Popular post </h3>
-        
-        {% for blog in popular_blogs %}
-           <a href="{{blog.get_absolute_url}}">{{blog.title}}</a>
-           {% empty %}
-           <p>No popular blog</p>
-        {% endfor %}
-
-        <h3>similar</h3>
-        {% for blog in similar_blogs %}
-        <a href="{{blog.get_absolute_url}}"> {{blog.title}}</a> <br>
-        {% empty %}
-        no similar
-        {% endfor %}
-          
-    {% comment %} </div>
   
     
   </div>
-</div> {% endcomment %}
+</div> {% endcomment %} -->
