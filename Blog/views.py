@@ -53,9 +53,9 @@ class BlogDetailView(HitCountDetailView):
 
         # similar_blogs = random.choice(similar_blogs)
         context["similar_blogs"] = similar_blogs
-        popular_blogs= Blog.objects.order_by("-hit_count_generic__hits")[:5]
-        
-        context['popular_blogs']=popular_blogs
+        popular_blogs = Blog.objects.order_by("-hit_count_generic__hits")[:5]
+
+        context["popular_blogs"] = popular_blogs
         context["comments"] = Comment.objects.filter(blog=self.get_object())
         # context['comment_count'] = comments.count()
         context["form"] = CommentForm()
@@ -121,6 +121,7 @@ class HTTPResponseHXRedirect(HttpResponseRedirect):
 
     status_code = 200
 
+
 @login_required
 def DeleteBlog(request, slug):
     blog = get_object_or_404(Blog, slug=slug)
@@ -132,6 +133,7 @@ def DeleteBlog(request, slug):
 class BlogTagsListView(ListView):
     model = Blog
     template_name = "blogs/tag-blogs.html"
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -144,11 +146,16 @@ class BlogTagsListView(ListView):
 class CategoryListView(ListView):
     model = Category
     template_name = "blogs/category-blogs.html"
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category = get_object_or_404(Category, name=self.kwargs.get("name"))
         context["blogs"] = Blog.objects.filter(category=category)
+        category_most_viewed = Blog.objects.filter(category=category).order_by(
+            "-hit_count_generic__hits"
+        )[:5]
+        context["category_most_viewed"] = category_most_viewed
         return context
 
 
@@ -178,6 +185,7 @@ class UsersListView(ListView):
 class MyBlogsListView(LoginRequiredMixin, ListView):
     model = Blog
     template_name = "blogs/my-blogs.html"
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -4382,14 +4382,14 @@ ol {
 ========================================*/
 
 /*======================================
-	Start work CSS
+	Start add-blog CSS
 ========================================*/
-.work {
+.add-blog {
   position: relative;
   background-color: #F4F7FA;
 }
 
-.work .inner-title {
+.add-blog .inner-title {
   font-size: 20px;
   font-weight: 600;
   border-bottom: 1px dashed #473BF0;
@@ -4397,18 +4397,18 @@ ol {
   padding-bottom: 20px;
 }
 
-.work .inner-content {
+.add-blog .inner-content {
   padding: 50px;
   border-radius: 5px;
   overflow: hidden;
   background-color: #fff;
 }
 
-.work .kazi_form .button {
+.add-blog .blog_form .button {
   margin: 0;
 }
 
-.work .kazi_form .button .btn {
+.add-blog .blog_form .button .btn {
   height: 50px;
   border: none;
 }
@@ -4824,8 +4824,8 @@ text-align: left;
 }
 
 .latest-news-area .single-news .image img {
-  height: 100%;
-  width: 100%;
+  /* height: 100%; */
+  /* width: 100%; */
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }

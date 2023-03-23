@@ -1,69 +1,220 @@
 {% extends 'base.html' %}
 {% block title %} Blogs {% endblock title %}
 {% load static %}
-{% comment %} {% load humanize %} {% endcomment %}
+{% load humanize %}
+{% load popular_blogs %}
 {% load hitcount_tags %}
 {% block content %}
+<!-- **************** MAIN CONTENT START **************** -->
+    <main>
+
+        <!-- =======================
+breadcrumb START -->
+
+
+
+<div class="breadcrumbs overlay">
 <div class="container">
-  <div class="row ">
-    <div class="col">
-      
-      {% for blog in my_blogs %}
-<br>    
-      <div class="card" style="width: 58rem;">
-  <img src="{{blog.photo_url}}" class="carmd-img-top" alt="..."height="150" width="150"> 
-  <div class="card-body">
-    <h5 class="card-title"> <a href="{{blog.get_absolute_url}}">{{blog.title}}</a> </h5>
-    <p> <i class="fa-regular fa-user"></i>: {{blog.user}} ,<i class="fa-sharp fa-regular fa-eye"></i>: {% get_hit_count for blog %} 44, <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments}} 66, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}55,minutes read <i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
-    <p class="card-text">
-       {{blog.content | truncatewords_html:20}}</p> content:
-       <p> category : {{blog.category}}</p> 
-       {% for tag in blog.tags.all %}
-       <button type="button" class="btn btn-primary">{{ tag }}  </button>
-
-
-{% endfor %}
-
-  </div>
+<div class="row align-items-center">
+<div class="col-lg-6 col-md-6 col-12">
+<div class="breadcrumbs-content">
+<h1 class="page-title">Blogs</h1>
+{% comment %} <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+been the industry's standard dummy text</p> {% endcomment %}
 </div>
+</div>
+<div class="col-lg-6 col-md-6 col-12">
+<ul class="breadcrumb-nav">
+<li><a href="index.html">Home</a></li>
+<li>Blogs</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+ <!-- =======================
+breadcrumb end --> 
 
-        {% empty %}
-no blogs
-      {% endfor %}
-     {% if my_blogs.has_previous %}
-  <a href="?page={{ my_blogs.previous_page_number }}">« Previous page</a>
 
-  {% if my_blogs.number > 3 %}
+
+
+<!-- =======================
+bloglist START --> 
+
+
+
+<section class="section latest-news-area blog-list">
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-md-7 col-12">
+<div class="row">
+
+
+
+ {% for blog in my_blogs %}
+                        <!-- Card item START -->
+
+<div class="col-lg-6 col-12">
+
+<div class="single-news custom-shadow-hover wow fadeInUp" data-wow-delay=".4s">
+<div class="image">
+<img class="thumb" src="{{blog.photo_url}}" alt="..." height="200" width="auto">
+</div>
+<div class="content-body">
+                {% for tag in blog.tags.all %}
+<a class="btn btn-outline-danger btn-sm" href="{% url 'tags' tag.name %}">{{ tag }} </a>
+{% endfor %}
+<h4 class="title mb-2"><a href="{{blog.get_absolute_url}}">{{blog.title}}.</a></h4>
+<a>
+<i class="lni lni-user  mx-2"></i>
+{{blog.user.username}}
+</a> 
+<a >
+<i class="lni lni-calendar mx-2"></i>
+{{blog.created |naturalday}}
+</a>
+<p>{{blog.content | truncatewords_html:20}} </p>
+
+</div>
+</div>
+{% comment %} <!--<ul class="nav nav-divider align-items-center d-none d-sm-inline-block">
+                                        <li class="nav-item">
+                                            <div class="nav-link">
+                                                <div class="d-flex align-items-center position-relative">
+                                                    <div class="avatar avatar-xs">
+                                                        <img class="avatar-img rounded-circle" src="{{blog.user.user_profile.profile_url}}" alt="avatar">
+                                                    </div>
+                                                    <span class="ms-3">by <a href="{% url 'user-blog' blog.user.username %}" class="stretched-link text-reset btn-link">{{blog.user}}</a></span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-eye"></i>: {% get_hit_count for blog %} </li>
+                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-clock"></i> :{{blog.created | naturalday}}</li>
+                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}</li>
+                                        <li class="nav-item">55,minutes read </li> -->
+                                    </ul> {% endcomment %}
+</div>
+{% empty %}
+no blog
+ <!-- Card item END -->
+                       {% endfor %}
+                       
+</div>
+<!-- =======================
+bloglist end -->
+
+<!-- =======================
+pagination start-->
+<div class="pagination center">
+<ul class="pagination-list">
+     {% if page_obj.has_previous %}
+
+<li><a href="?page={{ page_obj.previous_page_number }}"><i class="lni lni-chevron-left"></i></a></li>
+
+ {% if page_obj.number > 3 %}
     <a href="?page=1">1</a>
-    {% if my_blogs.number > 4 %}
+    {% if page_obj.number > 4 %}
       <span>...</span>
     {% endif %}
   {% endif %}
 {% endif %}
 
-{% for num in my_blogs.paginator.page_range %}
-  {% if my_blogs.number == num %}
-    <a href="?page={{ num }}">{{ num }}</a>
-  {% elif num > my_blogs.number|add:'-3' and num < my_blogs.number|add:'3' %}
-    <a href="?page={{ num }}">{{ num }}</a>
-  {% endif %}
+{% for num in page_obj.paginator.page_range %}
+  {% if page_obj.number == num %}
+
+<li class="active"><a href="?page={{ num }}">{{ num }}</a></li>
+{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+
+<li><a href="?page={{ num }}">{{ num }}</a></li>
+{% endif %}
 {% endfor %}
 
-{% if my_blogs.has_next %}
-  {% if my_blogs.number < my_blogs.paginator.num_pages|add:'-3' %}
+{% if page_obj.has_next %}
+  {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
     <span>...</span>
-    <a href="?page={{ my_blogs.paginator.num_pages }}">{{ my_blogs.paginator.num_pages }}</a>
-  {% elif my_blogs.number < my_blogs.paginator.num_pages|add:'-2' %}
-    <a href="?page={{ my_blogs.paginator.num_pages }}">{{ my_blogs.paginator.num_pages }}</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+  {% elif page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
+    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
   {% endif %}
 
-  <a href="?page={{ my_blogs.next_page_number }}">Next Page »</a>
+<li><a href="?page={{ page_obj.next_page_number }}"><i class="lni lni-chevron-right"></i></a></li>
 {% endif %}
-        
-    </div>
-  
-    
-  </div>
+</ul>
 </div>
+<!-- =======================
+pagination end -->
+
+</div>
+<!-- =======================
+bloglist end -->
+<aside class="col-lg-4 col-md-5 col-12">
+<div class="sidebar">
+<div class="widget search-widget">
+<h5 class="widget-title">Search Here</h5>
+
+<form action="{% url 'search' %}" method="get">
+<input type="search" name="q"  placeholder="Search Here...">
+<button type="submit"><i class="lni lni-search-alt"></i></button>
+</form>
+
+
+
+{% comment %} <form action="{% url 'search' %}" method="get">
+  <input type="search" name="q"  class="form-control" id="">
+  <input type="submit" value="Search">
+</form> {% endcomment %}
+
+</div>
+<div class="widget popular-feeds">
+<h5 class="widget-title">Popular Blogs</h5>
+{% popular_blogs as blogs %}
+{% for popular_blog in blogs %}
+
+<div class="popular-feed-loop">
+<div class="single-popular-feed">
+<div class="feed-img">
+<a><img src="{{popular_blog.photo_url}}" alt=".."></a>
+</div>
+<div class="feed-desc">
+<h6 class="post-title"><a href="{{popular_blog.get_absolute_url }}">{{popular_blog.title}}</a>
+</h6>
+<span class="time"><i class="lni lni-calendar"></i> {{popular_blog.created|naturaltime}}</span>
+</div>
+</div>
+
+{% empty %}
+<div class="single-popular-feed">
+<p>No Recent Posted Blogs</p>
+</div>
+{% endfor %} 
+
+
+</div>
+</div>
+
+
+
+
+</div>
+</aside>
+</div>
+</div>
+</section>
+ <!-- =======================
+breadcrumb START --> <!-- =======================
+breadcrumb START --> <!-- =======================
+breadcrumb START --> <!-- =======================
+breadcrumb START --> <!-- =======================
+breadcrumb START --> <!-- =======================
+breadcrumb START --> <!-- =======================
+breadcrumb START -->
+       
+        <!-- =======================
+Main content END -->
+
+
+
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
 
 {% endblock content %}

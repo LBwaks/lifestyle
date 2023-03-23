@@ -20,15 +20,15 @@ breadcrumb START -->
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class="breadcrumbs-content">
-<h1 class="page-title">Blog Grid Sibebar</h1>
-<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-been the industry's standard dummy text</p>
+<h1 class="page-title">Blogs</h1>
+{% comment %} <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+been the industry's standard dummy text</p> {% endcomment %}
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">
 <ul class="breadcrumb-nav">
 <li><a href="index.html">Home</a></li>
-<li>Blog Grid Sibebar</li>
+<li>Blogs</li>
 </ul>
 </div>
 </div>
@@ -60,14 +60,22 @@ bloglist START -->
 
 <div class="single-news custom-shadow-hover wow fadeInUp" data-wow-delay=".4s">
 <div class="image">
-<img class="thumb" src="{{blog.photo_url}}" alt="...">
+<img class="thumb" src="{{blog.photo_url}}" alt="..." height="200" width="auto">
 </div>
 <div class="content-body">
                 {% for tag in blog.tags.all %}
-<a class="cat" href="#"><i class="fas fa-circle me-2 small fw-bold"></i>{{ tag }} </a>
+<a class="btn btn-outline-danger btn-sm" href="{% url 'tags' tag.name %}">{{ tag }} </a>
 {% endfor %}
-<h4 class="title"><a href="{{blog.get_absolute_url}}">{{blog.title}}.</a></h4>
-<p>{{blog.content | truncatechars:20}} </p>
+<h4 class="title mb-2"><a href="{{blog.get_absolute_url}}">{{blog.title}}.</a></h4>
+<a href="{% url 'user-blog' blog.user.username %}">
+<i class="lni lni-user  mx-2"></i>
+{{blog.user.username}}
+</a> 
+<a >
+<i class="lni lni-calendar mx-2"></i>
+{{blog.created |naturalday}}
+</a>
+<p>{{blog.content | truncatewords_html:20}} </p>
 
 </div>
 </div>

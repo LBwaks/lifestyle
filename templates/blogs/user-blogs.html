@@ -1,41 +1,120 @@
 {% extends 'base.html' %}
 {% block title %} Blogs {% endblock title %}
 {% load static %}
-{% comment %} {% load humanize %} {% endcomment %}
+{% load humanize %}
+{% load category %}
+{% load tags %}
 {% load hitcount_tags %}
 {% block content %}
+
+
+<!-- **************** MAIN CONTENT START **************** -->
+    <main>
+
+        <!-- =======================
+breadcrumb START -->
+
+
+
+<div class="breadcrumbs overlay">
 <div class="container">
-  <div class="row ">
-    <div class="col">
-      
-      {% for blog in blogs %}
-<br>    
-      <div class="card" style="width: 58rem;">
-  <img src="{{blog.photo_url}}" class="carmd-img-top" alt="..."height="150" width="150"> 
-  <div class="card-body">
-    <h5 class="card-title"> <a href="{{blog.get_absolute_url}}">{{blog.title}}</a> </h5>
-    <p> <i class="fa-regular fa-user"></i>: {{blog.user}} ,<i class="fa-sharp fa-regular fa-eye"></i>: {% get_hit_count for blog %} 44, <i class="fa-sharp fa-regular fa-comment"></i> :{{blog.comments}} 66, <i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}55,minutes read <i class="fa-sharp fa-regular fa-clock"></i>{{blog.created}}</p> 
-    
-    <p class="card-text"> <a href="{% url 'user-profile' blog.user.user_profile.slug %}">Owner profile</a> </p>
-    <p class="card-text">
-       {{blog.content |truncatewords_html:10}}</p> content:
-       <p> category : {{blog.category}}</p> 
-       {% for tag in blog.tags.all %}
-       <button type="button" class="btn btn-primary">{{ tag }}  </button>
-
-
-{% endfor %}
-
- </div>
+<div class="row align-items-center">
+<div class="col-lg-6 col-md-6 col-12">
+<div class="breadcrumbs-content">
+<h1 class="page-title">Blogs</h1>
+{% comment %} <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+been the industry's standard dummy text</p> {% endcomment %}
 </div>
+</div>
+<div class="col-lg-6 col-md-6 col-12">
+<ul class="breadcrumb-nav">
+<li><a href="index.html">Home</a></li>
+<li>Blogs</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+ <!-- =======================
+breadcrumb end --> 
 
-        {% empty %}
-no blogs
-      {% endfor %}
-        {% if blogs.has_previous %}
-  <a href="?page={{ blogs.previous_page_number }}">« Previous page</a>
 
-  {% if blogs.number > 3 %}
+
+
+<!-- =======================
+bloglist START --> 
+
+
+
+<section class="section latest-news-area blog-list">
+<div class="container">
+<div class="row">
+<div class="col-lg-8 col-md-7 col-12">
+<div class="row">
+
+
+
+ {% for blog in blogs %}
+                        <!-- Card item START -->
+
+<div class="col-lg-6 col-12">
+
+<div class="single-news custom-shadow-hover wow fadeInUp" data-wow-delay=".4s">
+<div class="image">
+<img class="thumb" src="{{blog.photo_url}}" alt="..." height="200" width="auto">
+</div>
+<div class="content-body">
+                {% for tag in blog.tags.all %}
+<a class="btn btn-outline-danger btn-sm" href="{% url 'tags' tag.name %}">{{ tag }} </a>
+{% endfor %}
+<h4 class="title mb-2"><a href="{{blog.get_absolute_url}}">{{blog.title}}.</a></h4>
+<a href="{% url 'user-profile' blog.user.user_profile.slug %}">
+<i class="lni lni-user  mx-2"></i>
+{{blog.user.username}}
+</a> 
+<a >
+<i class="lni lni-calendar mx-2"></i>
+{{blog.created |naturalday}}
+</a>
+<p>{{blog.content | truncatewords_html:20}} </p>
+
+</div>
+</div>
+{% comment %} <!--<ul class="nav nav-divider align-items-center d-none d-sm-inline-block">
+                                        <li class="nav-item">
+                                            <div class="nav-link">
+                                                <div class="d-flex align-items-center position-relative">
+                                                    <div class="avatar avatar-xs">
+                                                        <img class="avatar-img rounded-circle" src="{{blog.user.user_profile.profile_url}}" alt="avatar">
+                                                    </div>
+                                                    <span class="ms-3">by <a href="{% url 'user-blog' blog.user.username %}" class="stretched-link text-reset btn-link">{{blog.user}}</a></span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-eye"></i>: {% get_hit_count for blog %} </li>
+                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-clock"></i> :{{blog.created | naturalday}}</li>
+                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}</li>
+                                        <li class="nav-item">55,minutes read </li> -->
+                                    </ul> {% endcomment %}
+</div>
+{% empty %}
+no blog
+ <!-- Card item END -->
+                       {% endfor %}
+                       
+</div>
+<!-- =======================
+bloglist end -->
+
+<!-- =======================
+pagination start-->
+<div class="pagination center">
+<ul class="pagination-list">
+     {% if blogs.has_previous %}
+
+<li><a href="?page={{ blogs.previous_page_number }}"><i class="lni lni-chevron-left"></i></a></li>
+
+ {% if blogs.number > 3 %}
     <a href="?page=1">1</a>
     {% if blogs.number > 4 %}
       <span>...</span>
@@ -45,10 +124,12 @@ no blogs
 
 {% for num in blogs.paginator.page_range %}
   {% if blogs.number == num %}
-    <a href="?page={{ num }}">{{ num }}</a>
-  {% elif num > blogs.number|add:'-3' and num < blogs.number|add:'3' %}
-    <a href="?page={{ num }}">{{ num }}</a>
-  {% endif %}
+
+<li class="active"><a href="?page={{ num }}">{{ num }}</a></li>
+{% elif num > blogs.number|add:'-3' and num < blogs.number|add:'3' %}
+
+<li><a href="?page={{ num }}">{{ num }}</a></li>
+{% endif %}
 {% endfor %}
 
 {% if blogs.has_next %}
@@ -59,12 +140,68 @@ no blogs
     <a href="?page={{ blogs.paginator.num_pages }}">{{ blogs.paginator.num_pages }}</a>
   {% endif %}
 
-  <a href="?page={{ blogs.next_page_number }}">Next Page »</a>
+<li><a href="?page={{ blogs.next_page_number }}"><i class="lni lni-chevron-right"></i></a></li>
 {% endif %}
-    </div>
-  
-    
-  </div>
+</ul>
 </div>
+<!-- =======================
+pagination end -->
+
+</div>
+<!-- =======================
+bloglist end -->
+<aside class="col-lg-4 col-md-5 col-12">
+<div class="sidebar">
+
+<div class="widget popular-tag-widget">
+<h5 class="widget-title">Categories</h5>
+<div class="tags">
+  {% category as categories %}
+  {% for category in categories %}
+<a  class ="btn btn-outline-primary" href="{% url 'categories' category.name %}">{{category.name}}</a>
+  {% empty %}
+  <p>No Category Found !</p>
+  {% endfor %}
+
+
+</div>
+</div>
+
+<div class="widget popular-tag-widget">
+<h5 class="widget-title"> Tags</h5>
+
+<div class="tags">
+    {% tags as tags %}
+{% for tag in tags %}
+
+<a href="{% url 'tags' tag.name %}">{{tag.name}}</a>
+{% endfor %}
+</div>
+</div> 
+
+<div class="widget call-us">
+<div class="content">
+<h4>Call us need help?<span>01-2222-456</span></h4>
+<div class="button">
+<a href="#" class="btn">call us</a>
+</div>
+</div>
+</div>
+
+</div>
+</aside>
+</div>
+</div>
+</section>
+
+
+
+
+    </main>
+    <!-- **************** MAIN CONTENT END **************** -->
+
+
+
+
 
 {% endblock content %}
