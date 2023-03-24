@@ -2646,6 +2646,107 @@ ol {
   color: #fff;
 }
 
+/*======================================
+    Why Choose CSS
+========================================*/
+.why-choose {
+  background-color: #F4F7FA;
+}
+
+.why-choose .left {
+  position: relative;
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.why-choose .left img {
+  width: 100%;
+  height: 100%;
+}
+
+.why-choose .left .video {
+  position: absolute;
+  height: 80px;
+  width: 80px;
+  line-height: 80px;
+  text-align: center;
+  color: #473BF0;
+  background-color: #fff;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  margin-left: -40px;
+  margin-top: -40px;
+  font-size: 16px;
+  padding-left: 3px;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+.why-choose .left .video:hover {
+  color: #fff;
+  background-color: #473BF0;
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
+}
+
+.why-choose .right {
+  padding-left: 50px;
+  padding-right: 130px;
+}
+
+.why-choose .right ul li {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.why-choose .right ul li:hover .number {
+  border-color: #473BF0;
+  color: #473BF0;
+  background-color: #fff;
+}
+
+.why-choose .right ul li:last-child {
+  margin: 0;
+}
+
+.why-choose .right ul li .number {
+  max-width: 43px;
+  min-width: 43px;
+  max-height: 43px;
+  min-height: 43px;
+  border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: #473BF0;
+  color: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border: 3px solid transparent;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+.why-choose .right ul li .content {
+  display: inline-block;
+  padding-left: 70px;
+}
+
+.why-choose .right ul li .content h3 {
+  font-size: 19px;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 20px;
+}
+
 /*=============================
 	Pricing Table CSS
 ===============================*/
@@ -5992,4 +6093,295 @@ ul.custom-flex {
 
 .portfolio-details .related-project .single-related-project .single-content h3 a:hover {
   color: #473BF0;
+}
+
+/*======================================
+	Team CSS
+========================================*/
+.team {
+  background-color: #F4F7FA;
+}
+
+.team .title-line {
+  margin-bottom: 40px;
+}
+
+.team .section-title {
+  margin-bottom: 50px;
+}
+
+.team .single-team {
+  margin-top: 30px;
+  position: relative;
+  -webkit-transition: all 500ms ease;
+  transition: all 500ms ease;
+  display: inline-block;
+  overflow: hidden;
+  text-align: left;
+  background: transparent;
+  background-color: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  -webkit-box-shadow: 0 32px 54px 0 rgba(22, 28, 45, 0.16);
+          box-shadow: 0 32px 54px 0 rgba(22, 28, 45, 0.16);
+}
+
+.team .single-team .info-head {
+  background: transparent;
+  position: relative;
+  z-index: 2;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  padding: 25px;
+}
+
+.team .single-team:hover .info-head:before {
+  opacity: 1;
+  visibility: visible;
+  height: 100%;
+}
+
+.team .single-team:hover .info-head {
+  border-color: transparent;
+}
+
+.single-team .image {
+  position: relative;
+  text-align: center;
+}
+
+.single-team .image::before {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+  height: 0;
+  width: 100%;
+  background: -webkit-gradient(linear, left top, left bottom, from(transparent), to(#473BF0));
+  background: linear-gradient(transparent, #473BF0);
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.single-team .image img {
+  height: 100%;
+  width: 100%;
+}
+
+.single-team .image .social {
+  position: absolute;
+  left: 0;
+  bottom: -30px;
+  padding: 25px;
+  padding-bottom: 20px;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+.single-team .image .social li {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.single-team .image .social li:last-child {
+  margin-right: 0px;
+}
+
+.single-team .image .social li a {
+  color: #fff;
+  display: block;
+  font-size: 15px;
+}
+
+.single-team .image .social li a:hover {
+  opacity: 0.7;
+}
+
+.single-team:hover .image::before {
+  opacity: 1;
+  visibility: visible;
+  height: 150px;
+}
+
+.single-team:hover .social {
+  opacity: 1;
+  visibility: visible;
+  bottom: 0;
+}
+
+.team .single-team .info-box {
+  text-align: left;
+}
+
+.team .single-team .info-box .name {
+  display: block;
+  font-size: 17px;
+  color: #333;
+  margin-bottom: 3px;
+  text-transform: capitalize;
+}
+
+.team .single-team .info-box .name a {
+  font-weight: 600;
+  color: #081828;
+  font-size: 17px;
+}
+
+.team .single-team .info-box .name a:hover {
+  color: #473BF0;
+}
+
+.team .single-team .info-box .designation {
+  color: #666;
+  font-size: 13px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+
+/* Team Details */
+.team-details .image {
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.team-details .image img {
+  width: 100%;
+  height: 100%;
+}
+
+.team-details .content {
+  padding-left: 50px;
+}
+
+.team-details .content .position {
+  color: #473BF0;
+  font-weight: 500;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.team-details .content .name {
+  font-size: 32px;
+  font-weight: 600;
+  color: #081828;
+}
+
+.team-details .content .des {
+  display: block;
+  margin-top: 20px;
+}
+
+.team-details .content .personal-info {
+  margin-top: 30px;
+}
+
+.team-details .content .personal-info li {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.team-details .content .personal-info li:last-child {
+  margin: 0;
+}
+
+.team-details .content .personal-info li span {
+  color: #081828;
+}
+
+.team-details .content .personal-info li a {
+  color: #888;
+}
+
+.team-details .content .personal-info li a:hover {
+  color: #473BF0;
+}
+
+.team-details .content .social {
+  margin-top: 30px;
+}
+
+.team-details .content .social li {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.team-details .content .social li:last-child {
+  margin: 0;
+}
+
+.team-details .content .social li a {
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  background-color: #f4f4f4;
+  color: #081828;
+  border-radius: 4px;
+  display: block;
+  text-align: center;
+}
+
+.team-details .content .social li a:hover {
+  background-color: #473BF0;
+  color: #fff;
+}
+
+.team-details .details-info .heading {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  margin-top: 60px;
+}
+
+.team-details .details-info p {
+  margin: 20px 0;
+}
+
+.team-details .team-contact-form {
+  padding: 50px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #fff;
+  margin-top: 60px;
+  -webkit-box-shadow: 0 0 50px rgba(22, 28, 45, 0.16);
+          box-shadow: 0 0 50px rgba(22, 28, 45, 0.16);
+}
+
+.team-details .team-contact-form form .form-group {
+  margin-bottom: 20px;
+}
+
+.team-details .team-contact-form form .form-group input {
+  height: 55px;
+  width: 100%;
+  background-color: #fff;
+  color: #081828;
+  border-radius: 5px;
+  border: none;
+  border: 1px solid #eee;
+  font-size: 14px;
+  padding: 0px 20px;
+}
+
+.team-details .team-contact-form form .form-group textarea {
+  height: 200px;
+  width: 100%;
+  background-color: #fff;
+  color: #081828;
+  border-radius: 5px;
+  border: none;
+  border: 1px solid #eee;
+  font-size: 14px;
+  padding: 20px;
+}
+
+.team-details .team-contact-form form .button {
+  text-align: center;
 }

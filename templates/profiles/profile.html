@@ -5,87 +5,69 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-8 col-md-8">
-      
-    
-
-      <div class="card" style="width: 58rem;">
-  <img src="{{profile.profile_url}}" class="card-immg-top" alt="..." height="150" width="150">
-  <div class="card-body">
- <p>firstname :{{profile.firstname}}</p>    
- <p>lastname :{{profile.lastname}}</p> 
- <p>tell :{{profile.tell}}</p> 
- <p>gender :{{profile.gender}}</p> 
- <p>dob :{{profile.dob}}</p> 
- <p>location :{{profile.location}}</p> 
-<p>bio :{{profile.bio}}</p> 
-<p>twitter:{{profile.twitter}}</p>  
-<p>facebook :{{profile.facebook}}</p> 
-<p>instagram :{{profile.instagram }}</p> 
-<p>website :{{profile.website}}</p> 
-<a href="{% url 'update-profile' profile.slug %}" class="btn btn-success">Update</a> <br>
-{% comment %} <a hx-refresh ="{% url 'blogs' %}" hx-delete="{% url 'delete-blog' blog.slug %}" hx-confirm="Yes I want" class="btn btn-danger">Delete Blog</a> {% endcomment %}
+<div class="breadcrumbs overlay">
+<div class=container>
+<div class="row align-items-center">
+<div class="col-lg-6 col-md-6 col-12">
+<div class=breadcrumbs-content>
+<h1 class=page-title>Team Details</h1>
+<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+been the industry's standard dummy text</p>
 </div>
 </div>
-{% if user.is_authenticated %}
+<div class="col-lg-6 col-md-6 col-12">
+<ul class=breadcrumb-nav>
+<li><a href=index.html>Home</a></li>
+<li>Team Details</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 
-<form action="" method="POST">
-   {% csrf_token %}
-  {% comment %} {{ form | crispy }} {% endcomment %}
-  {{ form.as_p}}
-    {% comment %} <div>
-             <label for="comment">Type Comment here</label>
-            {{ form.comment }} {% csrf_token %} <input type="submit" value="Post"></div>
-         </div> {% endcomment %}
- <button type="submit"> Submit</button>
- <br><br><br><br><br>
-</form>
-{% else %}
-login to comment
-{% endif %}
-<hr>
-<hr>
-<hr>
-{% for comment in comments %}
-{% if comment.is_parent %}
-<h3><b>{{comment.user}} : </b> {{comment.comment}}</h3>
-&nbsp; &nbsp; &nbsp;
-<form action="" method="POST">
-   {% csrf_token %}
-  
-    <div>
-            &nbsp; &nbsp; &nbsp; <label for="comment">Reply</label>
-&nbsp; &nbsp; &nbsp;<input type="text" name="comment" id=""><input type="hidden" name="parent" value={{comment.pk}}>
-            <input type="submit" value="Post"></div>
-         </div>
- <br>
-</form>
-{% endif %}
-{% for replies in comment.children %}
-<h3>  &nbsp;&nbsp;&nbsp; <b>{{comment.user}}</b> : {{replies.comment}}</h3>
 
-{% endfor %}
-{% empty %}
-<p>no comments</p>
-{% endfor %} 
+<section class="team-details section">
+<div class=container>
+<div class="row align-items-center">
+<div class="col-lg-6 col-md-6 col-12">
+<div class=image>
+<img src="{{profile.profile_url}}" alt="...">
+</div>
+</div>
+<div class="col-lg-6 col-md-6 col-12">
+<div class=content>
 
+
+
+
+<span class=position>Founder</span>
+<h3 class=name>{{profile.firstname}} {{profile.lastname}}</h3>
+<p class=des>{{profile.bio}}</p>
+<ul class=personal-info>
+<li><span>Phone : </span> {{profile.tell}}</li>
+<li><span>Email : </span> <a href=""><span class="__cf_email__" data-cfemail="ea8985849e8b899eaa93859f98878b8386c4898587">{{user.email}}</span></a>
+</li>
+<li><span>Gender : </span> {{profile.gender}}</li>
+<li><span>Date Of Birth : </span> {{profile.dob}}</li>
+<li><span>Website : </span> <a href="{{profile.website}}">{{profile.website}}</a></li>
+<li><span>Address : </span> {{profile.location}}</li>
+</ul>
+<ul class=social>
+<li><a href="{{profile.facebook}}"><i class="lni lni-facebook-original"></i></a></li>
+<li><a href="{{profile.twitter}}"><i class="lni lni-twitter-original"></i></a></li>
+<li><a href="{{profile.instagram }}"><i class="lni lni-behance-original"></i></a></li>
+<li><a href="{{profile.website}}"><i class="lni lni-instag"></i></a></li>
+</ul>
+<ul>
+ <li> <a href="{% url 'update-profile' profile.slug %}" class="btn mouse-dir white-bg">Update</a> <br></li>
+</ul>
 
 </div>
-<div class="col-lg-4 col-md-4 ">
-        <h3>Popular post </h3>
-        
-        {% for blog in popular_blogs %}
-           <a href="{{blog.get_absolute_url}}">{{blog.title}}</a>
-           {% empty %}
-           <p>No popular blog</p>
-        {% endfor %}
-          
-    </div>
-  
-    
-  </div>
 </div>
+</div>
+
+</div>
+</section>
+
 
 {% endblock content %}

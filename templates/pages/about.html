@@ -2,73 +2,156 @@
 {% block title %}About us {% endblock title %}
 {% block content %}
 
+<div class="breadcrumbs overlay">
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <div class="card">
-  <div class="card-body">
-{% for about in aboutus %}
-{{about.about}}
-{% endfor %}
-  </div>
+<div class="row align-items-center">
+<div class="col-lg-6 col-md-6 col-12">
+<div class="breadcrumbs-content">
+<h1 class="page-title">Contact Us</h1>
+{% comment %} <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+been the industry's standard dummy text</p> {% endcomment %}
 </div>
-        </div>
-        
-    </div>
-    <br><br>
-    <div class="row">
-        <div class="col">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-  {% for work in works %} 
+</div>
+<div class="col-lg-6 col-md-6 col-12">
+<ul class="breadcrumb-nav">
+<li><a href="index.html">Home</a></li>
+<li>About Us</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<section class="why-choose section">
+<div class=container>
+<div class=row>
+<div class=col-12>
+<div class=section-title>
+<span class="wow fadeInDown" data-wow-delay=.2s>Why choose Us</span>
+<h2 class="wow fadeInUp" data-wow-delay=.4s>Why you should choose us?</h2>
+<p class="wow fadeInUp" data-wow-delay=.6s>There are many variations of passages of Lorem
+Ipsum available, but the majority have suffered alteration in some form.</p>
+<h3 class="overlay-text gray-bg">Why choose</h3>
+</div>
+</div>
+</div>
+<div class="row align-items-center">
+
+<div class="col-md-12 col-12">
+<div class="right wow fadeInRight" data-wow-delay=.5s>
+<ul>
+
+
+<li>
+
+<div class=content>
+{% for about in aboutus %}
+<p>{{about.about}}</p>
+
+{% endfor %}
+
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+<section class="services style3 section">
+<div class=container>
+<div class=row>
+<div class=col-12>
+<div class=section-title>
+<span class="wow fadeInDown" data-wow-delay=.2s>Services</span>
+<h2 class="wow fadeInUp" data-wow-delay=.4s>Services we offer for you</h2>
+<p class="wow fadeInUp" data-wow-delay=.6s>There are many variations of passages of Lorem
+Ipsum available, but the majority have suffered alteration in some form.</p>
+<h3 class=overlay-text>Services</h3>
+</div>
+</div>
+</div>
+<div class=single-head>
+<div class=row>
  
-  <div class="col">
-    <div class="card">
-      <img src="{{work.image.url}}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">{{work.title}}</h5>
-        <p class="card-text">{{work.content}}</p>
-      </div>
-    </div>
-  </div>
-  {% empty %}
-  no work
+
+
+
+{% for work in works %} 
+
+<div class="col-lg-3 col-md-6 col-12">
+<div class="single-service wow fadeInUp" data-wow-delay=.6s>
+<span class=serial>0{{work.id}}</span>
+<h3><a href=service-single.html>{{work.title}}</a></h3>
+<p>{{work.content}}</p>
+
+</div>
+</div>
+{% empty %}
+  <p> No Services Listed!</p>
 
 {% endfor %} 
+
+
+
 </div>
-        </div>
-    </div>
-    <br><br>
-    <div class="row">
-        <div class="col">
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-  {% for team in teams %} 
- 
-  <div class="col">
-    <div class="card">
-      <img src="{{team.profile.url}}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">{{team.fname}} {{team.lname}}</h5>
-        <p class="card-text">{{team.bio}}</p>
-        <p class="card-text">role:{{team.role}}</p>
-        <p class="card-text">twitter:{{team.twitter}}</p>
-        <p class="card-text">facebook:{{team.facebook}}</p>
-        <p class="card-text">:instagram{{team.instagram}}</p>
-        <p class="card-text">mail:{{team.email}}</p>
-        
-      </div>
-    </div>
-  </div>
-  {% empty %}
+</div>
+</div>
+</section>
+
+
+<section id=team class="team section">
+<div class=container>
+<div class=row>
+<div class=col-12>
+<div class="section-title align-center gray-bg">
+<span class="wow fadeInDown" data-wow-delay=.2s>Creative Team</span>
+<h2 class="wow fadeInUp" data-wow-delay=.4s>Meet our team</h2>
+<h3 class=gray-bg>Creative</h3>
+<p class="wow fadeInUp" data-wow-delay=.6s>There are many variations of passages of Lorem
+Ipsum available, but the majority have suffered alteration in some form.</p>
+</div>
+</div>
+</div>
+<div class=row>
+
+
+ {% for team in teams %} 
+<div class="col-lg-3 col-md-6 col-12">
+<div class="single-team wow fadeInUp" data-wow-delay=.8s>
+
+<div class=image>
+<img src="{{team.profile.url}}" alt="...">
+
+<ul class=social>
+<li><a href="{{team.facebook}}"><i class="lni lni-facebook-filled"></i></a></li>
+<li><a href="{{team.twitter}}"><i class="lni lni-twitter-original"></i></a></li>
+<li><a href="{{team.email}}"><i class="lni lni-envelope-original"></i></a></li>
+<li><a href="{{team.instagram}}"><i class="lni lni-instagram-original"></i></a></li>
+</ul>
+
+</div>
+
+<div class=info-head>
+
+<div class=info-box>
+<h4 class=name><a href=team-single.html>{{team.fname}} {{team.lname}}</a></h4>
+<span class=designation>S{{team.role}}</span>
+</div>
+
+</div>
+</div>
+</div>
+{% empty %}
   no team
 
 {% endfor %} 
 </div>
-        </div>
-    </div>
 </div>
-
-
-
+</section>
 
 
 {% endblock content %}

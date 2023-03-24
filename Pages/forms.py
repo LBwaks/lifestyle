@@ -18,25 +18,6 @@ class ContactForm(forms.ModelForm):
             'message':forms.Textarea(attrs={'class':'form-control message' 'required'}),
             'subject':forms.TextInput(attrs={'class':'form-control subject' 'required'})
         }
-    def get_info(self):
-            cleaned_data = super(ContactForm,self).clean()
-            name = cleaned_data.get('name')
-            email = cleaned_data.get('email')
-            subject = cleaned_data.get('subject')
-            message =f'{name} with email {email} said:'
-            message += f'\n Subject: {subject}\n\n'
-            message += cleaned_data.get('message')
-
-            return name, subject,message,email
-    def send(self):
-        subject,email,message =self.get_info()
-        send_mail(
-            subject=subject,
-            message = message,
-            from_email=email,
-            recipient_list =[settings.RECIPIENT_ADDRESS]
-        )
-            
     def clean_name(self):
             name = self.cleaned_data['name']
             if len(name) < 3:
@@ -53,3 +34,23 @@ class ContactForm(forms.ModelForm):
             if len(content) < 10:
                 raise ValidationError( _("cDescription should be more than 10 characters"), code="invalid")
             return content
+    # def get_info(self):
+    #     cleaned_data = super(ContactForm,self).clean()
+    #     name = cleaned_data.get('name')
+    #     email = cleaned_data.get('email')
+    #     subject =cleaned_data.get('subject')
+    #     message =f'{name} with email {email} said:'
+    #     message += f'\n Subject: "{subject}"\n\n'
+    #     message += cleaned_data.get('message')
+
+    #     return name, subject,message
+    # def send(self):
+    #     subject , name , message =self.get_info()
+    #     send_mail(
+    #         subject=subject,
+    #         message = message,
+    #         from_email=settings.EMAIL_HOST_USER,
+    #         recipient_list =[settings.RECIPIENT_ADDRESS]
+    #      )
+            
+   
