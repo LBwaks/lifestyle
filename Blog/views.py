@@ -9,6 +9,7 @@ from django.contrib.postgres.search import (
     SearchRank,
     SearchVector,
 )
+from django.contrib import messages
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -59,6 +60,10 @@ class BlogDetailView(HitCountDetailView):
         context["comments"] = Comment.objects.filter(blog=self.get_object())
         # context['comment_count'] = comments.count()
         context["form"] = CommentForm()
+        bookmarked = bool
+        if blog.bookmarks.filter(id=self.request.user.id).exists():
+            bookmarked = True
+        context['bookmarked']= bookmarked
 
         return context
 
@@ -227,3 +232,22 @@ class SearchListView(ListView):
             .filter(rank__gte=0.3)
             .order_by("-rank")
         )
+@ login_required
+def add_bookmark(request,slug):
+    blog = get_object_or_404(Blog, slug=slug)
+    if blog.bookmarks.filter(id=request.user.id).exists():
+        blog.bookmarks.remove(request.user)
+    else :
+        blog.bookmarks.add(request.user)
+        messages.success(request,'Blog Bookmarked !')
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+        
+
+class BlogBookmarks(LoginRequiredMixin, ListView):
+    model = Blog
+    template_name = "blogs/bookmarks.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["bookmarks"] = Blog.objects.filter(bookmarks=self.request.user)
+        return context
+    

@@ -164,8 +164,15 @@ been the industry's standard dummy text</p>
 </div>
 </div>
 <hr>
+
 <div class=" d-flex justify-content-evenly">
   
+  {% if bookmarked %}
+  <a href="{% url 'bookmark' blog.slug %}" class="btn btn-secondary" >Bookmarked <i class="lni lni-bookmark"></i></a>
+  {% else %}
+  <a href="{% url 'bookmark' blog.slug %}" class="btn btn-outline-secondary" >Bookmark <i class="lni lni-bookmark"></i></a>
+  {% endif %}
+ 
   <a href="{% url 'edit-blog' blog.slug %}" class="btn btn-outline-primary" >Edit</a>
   <a hx-refresh ="{% url 'blogs' %}" hx-delete="{% url 'delete-blog' blog.slug %}" hx-confirm="You are about to delete this blog!"class="btn btn-outline-danger" >Delete</a>
 </div>

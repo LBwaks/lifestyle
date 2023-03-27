@@ -108,6 +108,7 @@ class Blog(models.Model, HitCountMixin):
     objects = models.Manager()
     publishedBlogs = BlogManager()
     # search_vector = SearchVectorField(null=True)
+    bookmarks = models.ManyToManyField(User, related_name='bookmarks', default=None, blank=True)
     is_published = models.BooleanField(_("Is Published"), default=True)
     is_featured = models.BooleanField(_("Is Featured"), default=False)
     updated = models.DateTimeField(_("Updated"), auto_now=True, auto_now_add=False)

@@ -11,6 +11,8 @@ from .views import (
     SearchListView,
     UsersListView,
     CategoryListView,
+    add_bookmark,
+    BlogBookmarks,
 )
 
 urlpatterns = [
@@ -28,4 +30,6 @@ urlpatterns = [
     path("user-blog/<username>", UsersListView.as_view(), name="user-blog"),
     path("tags/<name>", BlogTagsListView.as_view(), name="tags"),
     path('categories/<name>',CategoryListView.as_view(),name='categories'),
+    path('bookmark/<slug>',add_bookmark,name='bookmark'),
+    path('bookmarks',BlogBookmarks.as_view(),name='bookmarks')
 ]
