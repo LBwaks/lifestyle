@@ -90,7 +90,7 @@ class Blog(models.Model, HitCountMixin):
     tags = TaggableManager(_("Tags"))
     photo = models.ImageField(
         _("Photo"),
-        upload_to="images/blog",
+        upload_to="blogs",
         blank=True,
         null=True,
         height_field=None,

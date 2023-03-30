@@ -121,25 +121,7 @@ been the industry's standard dummy text</p>
 <h5 class="share-title">Social Share</h5>
 <ul class="custom-flex">
 <li>
-  {% comment %} .post-details .post-tags-media .post-social-media ul li a.facebook {
-  background-color: #3b5999;
-}
-
-.post-details .post-tags-media .post-social-media ul li a.twitter {
-  background-color: #55acee;
-}
-
-.post-details .post-tags-media .post-social-media ul li a.google {
-  background-color: #dd4b39;
-}
-
-.post-details .post-tags-media .post-social-media ul li a.pinterest {
-  background-color: #bd081c;
-}
-
-.post-details .post-tags-media .post-social-media ul li a.vimeo {
-  background-color: #1ab7ea;
-} {% endcomment %}
+ 
 
   {% post_to_facebook object_or_url '<i class="lni lni-facebook-original"></i>' %}
 
@@ -178,8 +160,10 @@ been the industry's standard dummy text</p>
   <a href="{% url 'bookmark' blog.slug %}" class="btn btn-outline-secondary" >Bookmark <i class="lni lni-bookmark"></i></a>
   {% endif %}
  
+  {% if user.is_authenticated and blog.user == request.user %}
   <a href="{% url 'edit-blog' blog.slug %}" class="btn btn-outline-primary" >Edit</a>
   <a hx-refresh ="{% url 'blogs' %}" hx-delete="{% url 'delete-blog' blog.slug %}" hx-confirm="You are about to delete this blog!"class="btn btn-outline-danger" >Delete</a>
+{% endif %}
 </div>
 </div>
 

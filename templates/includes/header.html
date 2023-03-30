@@ -76,7 +76,7 @@
                                            <li><a class="dropdown-item" href="{% url 'my-blogs' %}">My blogs</a></li> 
                                            <li><a class="dropdown-item" href="{% url 'bookmarks' %}">Bookmarks</a></li> 
                                            
-                                            <li><a class="dropdown-item" href="{% url 'user-profile' user.user_profile.slug %}">Profile</a></li> 
+                                            {% comment %} <li><a class="dropdown-item" href="{% url 'user-profile' user.user_profile.slug %}">Profile</a></li>  {% endcomment %}
                                             <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sign Out</a></li> 
                                        
                                         </ul>

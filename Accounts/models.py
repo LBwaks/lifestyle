@@ -45,10 +45,10 @@ class Profile(models.Model):
     bio = models.TextField(_("Bio"))
     profile = models.ImageField(
         _("Profile Picture"),
-        upload_to="user/profiles",
+        upload_to="profiles",
         # height_field=None,
         # width_field=None,
-        # max_length=None,
+        # max_length=100,
         null=True,
         blank=True,
         validators=[validate_file_size],
@@ -89,11 +89,11 @@ class Profile(models.Model):
         """Unicode representation of Profile."""
         return str(self.firstname) + " " + str(self.lastname)
 
-    def save(self, *args, **kwargs):
-        """Save method for Profile."""
-        new_profile = compress(self.profile)
-        self.profile = new_profile
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     """Save method for Profile."""
+    #     new_profile = compress(self.profile)
+    #     self.profile = new_profile
+    #     super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         """Return absolute url for Profile."""

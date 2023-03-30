@@ -14,8 +14,8 @@ import os
 from pathlib import Path
 
 from decouple import config
-from django.contrib.messages import constants as messages
 from django.conf import settings
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.postgres",
-    'django.contrib.humanize',
+    "django.contrib.humanize",
     # created app
     "Blog",
     "Accounts",
@@ -215,11 +215,11 @@ CKEDITOR_CONFIGS = {
 }
 # messages
 MESSAGE_TAGS = {
-        messages.DEBUG: 'alert-secondary',
-        messages.INFO: 'alert-info',
-        messages.SUCCESS: 'alert-success',
-        messages.WARNING: 'alert-warning',
-        messages.ERROR: 'alert-danger',
+    messages.DEBUG: "alert-secondary",
+    messages.INFO: "alert-info",
+    messages.SUCCESS: "alert-success",
+    messages.WARNING: "alert-warning",
+    messages.ERROR: "alert-danger",
 }
 # allauth
 AUTHENTICATION_BACKENDS = [
@@ -229,6 +229,17 @@ AUTHENTICATION_BACKENDS = [
 SITE_ID = 2
 LOGIN_REDIRECT_URL = "blogs"
 LOGOUT_REDIRECT_URL = "blogs"
+
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# LOGIN_REDIRECT_URL='cars'
+# ACCOUNT_SIGNUP_REDIRECT_URL ='add_profile'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_SESSION_REMEMBER = None
+
+
 # Provider specific settings
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -238,42 +249,112 @@ SOCIALACCOUNT_PROVIDERS = {
         "APP": {"client_id": config("client_id"), "secret": config("secret"), "key": ""}
     }
 }
-ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
-ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = settings.LOGIN_URL
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = None
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
-ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
-ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN =180
-ACCOUNT_EMAIL_MAX_LENGT = 254
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
-ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
-ACCOUNT_LOGIN_ON_PASSWORD_RESET = False
-ACCOUNT_LOGOUT_REDIRECT_URL = settings.LOGOUT_REDIRECT_URL
-ACCOUNT_PREVENT_ENUMERATION = True
-ACCOUNT_RATE_LIMITS = {
-    # Change password view (for users already logged in
-    "change_password": "5/m",
-    # Email management (e.g. add, remove, change primary
-    "manage_email": "10/m",
-    # Request a password reset, global rate limit per IP
-    "reset_password": "20/m",
-    # Rate limit measured per individual email address
-    "reset_password_email": "5/m",
-    # Password reset (the view the password reset email links to.
-    "reset_password_from_key": "20/m",
-    # Signups.
-    "signup": "20/m",
-    # NOTE: Login is already protected via `ACCOUNT_LOGIN_ATTEMPTS_LIMIT`
+# ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+# ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = settings.LOGIN_URL
+# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = None
+# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+# # ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
+# ACCOUNT_EMAIL_REQUIRED = True
+# # ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+# # ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN =180
+# ACCOUNT_EMAIL_MAX_LENGT = 254
+# ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+# ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
+# # ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+# ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = False
+# ACCOUNT_LOGIN_ON_PASSWORD_RESET = False
+# ACCOUNT_LOGOUT_REDIRECT_URL = settings.LOGOUT_REDIRECT_URL
+# ACCOUNT_PREVENT_ENUMERATION = True
+# ACCOUNT_RATE_LIMITS = {
+#     # Change password view (for users already logged in
+#     "change_password": "5/m",
+#     # Email management (e.g. add, remove, change primary
+#     "manage_email": "10/m",
+#     # Request a password reset, global rate limit per IP
+#     "reset_password": "20/m",
+#     # Rate limit measured per individual email address
+#     "reset_password_email": "5/m",
+#     # Password reset (the view the password reset email links to.
+#     "reset_password_from_key": "20/m",
+#     # Signups.
+#     "signup": "20/m",
+#     # NOTE: Login is already protected via `ACCOUNT_LOGIN_ATTEMPTS_LIMIT`
+# }
+# ACCOUNT_SESSION_REMEMBER = None
+# # ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+# ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+# ACCOUNT_SIGNUP_REDIRECT_URL = settings.LOGIN_REDIRECT_URL
+# ACCOUNT_USERNAME_BLACKLIST = ["admin"]
+# ACCOUNT_UNIQUE_EMAIL = True
+# ACCOUNT_USERNAME_MIN_LENGTH = 5
+# ACCOUNT_USERNAME_REQUIRED = True
+
+
+# logging
+# LOGGING_CONFIG = None
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "{levelname} {asctime:s} {name} {threadName} {thread:d} {module} {filename} {lineno:d} {name} {funcName} {process:d} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {asctime:s} {name} {module} {filename} {lineno:d} {funcName} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        # 'logtail': {
+        #     'class': 'logtail.LogtailHandler',
+        #     'formatter': 'verbose',
+        #     'source_token': config('LOGTAIL_SOURCE_TOKEN')
+        # },
+        "info_handle": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": f"{BASE_DIR}/logs/blog_info.log",
+            "mode": "a",
+            "encoding": "utf-8",
+            "formatter": "verbose",
+            "level": "INFO",
+            "backupCount": 5,
+            "maxBytes": 1024 * 1024 * 5,
+        },
+        "error_handler": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": f"{BASE_DIR}/logs/blog_error.log",
+            "mode": "a",
+            "formatter": "verbose",
+            "level": "WARNING",
+            "backupCount": 5,
+            "maxBytes": 1024 * 1024 * 5,  # 5 MB
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console", "info_handler"],
+            "level": "INFO",
+        },
+        "django.request": {
+            "handlers": ["error_handler"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "django.template": {
+            "handlers": ["error_handler"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+        "django.server": {
+            "handlers": ["error_handler"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
 }
-ACCOUNT_SESSION_REMEMBER = None
-ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
-ACCOUNT_SIGNUP_REDIRECT_URL = settings.LOGIN_REDIRECT_URL
-ACCOUNT_USERNAME_BLACKLIST = ["admin"]
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_MIN_LENGTH = 5
-ACCOUNT_USERNAME_REQUIRED = True
