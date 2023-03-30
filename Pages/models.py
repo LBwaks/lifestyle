@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from io import BytesIO
 from django.core.files import File
 from PIL import Image
+import uuid
 from django.urls import reverse
 # Create your models here.
 class AboutUsPage(models.Model):
@@ -37,6 +38,7 @@ class Team(models.Model):
 
     # TODO: Define fields here
     user = models.ForeignKey(User,  on_delete=models.CASCADE)
+    slug = models.UUIDField(default=uuid.uuid4, editable=False)
     fname = models.CharField(_("Firstname"), max_length=50)
     lname =models.CharField(_("Lastname"), max_length=50)
     bio = RichTextUploadingField(null=True)

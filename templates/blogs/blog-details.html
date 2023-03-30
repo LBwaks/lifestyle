@@ -6,8 +6,12 @@
 {% load social_share %}
 {% load category %}
 {% load humanize %}
+{% comment %} {% load sweetify %} {% endcomment %}
+{% comment %} {% sweetify %} {% endcomment %}
 {% block content %}
-{% comment %} <main> {% endcomment %}
+<main>
+  <!-- messages -->
+  
   <!-- start breadcrumb-->
   <div class="breadcrumbs overlay">
 <div class="container">
@@ -30,6 +34,7 @@ been the industry's standard dummy text</p>
 </div>
 
 <!-- end breadcrumb-->
+
 
 <!-- start blog detail-->
 
@@ -58,7 +63,7 @@ been the industry's standard dummy text</p>
 </a>
 </li>
 <li>
-<a href="#">
+<a href="#comment-list">
 <i class="lni lni-comments"></i>
 {{blog.comments.count}} 
 </a>
@@ -180,7 +185,7 @@ been the industry's standard dummy text</p>
 
 <div class="post-comments">
 <h3 class="comment-title">Post comments</h3>
-<ul class="comments-list">
+<ul class="comments-list" id="comment-list">
   {% for comment in comments %}
 {% if comment.is_parent %}
 
@@ -228,7 +233,7 @@ been the industry's standard dummy text</p>
 </li>
 {% endfor %}
 {% empty %}
-<p>no comments</p>
+<p>No comments</p>
 {% endfor %} 
 
 
@@ -286,7 +291,9 @@ been the industry's standard dummy text</p>
 </div>
 </div>
 {% empty %}
+<div class="single-popular-feed">
            <p>No popular blog</p>
+           </div>
 {% endfor %}
 
 </div>
@@ -347,7 +354,7 @@ been the industry's standard dummy text</p>
 </div>
 </section>
 <!-- end blog detail-->
-{% comment %} </main> {% endcomment %}
+</main>
 <script>
   var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {

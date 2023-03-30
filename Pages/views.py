@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from .models import Team,Work,AboutUsPage,Contact
-from django.views.generic import ListView,CreateView
+from django.views.generic import ListView,CreateView,TemplateView,DetailView
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.conf import settings
 from .forms import ContactForm
 # Create your views here.
+
+
+class Home(TemplateView):
+    template_name = "pages/home.html"
 
 class About(ListView):
     model = AboutUsPage
@@ -29,6 +33,8 @@ class About(ListView):
             
 #       form.send()
     #   return super().form_valid(form)
+
+
 def ContactView(request):
     if request.method =="GET":
         form=ContactForm

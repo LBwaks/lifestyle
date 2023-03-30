@@ -68,7 +68,7 @@ bloglist START -->
 <a class="btn btn-outline-danger btn-sm" href="{% url 'tags' tag.name %}">{{ tag }} </a>
 {% endfor %}
 <h4 class="title mb-2"><a href="{{blog.get_absolute_url}}">{{blog.title}}.</a></h4>
-<a href="{% url 'user-profile' blog.user.user_profile.slug %}">
+<a href="{% url 'blogger-profile' blog.user.username %}">
 <i class="lni lni-user  mx-2"></i>
 {{blog.user.username}}
 </a> 
@@ -80,26 +80,21 @@ bloglist START -->
 
 </div>
 </div>
-{% comment %} <!--<ul class="nav nav-divider align-items-center d-none d-sm-inline-block">
-                                        <li class="nav-item">
-                                            <div class="nav-link">
-                                                <div class="d-flex align-items-center position-relative">
-                                                    <div class="avatar avatar-xs">
-                                                        <img class="avatar-img rounded-circle" src="{{blog.user.user_profile.profile_url}}" alt="avatar">
-                                                    </div>
-                                                    <span class="ms-3">by <a href="{% url 'user-blog' blog.user.username %}" class="stretched-link text-reset btn-link">{{blog.user}}</a></span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-eye"></i>: {% get_hit_count for blog %} </li>
-                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-clock"></i> :{{blog.created | naturalday}}</li>
-                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}</li>
-                                        <li class="nav-item">55,minutes read </li> -->
-                                    </ul> {% endcomment %}
-</div>
+
+                                                   </div>
 {% empty %}
-no blog
- <!-- Card item END -->
+
+
+<div class="single-news custom-shadow-hover wow fadeInUp" data-wow-delay=".4s">
+
+<div class="content-body">
+               
+<p>No Blogs Found ! </p>
+
+</div>
+</div>
+
+
                        {% endfor %}
                        
 </div>

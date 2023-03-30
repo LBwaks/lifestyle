@@ -2,6 +2,8 @@ import random
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.postgres.search import (
     SearchHeadline,
@@ -89,10 +91,11 @@ class BlogDetailView(HitCountDetailView):
             return redirect(self.request.path_info)
 
 
-class BlogCreateView(LoginRequiredMixin, CreateView):
+class BlogCreateView(LoginRequiredMixin, SuccessMessageMixin,CreateView):
     model = Blog
     template_name = "blogs/add-blog.html"
     form_class = BlogForm
+    success_message = "Blog created successfully!"
 
     def form_valid(self, form):
         f = form.save(commit=False)
@@ -101,10 +104,11 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
         return super(BlogCreateView, self).form_valid(form)
 
 
-class BlogUpdateView(LoginRequiredMixin, UpdateView):
+class BlogUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     model = Blog
     template_name = "blogs/edit-blog.html"
     form_class = EditBlogForm
+    success_message = "Blog edited successfully !"
 
     def form_valid(self, form):
         f = form.save(commit=False)
@@ -113,7 +117,7 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
         return super(BlogUpdateView, self).form_valid(form)
 
 
-class BlogDeleteView(LoginRequiredMixin, DeleteView):
+class BlogDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
     model = Blog
     # template_name = "TEMPLATE_NAME"
     success_url = reverse_lazy("blogs")
@@ -138,13 +142,24 @@ def DeleteBlog(request, slug):
 class BlogTagsListView(ListView):
     model = Blog
     template_name = "blogs/tag-blogs.html"
-    paginate_by = 8
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tag = get_object_or_404(Tag, name=self.kwargs.get("name"))
         blogs = Blog.objects.filter(tags=tag)
-        context["blogs"] = blogs
+        
+        page_num = self.request.GET.get("page", 1)
+        paginator = Paginator(blogs, 6)
+        try:
+            blogs = paginator.page(page_num)
+        except PageNotAnInteger:
+            blogs = paginator.page(1)
+        except EmptyPage:
+            blogs = paginator.page(paginator.num_pages)
+        context = {
+            "blogs": blogs,
+        }
         return context
 
 
@@ -156,11 +171,23 @@ class CategoryListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         category = get_object_or_404(Category, name=self.kwargs.get("name"))
-        context["blogs"] = Blog.objects.filter(category=category)
+        blogs = Blog.objects.filter(category=category)
         category_most_viewed = Blog.objects.filter(category=category).order_by(
             "-hit_count_generic__hits"
         )[:5]
         context["category_most_viewed"] = category_most_viewed
+        
+        page_num = self.request.GET.get("page", 1)
+        paginator = Paginator(blogs, 6)
+        try:
+            blogs = paginator.page(page_num)
+        except PageNotAnInteger:
+            blogs = paginator.page(1)
+        except EmptyPage:
+            blogs = paginator.page(paginator.num_pages)
+        context = {
+            "blogs": blogs,
+        }
         return context
 
 
@@ -174,7 +201,7 @@ class UsersListView(ListView):
         blogs = Blog.objects.filter(user=blog_by)
 
         page_num = self.request.GET.get("page", 1)
-        paginator = Paginator(blogs, 2)
+        paginator = Paginator(blogs, 6)
         try:
             blogs = paginator.page(page_num)
         except PageNotAnInteger:
@@ -190,7 +217,7 @@ class UsersListView(ListView):
 class MyBlogsListView(LoginRequiredMixin, ListView):
     model = Blog
     template_name = "blogs/my-blogs.html"
-    paginate_by = 10
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -198,7 +225,7 @@ class MyBlogsListView(LoginRequiredMixin, ListView):
         context["my_blogs"] = my_blogs
 
         page_num = self.request.GET.get("page", 1)
-        paginator = Paginator(my_blogs, 2)
+        paginator = Paginator(my_blogs, 10)
         try:
             my_blogs = paginator.page(page_num)
         except PageNotAnInteger:
@@ -248,6 +275,18 @@ class BlogBookmarks(LoginRequiredMixin, ListView):
     template_name = "blogs/bookmarks.html"
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["bookmarks"] = Blog.objects.filter(bookmarks=self.request.user)
+        bookmarks = Blog.objects.filter(bookmarks=self.request.user)
+        
+        page_num = self.request.GET.get("page", 1)
+        paginator = Paginator(bookmarks, 10)
+        try:
+            bookmarks = paginator.page(page_num)
+        except PageNotAnInteger:
+            bookmarks = paginator.page(1)
+        except EmptyPage:
+            bookmarks = paginator.page(paginator.num_pages)
+        context = {
+            "bookmarks": bookmarks,
+        }
         return context
     

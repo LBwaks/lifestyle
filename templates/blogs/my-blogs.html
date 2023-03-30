@@ -77,26 +77,21 @@ bloglist START -->
 
 </div>
 </div>
-{% comment %} <!--<ul class="nav nav-divider align-items-center d-none d-sm-inline-block">
-                                        <li class="nav-item">
-                                            <div class="nav-link">
-                                                <div class="d-flex align-items-center position-relative">
-                                                    <div class="avatar avatar-xs">
-                                                        <img class="avatar-img rounded-circle" src="{{blog.user.user_profile.profile_url}}" alt="avatar">
-                                                    </div>
-                                                    <span class="ms-3">by <a href="{% url 'user-blog' blog.user.username %}" class="stretched-link text-reset btn-link">{{blog.user}}</a></span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-eye"></i>: {% get_hit_count for blog %} </li>
-                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-clock"></i> :{{blog.created | naturalday}}</li>
-                                        <li class="nav-item"><i class="fa-sharp fa-regular fa-heart"></i>: {{blog.likes}}</li>
-                                        <li class="nav-item">55,minutes read </li> -->
-                                    </ul> {% endcomment %}
+
 </div>
 {% empty %}
-no blog
- <!-- Card item END -->
+
+
+<div class="single-news custom-shadow-hover wow fadeInUp" data-wow-delay=".4s">
+
+<div class="content-body">
+               
+<p>No Blogs Found ! </p>
+
+</div>
+</div>
+
+
                        {% endfor %}
                        
 </div>
@@ -107,37 +102,37 @@ bloglist end -->
 pagination start-->
 <div class="pagination center">
 <ul class="pagination-list">
-     {% if page_obj.has_previous %}
+     {% if my_blogs.has_previous %}
 
-<li><a href="?page={{ page_obj.previous_page_number }}"><i class="lni lni-chevron-left"></i></a></li>
+<li><a href="?page={{ my_blogs.previous_page_number }}"><i class="lni lni-chevron-left"></i></a></li>
 
- {% if page_obj.number > 3 %}
+ {% if my_blogs.number > 3 %}
     <a href="?page=1">1</a>
-    {% if page_obj.number > 4 %}
+    {% if my_blogs.number > 4 %}
       <span>...</span>
     {% endif %}
   {% endif %}
 {% endif %}
 
-{% for num in page_obj.paginator.page_range %}
-  {% if page_obj.number == num %}
+{% for num in my_blogs.paginator.page_range %}
+  {% if my_blogs.number == num %}
 
 <li class="active"><a href="?page={{ num }}">{{ num }}</a></li>
-{% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+{% elif num > my_blogs.number|add:'-3' and num < my_blogs.number|add:'3' %}
 
 <li><a href="?page={{ num }}">{{ num }}</a></li>
 {% endif %}
 {% endfor %}
 
-{% if page_obj.has_next %}
-  {% if page_obj.number < page_obj.paginator.num_pages|add:'-3' %}
+{% if my_blogs.has_next %}
+  {% if my_blogs.number < my_blogs.paginator.num_pages|add:'-3' %}
     <span>...</span>
-    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
-  {% elif page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
-    <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+    <a href="?page={{ my_blogs.paginator.num_pages }}">{{ my_blogs.paginator.num_pages }}</a>
+  {% elif my_blogs.number < my_blogs.paginator.num_pages|add:'-2' %}
+    <a href="?page={{ my_blogs.paginator.num_pages }}">{{ my_blogs.paginator.num_pages }}</a>
   {% endif %}
 
-<li><a href="?page={{ page_obj.next_page_number }}"><i class="lni lni-chevron-right"></i></a></li>
+<li><a href="?page={{ my_blogs.next_page_number }}"><i class="lni lni-chevron-right"></i></a></li>
 {% endif %}
 </ul>
 </div>
@@ -183,9 +178,9 @@ bloglist end -->
 </div>
 
 {% empty %}
-<div class="single-popular-feed">
+
 <p>No Recent Posted Blogs</p>
-</div>
+
 {% endfor %} 
 
 
