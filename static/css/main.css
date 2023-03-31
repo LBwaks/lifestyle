@@ -5281,7 +5281,7 @@ ul.custom-flex {
 }
 
 .post-comments .comments-list li {
-  padding-left: 80px;
+  padding-left: 60px;
   position: relative;
   font-size: 14px;
 }
@@ -5300,14 +5300,14 @@ ul.custom-flex {
 }
 
 .post-comments .comments-list li .comment-desc .desc-top {
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   position: relative;
   display: block;
 }
 
 .post-comments .comments-list li .comment-desc .desc-top h6 {
   font-size: 17px;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   font-weight: 500;
 }
 
@@ -5348,12 +5348,12 @@ ul.custom-flex {
 }
 
 .post-comments .comments-list li.children {
-  margin-left: 100px;
+  margin-left: 90px;
 }
 
 .post-comments .comments-list li:not(:first-child) {
-  padding-top: 10px;
-  margin-top: 10px;
+  padding-top: 5px;
+  margin-top: 5px;
   border-top: 1px dashed #eee;
 }
 

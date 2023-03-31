@@ -16,7 +16,7 @@ from pathlib import Path
 from decouple import config
 from django.conf import settings
 from django.contrib.messages import constants as messages
-
+from logtail import LogtailHandler
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -311,11 +311,39 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "simple",
         },
-        # 'logtail': {
-        #     'class': 'logtail.LogtailHandler',
-        #     'formatter': 'verbose',
-        #     'source_token': config('LOGTAIL_SOURCE_TOKEN')
-        # },
+        'logtail': {
+            'class': 'logtail.LogtailHandler',
+            'formatter': 'verbose',
+            'source_token': config('LOGTAIL_SOURCE_TOKEN')
+        },
+        
+        "warning_handler": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": f"{BASE_DIR}/logs/blog_warning.log",
+            "mode": "a",
+            "formatter": "verbose",
+            "level": "WARNING",
+            "backupCount": 5,
+            "maxBytes": 1024 * 1024 * 5,  # 5 MB
+        },
+        "error_handler": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": f"{BASE_DIR}/logs/blog_error.log",
+            "mode": "a",
+            "formatter": "verbose",
+            "level": "ERROR",
+            "backupCount": 5,
+            "maxBytes": 1024 * 1024 * 5,  # 5 MB
+        },
+        "critical_handler": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": f"{BASE_DIR}/logs/blog_critical.log",
+            "mode": "a",
+            "formatter": "verbose",
+            "level": "CRITICAL",
+            "backupCount": 5,
+            "maxBytes": 1024 * 1024 * 5,  # 5 MB
+        },
         "info_handle": {
             "class": "logging.handlers.RotatingFileHandler",
             "filename": f"{BASE_DIR}/logs/blog_info.log",
@@ -326,35 +354,27 @@ LOGGING = {
             "backupCount": 5,
             "maxBytes": 1024 * 1024 * 5,
         },
-        "error_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": f"{BASE_DIR}/logs/blog_error.log",
-            "mode": "a",
-            "formatter": "verbose",
-            "level": "WARNING",
-            "backupCount": 5,
-            "maxBytes": 1024 * 1024 * 5,  # 5 MB
-        },
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "info_handler"],
+            "handlers": ["console","error_handler",'critical_handler','warning_handler','logtail'],
             "level": "INFO",
+            "propagate":True,
         },
         "django.request": {
-            "handlers": ["error_handler"],
+            "handlers": ["error_handler",'critical_handler','warning_handler'],
             "level": "INFO",
             "propagate": True,
         },
         "django.template": {
-            "handlers": ["error_handler"],
+            "handlers": ["error_handler",'critical_handler','warning_handler'],
             "level": "DEBUG",
             "propagate": True,
         },
         "django.server": {
-            "handlers": ["error_handler"],
+            "handlers": ["error_handler",'critical_handler','warning_handler'],
             "level": "INFO",
             "propagate": True,
-        },
-    },
+        }
+    }
 }
