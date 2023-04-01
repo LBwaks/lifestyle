@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib.postgres.search import (
     SearchHeadline,
@@ -54,6 +55,15 @@ class BlogDetailView(HitCountDetailView):
         blog = get_object_or_404(Blog, slug=self.kwargs.get("slug"))
         similar_blogs = blog.tags.similar_objects()[:5]
 
+        
+        # likes
+        blog_to_like = get_object_or_404(Blog,slug=self.kwargs['slug'])
+        total_likes = blog_to_like.total_likes()
+        liked= False
+        if blog_to_like.likes.filter(id =self.request.user.id).exists():
+            liked =True
+        context['total_likes']=total_likes
+        context['liked']=liked
         # similar_blogs = random.choice(similar_blogs)
         context["similar_blogs"] = similar_blogs
         popular_blogs = Blog.objects.order_by("-hit_count_generic__hits")[:5]
@@ -289,4 +299,15 @@ class BlogBookmarks(LoginRequiredMixin, ListView):
             "bookmarks": bookmarks,
         }
         return context
+
+def likeView(request,slug):
+    blog= get_object_or_404(Blog,slug=request.POST.get('blog_slug'))
+    liked = False
+    if blog.likes.filter(id = request.user.id).exists():
+        blog.likes.remove(request.user)
+        liked=False
+    else :
+        blog.likes.add(request.user)
+        liked =True
+    return  HttpResponseRedirect(reverse('blog-detail',args=[str(slug)]))
     

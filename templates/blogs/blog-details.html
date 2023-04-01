@@ -74,12 +74,48 @@ been the industry's standard dummy text</p>
 {% get_hit_count for blog %} 
 </a>
 </li>
-<li>
-<a >
-<i class="lni lni-heart"></i>
-{{blog.likes}} likes
+
+{% if user.is_authenticated %}
+
+<form action="{% url 'like' blog.slug %}" method ='POST'>
+  {% csrf_token %}
+
+  {% if liked %}
+  <li>
+
+<a ><button name="blog_slug" value={{blog.slug}} type="submit"><i class="lni lni-heart"></i></button> {{blog.total_likes}} 
 </a>
 </li>
+  {% else %}
+  <li>
+
+<a > <button name="blog_slug" value={{blog.slug}}  type="submit"><i class="lni lni-heart"></i></button> {{blog.total_likes}} 
+</a>
+</li>
+  {% endif %}
+
+</form>
+{% comment %} {% else %} {% endcomment %}
+
+
+{% endif %}
+
+
+
+<li id="likesarea">
+  likes: {{blog.total_likes}}
+<a>
+<button  hx-post="{% url 'like' blog.slug %}" hx-target="#likesarea" hx-swap="outerHTML">
+{% if liked %}
+unlike
+{% else %}
+like
+{% endif %}
+</button>
+</a>
+</li>
+
+
 <li>
 <a>
 {{blog.get_read_time}} Mins read
@@ -379,3 +415,19 @@ function replyForm(id) {
 </script>
 
 {% endblock content %}
+
+<div class="list-group list-group-horizontal btn-group" id="likesarea" role="group">
+    <p>{{ post.likes.count }} likes
+    
+        <button hx-post="{% url 'posts:like_post' post.id %}" id="like-button" hx-target="#likesarea" hx-swap="outerHTML">
+
+          {% if request.user in post.likes.all %}
+            <i class="material-icons" style="font-size:16px;color:green;">check_box</i>
+          {% else %}
+          <i class="material-icons" style="font-size:16px;color:yellowgreen;">check_box_outline_blank</i>
+          {% endif %}
+        </button>
+
+    </p> 
+    
+</div>

@@ -109,6 +109,7 @@ class Blog(models.Model, HitCountMixin):
     publishedBlogs = BlogManager()
     # search_vector = SearchVectorField(null=True)
     bookmarks = models.ManyToManyField(User, related_name='bookmarks', default=None, blank=True)
+    likes= models.ManyToManyField(User, related_name='likes', blank=True)
     is_published = models.BooleanField(_("Is Published"), default=True)
     is_featured = models.BooleanField(_("Is Featured"), default=False)
     updated = models.DateTimeField(_("Updated"), auto_now=True, auto_now_add=False)
@@ -123,7 +124,9 @@ class Blog(models.Model, HitCountMixin):
         # indexes =[
         #      GinIndex(name='NewGinIndex',fields=['title','content',],opclasses=['gin_trgm_ops','gin_trgm_ops'])
         # ]
-
+    def total_likes(self):
+        return self.likes.count()
+    
     def __str__(self):
         """Unicode representation of Blog."""
         return self.title
