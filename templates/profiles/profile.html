@@ -31,7 +31,7 @@ been the industry's standard dummy text</p>
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class=image>
-<img src="{{profile.profile_url}}" alt="..." height="300" width="300">
+<img src="{{profile.profile_url}}" alt="..."  class="rounded-circle" height="300" width="300">
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">
@@ -45,7 +45,11 @@ been the industry's standard dummy text</p>
 <p class=des>{{profile.bio}}</p>
 <ul class=personal-info>
     
-   
+<li><span>Contributions: </span> 
+     <span class="badge rounded-pill bg-danger">{{contributions}}</span>
+     Blogs
+
+ </li>
 <li><span>Phone : </span> 
      {% if  profile.tell %}
     {{profile.tell}}
@@ -66,7 +70,7 @@ been the industry's standard dummy text</p>
 
 
 
-<li><span>Website : </span>{% if profile.website %} <a href="{{profile.website}}">{{profile.website}}</a> {% endif %}</li>
+<li><span>Website : </span>{% if profile.website %} <a target="_blank" href="{{profile.website}}">{{profile.website}}</a> {% endif %}</li>
 
 
 
@@ -77,19 +81,19 @@ been the industry's standard dummy text</p>
 <ul class=social>
 
     {% if profile.facebook %}
-<li><a href="{{profile.facebook}}"><i class="lni lni-facebook-original"></i></a> </li>{% endif %} 
+<li><a target="_blank" href="{{profile.facebook}}"><i class="lni lni-facebook-original"></i></a> </li>{% endif %} 
 
 
 {% if profile.twitter %}
-<li><a href="{{profile.twitter}}"><i class="lni lni-twitter-original"></i></a> </li>{% endif %} 
+<li><a target="_blank" href="{{profile.twitter}}"><i class="lni lni-twitter-original"></i></a> </li>{% endif %} 
 
 
 {% if  profile.instagram %}
-<li><a href="{{profile.instagram }}"><i class="lni lni-behance-original"></i></a> </li>{% endif %} 
+<li><a target="_blank" href="{{profile.instagram }}"><i class="lni lni-behance-original"></i></a> </li>{% endif %} 
 
 
 {% if profile.website  %}
-<li><a href="{{profile.website}}"><i class="lni lni-instagram"></i></a> </li>{% endif %} 
+<li><a target="_blank" href="{{profile.website}}"><i class="lni lni-instagram"></i></a> </li>{% endif %} 
 
 </ul>
 <ul class="mt-2">

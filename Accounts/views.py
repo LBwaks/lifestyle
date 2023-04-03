@@ -4,6 +4,7 @@ from django.views.generic import TemplateView, UpdateView
 from .forms import UpdateProfileForm
 from .models import Profile
 from Pages.models import Team
+from Blog.models import Blog
 
 # Create your views here.
 
@@ -13,7 +14,11 @@ class UserProfileView(TemplateView):
 
     def get_context_data(self, slug, **kwargs):
         context = super(UserProfileView, self).get_context_data(**kwargs)
-        context["profile"] = get_object_or_404(Profile, slug=slug)
+        profile = get_object_or_404(Profile, slug=slug)
+        contributions = Blog.objects.filter(user = self.request.user).count()
+        context["profile"] = profile
+        context['contributions']= contributions
+        print("this user contributions are:",contributions)
         return context
     
 # class TeamProfileView(TemplateView):
