@@ -31,7 +31,7 @@ been the industry's standard dummy text</p>
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class=image>
-<img src="{{profile.profile_url}}" alt="...">
+<img src="{{profile.profile_url}}" alt="..." height="300" width="300">
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">
@@ -45,46 +45,52 @@ been the industry's standard dummy text</p>
 <p class=des>{{profile.bio}}</p>
 <ul class=personal-info>
     
-    {% if  profile.tell %}
-<li><span>Phone : </span> {{profile.tell}}</li>
-{% endif %}
+   
+<li><span>Phone : </span> 
+     {% if  profile.tell %}
+    {{profile.tell}}
+
+ {% endif %}</li>
+
 <li><span>Email : </span> <a href=""><span class="__cf_email__" data-cfemail="ea8985849e8b899eaa93859f98878b8386c4898587">{{user.email}}</span></a>
 </li>
 
-{% if profile.gender %}
-<li><span>Gender : </span> {{profile.gender}}</li>
-{% endif %}
 
-{% if profile.dob %}
-<li><span>Date Of Birth : </span> {{profile.dob}}</li>
-{% endif %}
+<li><span>Gender : </span>
+    {% if profile.gender %}
+     {{profile.gender}} {% endif %}</li>
 
-{% if profile.website %}
-<li><span>Website : </span> <a href="{{profile.website}}">{{profile.website}}</a></li>
-{% endif %}
 
-{% if profile.location %}
-<li><span>Address : </span> {{profile.location}}</li>
-{% endif %}
+
+<li><span>Date Of Birth : </span> {% if profile.dob %} {{profile.dob}} {% endif %}</li>
+
+
+
+<li><span>Website : </span>{% if profile.website %} <a href="{{profile.website}}">{{profile.website}}</a> {% endif %}</li>
+
+
+
+<li><span>Address : </span>{% if profile.location %} {{profile.location}} {% endif %}</li>
+
 </ul>
 
 <ul class=social>
 
     {% if profile.facebook %}
-<li><a href="{{profile.facebook}}"><i class="lni lni-facebook-original"></i></a></li>
-{% endif %}
+<li><a href="{{profile.facebook}}"><i class="lni lni-facebook-original"></i></a> </li>{% endif %} 
+
 
 {% if profile.twitter %}
-<li><a href="{{profile.twitter}}"><i class="lni lni-twitter-original"></i></a></li>
-{% endif %}
+<li><a href="{{profile.twitter}}"><i class="lni lni-twitter-original"></i></a> </li>{% endif %} 
+
 
 {% if  profile.instagram %}
-<li><a href="{{profile.instagram }}"><i class="lni lni-behance-original"></i></a></li>
-{% endif %}
+<li><a href="{{profile.instagram }}"><i class="lni lni-behance-original"></i></a> </li>{% endif %} 
+
 
 {% if profile.website  %}
-<li><a href="{{profile.website}}"><i class="lni lni-instagram"></i></a></li>
-{% endif %}
+<li><a href="{{profile.website}}"><i class="lni lni-instagram"></i></a> </li>{% endif %} 
+
 </ul>
 <ul class="mt-2">
  <li> <a href="{% url 'update-profile' profile.slug %}" class="btn btn-outline-info">Change Profile</a> <br></li>

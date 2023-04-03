@@ -22,6 +22,7 @@ urlpatterns = [
     path("my-blogs/", MyBlogsListView.as_view(), name="my-blogs"),
     path("search/", SearchListView.as_view(), name="search"),
     path("<slug>/", BlogDetailView.as_view(), name="blog-detail"),
+    path('like/<slug>',likeView,name='like'),
     path(
         "add-blog",
         BlogCreateView.as_view(),
@@ -35,6 +36,6 @@ urlpatterns = [
     path('categories/<name>',CategoryListView.as_view(),name='categories'),
     path('bookmark/<slug>',add_bookmark,name='bookmark'),
     path('bookmarks',BlogBookmarks.as_view(),name='bookmarks'),
-    path('like/<slug>',likeView,name='like'),
+    
    
 ]

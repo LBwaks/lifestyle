@@ -7,7 +7,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from PIL import Image
-
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from Blog.validators import validate_file_size
 
 # Create your models here.
@@ -18,14 +19,14 @@ my_gender = [
 ]
 
 # compress profile image
-def compress(profile):
-    im = Image.open(profile)
-    im_io = BytesIO()
-    im = im.resize((150, 150), Image.ANTIALIAS)
-    im.save(im_io, "JPEG", quality=70)
-    # im_io.seek(0)
-    new_image = File(im_io, name=profile.name)
-    return new_image
+# def compress(profile):
+#     im = Image.open(profile)
+#     im_io = BytesIO()
+#     im = im.resize((150, 150), Image.ANTIALIAS)
+#     im.save(im_io, "JPEG", quality=70)
+#     # im_io.seek(0)
+#     new_image = File(im_io, name=profile.name)
+#     return new_image
 
 
 class Profile(models.Model):
@@ -35,13 +36,13 @@ class Profile(models.Model):
     user = models.OneToOneField(
         User, related_name="user_profile", on_delete=models.CASCADE
     )
-    firstname = models.CharField(_("Firstname"), max_length=50)
-    lastname = models.CharField(_("Lastname"), max_length=50)
+    firstname = models.CharField(_("Firstname"), max_length=50,)
+    lastname = models.CharField(_("Lastname"), max_length=50,)
     slug = models.UUIDField(default=uuid.uuid4, editable=False)
     tell = models.CharField(_("Phone Number"), max_length=50, null=True, blank=True)
-    gender = models.CharField(_("Gender"), choices=my_gender, max_length=50)
-    dob = models.DateTimeField(_("Date Of Birth"), auto_now=False, auto_now_add=False)
-    location = models.CharField(_("Location"), max_length=50, null=True, blank=True)
+    gender = models.CharField(_("Gender"), choices=my_gender, max_length=50,)
+    dob = models.DateTimeField(_("Date Of Birth"), auto_now=False, auto_now_add=False,null=True, blank=True)
+    location = models.CharField(_("Location"), max_length=50,)
     bio = models.TextField(_("Bio"))
     profile = models.ImageField(
         _("Profile Picture"),
@@ -51,6 +52,7 @@ class Profile(models.Model):
         # max_length=100,
         null=True,
         blank=True,
+        default="default_profile.png",
         validators=[validate_file_size],
     )
     twitter = models.URLField(
@@ -89,11 +91,17 @@ class Profile(models.Model):
         """Unicode representation of Profile."""
         return str(self.firstname) + " " + str(self.lastname)
 
-    # def save(self, *args, **kwargs):
-    #     """Save method for Profile."""
-    #     new_profile = compress(self.profile)
-    #     self.profile = new_profile
-    #     super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+    # #     """Save method for Profile."""
+    # #     new_profile = compress(self.profile)
+    # #     self.profile = new_profile
+        super().save(*args, **kwargs)
+        img = Image.open(self.profile.path)
+        
+        if  img.height > 300 or img.width >300:
+            output_size =(300,300)
+            img.thumbnail(output_size)
+            img.save(self.profile.path)
 
     def get_absolute_url(self):
         """Return absolute url for Profile."""
@@ -105,3 +113,11 @@ class Profile(models.Model):
             return self.profile.url
 
     # TODO: Define custom methods here
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+        
+@receiver(post_save,sender =User)
+def save_profile(sender,instance ,**kwargs):
+    instance.user_profile.save()

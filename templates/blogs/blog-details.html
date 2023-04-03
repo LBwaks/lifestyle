@@ -284,10 +284,10 @@ like
 
 </ul>
 </div>
-<div class="comment-form">
+<div class="comment-form"  hx-target="this" hx-swap="none">
 <h3 class="comment-reply-title">Leave a comment</h3>
 
-<form action="" method="POST">
+<form  method="POST" hx-post=".">
    {% csrf_token %}
 <div class="row">
 

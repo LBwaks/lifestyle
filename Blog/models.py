@@ -33,7 +33,7 @@ class Category(models.Model):
         on_delete=models.CASCADE,
     )
     name = models.CharField(max_length=50, unique=True)
-    slug = AutoSlugField(populate_from="name", slugify_function=my_slugify_function)
+    slug = AutoSlugField(populate_from="name")
     description = models.TextField(max_length=250)
     is_published = models.BooleanField(default=True)
     objects = models.Manager()
@@ -46,6 +46,8 @@ class Category(models.Model):
 
         verbose_name = "Category"
         verbose_name_plural = "Categories"
+    def my_slugify_function(self,content):
+        return content.replace("_", "-").lower()
 
     def __str__(self):
         """Unicode representation of Category."""
@@ -82,7 +84,7 @@ class Blog(models.Model, HitCountMixin):
         User, verbose_name=_("blog_author"), on_delete=models.CASCADE
     )
     title = models.CharField(_("Title"), max_length=50)
-    slug = AutoSlugField(populate_from="title", slugify_function=my_slugify_function)
+    slug = AutoSlugField(populate_from='title')
     content = RichTextUploadingField(_("Content"))
     category = models.ForeignKey(
         "Category", verbose_name=_("blog_category"), on_delete=models.CASCADE
@@ -124,6 +126,9 @@ class Blog(models.Model, HitCountMixin):
         # indexes =[
         #      GinIndex(name='NewGinIndex',fields=['title','content',],opclasses=['gin_trgm_ops','gin_trgm_ops'])
         # ]
+    def my_slugify_function(self,content):
+        return content.replace("_", "-").lower()
+    
     def total_likes(self):
         return self.likes.count()
     
