@@ -60,7 +60,9 @@ bloglist START -->
 
 <div class="single-news custom-shadow-hover wow fadeInUp" data-wow-delay=".4s">
 <div class="image">
+  {% if  blog.photo_url %}
 <img class="thumb" src="{{blog.photo_url}}" alt="..." height="200" width="auto">
+{% endif %}
 </div>
 <div class="content-body">
                 {% for tag in blog.tags.all %}

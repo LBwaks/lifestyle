@@ -20,7 +20,7 @@ urlpatterns = [
      
     path("", BlogListView.as_view(), name="blogs"),
     path("my-blogs/", MyBlogsListView.as_view(), name="my-blogs"),
-    path("search/", SearchListView.as_view(), name="search"),
+    path("search/", SearchListView, name="search"),
     path("<slug>/", BlogDetailView.as_view(), name="blog-detail"),
     path('like/<slug>',likeView,name='like'),
     path(

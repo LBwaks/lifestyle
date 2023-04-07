@@ -1,22 +1,20 @@
 import random
 
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages
-from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.postgres.search import (
     SearchHeadline,
     SearchQuery,
     SearchRank,
     SearchVector,
 )
-from django.contrib import messages
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -55,15 +53,14 @@ class BlogDetailView(HitCountDetailView):
         blog = get_object_or_404(Blog, slug=self.kwargs.get("slug"))
         similar_blogs = blog.tags.similar_objects()[:5]
 
-        
         # likes
-        blog_to_like = get_object_or_404(Blog,slug=self.kwargs['slug'])
+        blog_to_like = get_object_or_404(Blog, slug=self.kwargs["slug"])
         total_likes = blog_to_like.total_likes()
-        liked= False
-        if blog_to_like.likes.filter(id =self.request.user.id).exists():
-            liked =True
-        context['total_likes']=total_likes
-        context['liked']=liked
+        liked = False
+        if blog_to_like.likes.filter(id=self.request.user.id).exists():
+            liked = True
+        context["total_likes"] = total_likes
+        context["liked"] = liked
         # similar_blogs = random.choice(similar_blogs)
         context["similar_blogs"] = similar_blogs
         popular_blogs = Blog.objects.order_by("-hit_count_generic__hits")[:5]
@@ -75,7 +72,7 @@ class BlogDetailView(HitCountDetailView):
         bookmarked = bool
         if blog.bookmarks.filter(id=self.request.user.id).exists():
             bookmarked = True
-        context['bookmarked']= bookmarked
+        context["bookmarked"] = bookmarked
 
         return context
 
@@ -101,7 +98,7 @@ class BlogDetailView(HitCountDetailView):
             return redirect(self.request.path_info)
 
 
-class BlogCreateView(LoginRequiredMixin, SuccessMessageMixin,CreateView):
+class BlogCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Blog
     template_name = "blogs/add-blog.html"
     form_class = BlogForm
@@ -114,7 +111,7 @@ class BlogCreateView(LoginRequiredMixin, SuccessMessageMixin,CreateView):
         return super(BlogCreateView, self).form_valid(form)
 
 
-class BlogUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
+class BlogUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Blog
     template_name = "blogs/edit-blog.html"
     form_class = EditBlogForm
@@ -127,7 +124,7 @@ class BlogUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
         return super(BlogUpdateView, self).form_valid(form)
 
 
-class BlogDeleteView(LoginRequiredMixin,SuccessMessageMixin, DeleteView):
+class BlogDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = Blog
     # template_name = "TEMPLATE_NAME"
     success_url = reverse_lazy("blogs")
@@ -152,13 +149,12 @@ def DeleteBlog(request, slug):
 class BlogTagsListView(ListView):
     model = Blog
     template_name = "blogs/tag-blogs.html"
-    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tag = get_object_or_404(Tag, name=self.kwargs.get("name"))
         blogs = Blog.objects.filter(tags=tag)
-        
+
         page_num = self.request.GET.get("page", 1)
         paginator = Paginator(blogs, 6)
         try:
@@ -186,7 +182,7 @@ class CategoryListView(ListView):
             "-hit_count_generic__hits"
         )[:5]
         context["category_most_viewed"] = category_most_viewed
-        
+
         page_num = self.request.GET.get("page", 1)
         paginator = Paginator(blogs, 6)
         try:
@@ -227,7 +223,6 @@ class UsersListView(ListView):
 class MyBlogsListView(LoginRequiredMixin, ListView):
     model = Blog
     template_name = "blogs/my-blogs.html"
-    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -248,12 +243,14 @@ class MyBlogsListView(LoginRequiredMixin, ListView):
         return context
 
 
-class SearchListView(ListView):
-    model = Blog
-    template_name = "pages/search.html"
+def SearchListView(request):
+    # model = Blog
+    # template_name = "pages/search.html"
+    results =[]
+    if request.method == "GET":
 
-    def get_queryset(self):
-        query = self.request.GET.get("q")
+        # def get_queryset(self):
+        query = request.GET.get("q")
         search_vector = (
             SearchVector("title", weight="A")
             + SearchVector("content", weight="B")
@@ -261,7 +258,7 @@ class SearchListView(ListView):
         )
         search_query = SearchQuery(query)
         search_headline = SearchHeadline("title", search_query)
-        return (
+        results = (
             Blog.objects.annotate(
                 search=search_vector, rank=SearchRank(search_vector, search_query)
             )
@@ -269,24 +266,39 @@ class SearchListView(ListView):
             .filter(rank__gte=0.3)
             .order_by("-rank")
         )
-@ login_required
-def add_bookmark(request,slug):
+        results_count = results.count()
+
+        page = request.GET.get("page", 1)
+        paginator = Paginator(results, 3)
+        try:
+            results = paginator.page(page)
+        except PageNotAnInteger:
+            results = paginator.page(1)
+        except EmptyPage:
+            results = paginator.page(paginator.num_pages)
+
+    return render(request, "pages/search.html", {"results": results, 'query':query,'results_count':results_count})
+
+
+@login_required
+def add_bookmark(request, slug):
     blog = get_object_or_404(Blog, slug=slug)
     if blog.bookmarks.filter(id=request.user.id).exists():
         blog.bookmarks.remove(request.user)
-    else :
+    else:
         blog.bookmarks.add(request.user)
-        messages.success(request,'Blog Bookmarked !')
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
-        
+        messages.success(request, "Blog Bookmarked !")
+    return HttpResponseRedirect(request.META["HTTP_REFERER"])
+
 
 class BlogBookmarks(LoginRequiredMixin, ListView):
     model = Blog
     template_name = "blogs/bookmarks.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         bookmarks = Blog.objects.filter(bookmarks=self.request.user)
-        
+
         page_num = self.request.GET.get("page", 1)
         paginator = Paginator(bookmarks, 10)
         try:
@@ -300,14 +312,14 @@ class BlogBookmarks(LoginRequiredMixin, ListView):
         }
         return context
 
-def likeView(request,slug):
-    blog= get_object_or_404(Blog,slug=request.POST.get('blog_slug'))
+
+def likeView(request, slug):
+    blog = get_object_or_404(Blog, slug=request.POST.get("blog_slug"))
     liked = False
-    if blog.likes.filter(id = request.user.id).exists():
+    if blog.likes.filter(id=request.user.id).exists():
         blog.likes.remove(request.user)
-        liked=False
-    else :
+        liked = False
+    else:
         blog.likes.add(request.user)
-        liked =True
-    return  HttpResponseRedirect(reverse('blog-detail',args=[str(slug)]))
-    
+        liked = True
+    return HttpResponseRedirect(reverse("blog-detail", args=[str(slug)]))
