@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Add kazi {% endblock title %}
+{% block title %} Blog Edit {% endblock title %}
 {% load crispy_forms_tags %}
 {% load static %}
 {% block content %}
@@ -10,14 +10,14 @@
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class="breadcrumbs-content">
-<h1 class="page-title">Add Blog</h1>
+<h1 class="page-title">Edit Blog</h1>
 
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">
 <ul class="breadcrumb-nav">
-<li><a href="index.html">Home</a></li>
-<li>Add Blog</li>
+<li><a href="{% url 'home' %}">Home</a></li>
+<li>Edit Blog</li>
 </ul>
 </div>
 </div>

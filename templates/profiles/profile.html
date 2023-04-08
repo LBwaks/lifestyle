@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Blog Detail{% endblock title %}
+{% block title %}Profile{% endblock title %}
 {% comment %} {% load 'static' %} {% endcomment %}
 {% comment %} {% load hitcount_tags %} {% endcomment %}
 {% load crispy_forms_tags %}
@@ -10,15 +10,14 @@
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class=breadcrumbs-content>
-<h1 class=page-title>Team Details</h1>
-<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-been the industry's standard dummy text</p>
+<h1 class=page-title>Profile</h1>
+
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">
 <ul class=breadcrumb-nav>
-<li><a href=index.html>Home</a></li>
-<li>Team Details</li>
+<li><a href="{% url 'home' %}">Home</a></li>
+<li>Profile</li>
 </ul>
 </div>
 </div>
@@ -31,7 +30,7 @@ been the industry's standard dummy text</p>
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class=image>
-<img src="{{profile.profile_url}}" alt="..."  class="rounded-circle" height="300" width="300">
+<img src="{{profile.profile_url}}" alt="..."  class="rounded-circle" height="200" width="200">
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">

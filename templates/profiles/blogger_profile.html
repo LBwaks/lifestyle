@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Blog Detail{% endblock title %}
+{% block title %}Author's Profile{% endblock title %}
 {% comment %} {% load 'static' %} {% endcomment %}
 {% comment %} {% load hitcount_tags %} {% endcomment %}
 {% load crispy_forms_tags %}
@@ -10,15 +10,14 @@
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class=breadcrumbs-content>
-<h1 class=page-title>Team Details</h1>
-<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-been the industry's standard dummy text</p>
+<h1 class=page-title>Author's Profile</h1>
+
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">
 <ul class=breadcrumb-nav>
-<li><a href=index.html>Home</a></li>
-<li>Team Details</li>
+<li><a href="{% url 'home' %}">Home</a></li>
+<li>Author's Profile</li>
 </ul>
 </div>
 </div>
@@ -31,7 +30,7 @@ been the industry's standard dummy text</p>
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class=image>
-<img src="{{profile.profile_url}}" alt="...">
+<img src="{{profile.profile_url}}" alt="..." class="rounded-circle" height="200" width="200">
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">
@@ -40,23 +39,61 @@ been the industry's standard dummy text</p>
 
 
 
-<span class=position>Founder</span>
+
 <h3 class=name>{{profile.firstname}} {{profile.lastname}}</h3>
 <p class=des>{{profile.bio}}</p>
 <ul class=personal-info>
-<li><span>Phone : </span> {{profile.tell}}</li>
+    
+<li><span>Contributions: </span> 
+     <span class="badge rounded-pill bg-danger">{{contributions}}</span>
+     Blogs
+
+ </li>
+<li><span>Phone : </span> 
+     {% if  profile.tell %}
+    {{profile.tell}}
+
+ {% endif %}</li>
+
 <li><span>Email : </span> <a href=""><span class="__cf_email__" data-cfemail="ea8985849e8b899eaa93859f98878b8386c4898587">{{user.email}}</span></a>
 </li>
-<li><span>Gender : </span> {{profile.gender}}</li>
-<li><span>Date Of Birth : </span> {{profile.dob}}</li>
-<li><span>Website : </span> <a href="{{profile.website}}">{{profile.website}}</a></li>
-<li><span>Address : </span> {{profile.location}}</li>
+
+
+<li><span>Gender : </span>
+    {% if profile.gender %}
+     {{profile.gender}} {% endif %}</li>
+
+
+
+<li><span>Date Of Birth : </span> {% if profile.dob %} {{profile.dob}} {% endif %}</li>
+
+
+
+<li><span>Website : </span>{% if profile.website %} <a target="_blank" href="{{profile.website}}">{{profile.website}}</a> {% endif %}</li>
+
+
+
+<li><span>Address : </span>{% if profile.location %} {{profile.location}} {% endif %}</li>
+
 </ul>
+
 <ul class=social>
-<li><a href="{{profile.facebook}}"><i class="lni lni-facebook-original"></i></a></li>
-<li><a href="{{profile.twitter}}"><i class="lni lni-twitter-original"></i></a></li>
-<li><a href="{{profile.instagram }}"><i class="lni lni-behance-original"></i></a></li>
-<li><a href="{{profile.website}}"><i class="lni lni-instag"></i></a></li>
+
+    {% if profile.facebook %}
+<li><a target="_blank" href="{{profile.facebook}}"><i class="lni lni-facebook-original"></i></a> </li>{% endif %} 
+
+
+{% if profile.twitter %}
+<li><a target="_blank" href="{{profile.twitter}}"><i class="lni lni-twitter-original"></i></a> </li>{% endif %} 
+
+
+{% if  profile.instagram %}
+<li><a target="_blank" href="{{profile.instagram }}"><i class="lni lni-behance-original"></i></a> </li>{% endif %} 
+
+
+{% if profile.website  %}
+<li><a target="_blank" href="{{profile.website}}"><i class="lni lni-instagram"></i></a> </li>{% endif %} 
+
 </ul>
 
 

@@ -5,6 +5,7 @@ from .forms import UpdateProfileForm
 from .models import Profile
 from Pages.models import Team
 from Blog.models import Blog
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -28,12 +29,13 @@ class UserProfileView(TemplateView):
 #         context["profile"] = get_object_or_404(Team, slug=slug)
 #         return context
 class BloggerDetailView(TemplateView):
-    model = Team
+    model = User
     template_name = "profiles/blogger_profile.html"
-    # def get_context_data(self, slug, **kwargs):
-    #     context = super(BloggerDetailView, self).get_context_data(**kwargs)
-    #     context["profile"] = get_object_or_404(Team, slug=slug)
-    #     return context
+    def get_context_data(self, username, **kwargs):
+        context = super(BloggerDetailView, self).get_context_data(**kwargs)
+        user_profile = get_object_or_404(User, username=username)
+        context["profile"] = get_object_or_404(Profile, user=user_profile.id)
+        return context
 
 
 class ProfileUpdateView(UpdateView):

@@ -83,7 +83,7 @@ class Blog(models.Model, HitCountMixin):
     user = models.ForeignKey(
         User, verbose_name=_("blog_author"), on_delete=models.CASCADE
     )
-    title = models.CharField(_("Title"), max_length=50)
+    title = models.CharField(_("Title"), max_length=100)
     slug = AutoSlugField(populate_from='title')
     content = RichTextUploadingField(_("Content"))
     category = models.ForeignKey(
@@ -122,7 +122,7 @@ class Blog(models.Model, HitCountMixin):
 
         verbose_name = "Blog"
         verbose_name_plural = "Blogs"
-        ordering = ("created",)
+        ordering = ("-created",)
         # indexes =[
         #      GinIndex(name='NewGinIndex',fields=['title','content',],opclasses=['gin_trgm_ops','gin_trgm_ops'])
         # ]

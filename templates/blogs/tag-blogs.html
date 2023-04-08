@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Blogs {% endblock title %}
+{% block title %}Blog Tags{% endblock title %}
 {% load static %}
 {% load category %}
 {% load humanize %}
@@ -18,15 +18,15 @@ breadcrumb START -->
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class="breadcrumbs-content">
-<h1 class="page-title">Blogs</h1>
-{% comment %} <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-been the industry's standard dummy text</p> {% endcomment %}
+<h1 class="page-title">Blogs Per Tag</h1>
+
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">
 <ul class="breadcrumb-nav">
-<li><a href="index.html">Home</a></li>
-<li>Blogs</li>
+<li><a href="{% url 'home' %}">Home</a></li>
+<li><a href="{% url 'blogs' %}">Blogs</a></li>
+<li>Blogs Per Tag</li>
 </ul>
 </div>
 </div>
