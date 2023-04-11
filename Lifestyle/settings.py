@@ -181,37 +181,65 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 CKEDITOR_RESTRICT_BY_DATE = True
 CKEDITOR_THUMBNAIL_SIZE = (500, 500)
+CKEDITOR_BROWSE_SHOW_DIRS =True
+CKEDITOR_FORCE_JPEG_COMPRESSION = True
+CKEDITOR_IMAGE_QUALITY = 90
+
+
+
 
 CKEDITOR_CONFIGS = {
-    # 'default': {
-    #     'width': '150%',
-    #     'toolbar': 'Custom',
-    #     # Specify Custom Shit - GPL License -
-    #     'toolbar_Custom': [
-    #         ['Bold', 'Italic', 'Underline', '-', 'Image', 'Link', 'CodeSnippet', '-', 'NumberedList', 'BulletedList', 'HorizontalRule', '-', 'Undo', 'Redo'],
-    #     ], 'extraPlugins': 'codesnippet'
-    #     # Remove Dialog Tabs
-    #     'removeDialogTabs': 'image:advanced;image:Link',
-    # }
-}
-
-CKEDITOR_CONFIGS = {
-    "default": {
-        "toolbar": "Custom",
-        # 'height': 'auto',
-        "width": "auto",
-        # 'toolbar_Custom': [
-        #     # [ 'Strike',  'Undo', 'Redo'],
-        #     ['Styles','Format','Undo', 'Redo','Bold', 'Italic', 'Underline'],
-        #     ['TextColor', 'BGColor'],
-        #     ['NumberedList', 'BulletedList',  'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-        #     # ['Link', 'Unlink', 'Anchor'],
-        #     # ['Image', 'Flash', 'Table', 'HorizontalRule'],
-        #     # [ 'Source']
-        # ]
-        # Remove Dialog Tabs
-        # 'removeDialogTabs': 'link:advanced;',
+    'default': {
+        # 'skin': 'moono',
+        # 'skin': 'office2013',
+        'toolbar_Basic': [
+            ['Source', '-', 'Bold', 'Italic']
+        ],
+        'toolbar_YourCustomToolbarConfig': [           
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo']},
+           
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline','Subscript', 'Superscript', '-',]},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']},
+          
+            {'name': 'insert',
+             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'SpecialChar']},
+            {'name': 'links', 'items': ['Link', 'Unlink',]},
+            '/',
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+            {'name': 'tools', 'items': ['Maximize']},
+            
+        ],
+        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
+        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
+        'height': 291,
+        'width': '100%',
+        # 'filebrowserWindowHeight': 725,
+        # 'filebrowserWindowWidth': 940,
+        # 'toolbarCanCollapse': True,
+        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+        'tabSpaces': 4,
         "removeDialogTabs": "link:advanced;link:upload;link:target;image:advanced;image:Link",
+        'extraPlugins': ','.join([
+            'uploadimage', # the upload image feature
+            # your extra plugins here
+            'div',
+            
+            'autolink',
+            'autoembed',
+            'embedsemantic',
+            'autogrow',
+            # 'devtools',
+            'widget',
+            'lineutils',
+            'clipboard',
+            'dialog',
+            'dialogui',
+            'elementspath'
+        ]),
     }
 }
 # messages

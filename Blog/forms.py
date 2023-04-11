@@ -12,7 +12,8 @@ class BlogForm(forms.ModelForm):
     """Form definition for Blog.""" 
     # class="form-select form-select-sm" id="small-bootstrap-class-single-field"
 
-    tags = forms.ModelMultipleChoiceField(label="Tags", widget=forms.SelectMultiple(attrs={"class":"form-select form-select-sm" ,"id":"small-bootstrap-class-single-field" ,"multiple":'multiple'}),queryset=Tag.objects.all())
+    tags = forms.ModelMultipleChoiceField(label="Tags", widget=forms.SelectMultiple(attrs={"class":"form-select  w-100 form-control tag-multiple" ,"style":"width:100%" ,"multiple":'multiple'}),queryset=Tag.objects.all())
+    # tags = forms.ModelMultipleChoiceField(label="Tags", widget=forms.SelectMultiple(attrs={"class":"form-select form-select-sm" ,"id":"small-bootstrap-class-single-field" ,"multiple":'multiple'}),queryset=Tag.objects.all())
     content = (forms.CharField(widget=CKEditorUploadingWidget()),)
 
     class Meta:

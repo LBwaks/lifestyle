@@ -173,11 +173,7 @@ like
    {% post_to_telegram "Check out this blog: {{object.title}}" object_or_url '<i class="fa-brands fa-telegram"></i>' %}
 
 </li>
-<li>
-   {% post_to_twitter "{{object.title}}" object_or_url '<i class="fa-brands fa-twitter"></i>' %}
-  
 
-</li>
 <li>  {% post_to_linkedin object_or_url %}</li>
 <li> {% send_email object.title "{{object.title}}. Check it out!" object_or_url '<i class="lni lni-envelope"></i>' %}</li>
 

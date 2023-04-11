@@ -57,12 +57,12 @@ bloglist START -->
  {% for blog in blogs %}
                         <!-- Card item START -->
 
-<div class="col-lg-6 col-12">
+<div class="col-md-12 col-12">
 
 <div class="single-news custom-shadow-hover wow fadeInUp" data-wow-delay=".4s">
-<div class="image">
+{% comment %} <div class="image">
 <img class="thumb" src="{{blog.photo_url}}" alt="..." height="200" width="auto">
-</div>
+</div> {% endcomment %}
 <div class="content-body">
                 {% for tag in blog.tags.all %}
 <a class="btn btn-outline-danger btn-sm" href="{% url 'tags' tag.name %}">{{ tag }} </a>

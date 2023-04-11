@@ -6,6 +6,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.conf import settings
 from .forms import ContactForm
+from django.core.mail import EmailMessage,EmailMultiAlternatives
+from django.template import Context
+from django.template .loader import render_to_string
 # Create your views here.
 
 
@@ -47,8 +50,30 @@ def ContactView(request):
             message =f'{name} with email {from_email} said:'
             message += f'\n Subject: "{subject}"\n\n'
             message += form.cleaned_data.get('message')
+            
+            
+            
+            context ={
+                'name':name,
+                'email': from_email,
+                'subject':subject,
+                'message':message
+            }
+            text_content =render_to_string('email/contact-email.txt',context)
+            html_content =render_to_string('email/contact-email.txt',context)
+            
+            
             try:
-                send_mail(subject,message,from_email,[settings.RECIPIENT_ADDRESS])
+                mail =EmailMultiAlternatives(
+                    subject= subject,
+                    body=message,
+                    from_email= from_email,
+                    to=['obwakuvictor@gmail.com']
+                    
+                )
+                mail.attach_alternative(html_content,"text/html")
+                mail.send(fail_silently=False)
+                # send_mail(subject,message,from_email,[settings.RECIPIENT_ADDRESS])
             except BadHeaderError:
                 return HttpResponse('Invalid Header Found')
             return redirect('contact')
