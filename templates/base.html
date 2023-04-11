@@ -40,6 +40,16 @@
 </head>
 
 <body>
+     <!-- Preloader -->
+   <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div> 
+    <!-- /End Preloader -->
     {% block header %}
     <!--[if lte IE 9]>
       <p class="browserupgrade">
@@ -55,23 +65,14 @@
     
 
     
-    <!-- Preloader -->
-    {% comment %} <div class="preloader">
-        <div class="preloader-inner">
-            <div class="preloader-icon">
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </div> {% endcomment %}
-    <!-- /End Preloader -->
+ 
 {% endblock content %}
    
 
 
    
    {% block footer %}
-    {% comment %} {% include 'includes/footer.html' %} {% endcomment %}
+    {% include 'includes/footer.html' %}
    {% endblock footer %}
     
     <!-- ========================= scroll-top ========================= -->

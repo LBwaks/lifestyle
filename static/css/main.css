@@ -1969,11 +1969,11 @@ ol {
 .hero-area .hero-image {
   float: right;
   margin-top: 200px;
-  height: 500px;
-  width: 500px;
+  height: 550px;
+  width: 550px;
   display: block;
-  border-radius: 50%;
-  background-image: url("../images/hero/04.jpg");
+  border-radius: 5px;
+  background-image: url("../images/splash.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -2842,7 +2842,7 @@ ol {
 }
 
 .footer .call-action .inner-content {
-  padding: 100px 0;
+  padding: 80px 0;
   border-bottom: 1px solid #25272E;
 }
 
@@ -2913,12 +2913,12 @@ ol {
 }
 
 .footer .footer-middle {
-  padding-bottom: 120px;
-  padding-top: 90px;
+  padding-bottom: 30px;
+  padding-top: 40px;
 }
 
 .footer .single-footer {
-  margin-top: 30px;
+  margin-top: 5px;
 }
 
 .footer .single-footer h3 {
@@ -2927,11 +2927,11 @@ ol {
   font-weight: 600;
   position: relative;
   text-transform: capitalize;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .footer .f-link ul li {
-  margin-bottom: 18px;
+  margin-bottom: 10px;
   position: relative;
 }
 
@@ -2954,7 +2954,7 @@ ol {
 }
 
 .footer .footer-bottom {
-  padding: 30px 0;
+  padding: 10px 0;
   background-color: #473BF0;
 }
 
@@ -6384,4 +6384,171 @@ ul.custom-flex {
 
 .team-details .team-contact-form form .button {
   text-align: center;
+}
+
+.newsletter-area{
+  background-color:#473bf0;
+  text-align:center}
+.newsletter-area .section-title{
+  padding:0;
+  padding:0 90px;
+  margin-bottom:55px}
+.newsletter-area .section-title span{
+  color:#fff}
+.newsletter-area .section-title h2{
+  color:#fff}
+.newsletter-area .section-title h3.gray-bg{
+  -webkit-text-stroke-width:1px;
+  -webkit-text-fill-color:transparent;
+  -webkit-text-stroke-color:#fff!important;
+  opacity:.2!important}
+.newsletter-area .subscribe-text{
+  text-align:center;
+  background:#fff;
+  display:inline-block;
+  padding:20px 30px;
+  border-radius:10px;
+  -webkit-box-shadow:0 1rem 28px rgba(35,38,45,.15)!important;
+  box-shadow:0 1rem 28px rgba(35,38,45,.15)!important}
+.newsletter-area .subscribe-text form{
+  display:inline-block;
+  text-align:center}
+.newsletter-area .subscribe-text input{
+  height:55px;
+  width:400px;
+  border:none;
+  background-color:#fff;
+  color:#081828;
+  border-radius:5px;
+  padding:0 60px;
+  display:block;
+  text-align:center;
+  display:inline-block;
+  border:2px solid #eee;
+  background:transparent;
+  color:#333;
+  font-weight:500;
+  text-align:left}
+.newsletter-area .subscribe-text .button{
+  display:inline-block}
+.newsletter-area .subscribe-text .button .btn{
+  background-color:transparent;
+  color:#fff;
+  border:1px solid #eee;
+  height:55px;
+  width:auto;
+  display:inline-block;
+  border:none;
+  background:#473bf0;
+  color:#fff;
+  margin-left:10px;
+  margin-top:-2px;
+  -webkit-box-shadow:0 1rem 28px rgba(35,38,45,.15)!important;
+  box-shadow:0 1rem 28px rgba(35,38,45,.15)!important}
+.newsletter-area .subscribe-text .button .btn:hover{
+  background-color:#081828;
+  color:#fff;
+  border-color:transparent;
+  -webkit-transform:none;
+  transform:none}
+
+
+  
+/*======================================
+    CTA CSS
+========================================*/
+.cta-section {
+  background-image: url("../images/splash.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 5;
+}
+
+.cta-section.overlay::before {
+  background-color: #081828;
+  opacity: 0.9;
+  z-index: -1;
+}
+
+.cta-section .title {
+  padding: 0;
+  padding-right: 90px;
+  padding-left: 100px;
+}
+
+.cta-section .title .icon {
+  height: 70px;
+  width: 70px;
+  background-color: #473BF0;
+  color: #fff;
+  line-height: 70px;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 30px;
+  border-radius: 50px 50px 50px 5px;
+  display: block;
+}
+
+.cta-section .title h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 43px;
+  display: block;
+  margin-bottom: 30px;
+  padding: 0;
+}
+
+.cta-section .title p {
+  color: #fff;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.cta-section .cta-form {
+  background-color: #fff;
+  padding: 60px;
+  border-radius: 10px;
+}
+
+.cta-section .cta-form .form-group {
+  margin-bottom: 20px;
+}
+
+.cta-section .cta-form .form-group label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #081828;
+  margin-bottom: 5px;
+}
+
+.cta-section .cta-form .form-group input {
+  height: 50px;
+  width: 100%;
+  border-radius: 10px;
+  color: #081828;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  font-size: 14px;
+  padding: 0px 20px;
+}
+
+.cta-section .cta-form .form-group select {
+  height: 50px;
+  width: 100%;
+  border-radius: 10px;
+  color: #081828;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  font-size: 14px;
+  padding: 0px 20px;
+}
+
+.cta-section .cta-form .button {
+  width: 100%;
+}
+
+.cta-section .cta-form .button .btn {
+  width: 100%;
 }
