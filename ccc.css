@@ -1,0 +1,76 @@
+.features
+{
+    background-color:#fff 
+}.features .section-title
+{
+    margin-bottom:70px 
+}.features.style2 .single-feature
+{
+    padding:40px 30px;padding-bottom:50px;background-color:#fff;-webkit-box-shadow:0 0 50px rgba(87,87,87,.23);box-shadow:0 0 50px rgba(87,87,87,.23);border:none;border-radius:10px;-webkit-transition:all .4s ease-in-out;transition:all .4s ease-in-out;overflow:hidden;position:relative;margin-top:30px 
+}.features.style2 .single-feature::before
+{
+    position:absolute;content:"";left:0;bottom:0;height:4px;width:0%;background-color:#473bf0;-webkit-transition:all .4s ease-in-out;transition:all .4s ease-in-out 
+}.features.style2 .single-feature:hover::before
+{
+    width:100% 
+}.features.style2 .single-feature img
+{
+    margin-bottom:20px 
+}.features.style2 .single-feature p
+{
+    font-size:13px;font-weight:400;line-height:24px;margin-top:15px 
+}.features.style2 .single-feature .more
+{
+    color:#081828;font-size:14px;font-weight:500;margin-top:30px 
+}.features.style2 .single-feature .more i
+{
+    display:inline-block;margin-left:5px;font-size:15px;position:relative;top:2px 
+}.features.style2 .single-feature .more:hover
+{
+    letter-spacing:1px;color:#473bf0 
+}.features .single-head
+{
+    position:relative 
+}.single-feature
+{
+    padding:50px 40px;background-color:#f4f7fa;border-radius:10px;text-align:center;-webkit-transition:all .4s ease-in-out;transition:all .4s ease-in-out;border:1px dashed #473bf0 
+}.single-feature:hover
+{
+    -webkit-box-shadow:0 32px 54px 0 rgba(22,28,45,.16);box-shadow:0 32px 54px 0 rgba(22,28,45,.16);background-color:#fff 
+}.single-feature h3
+{
+    line-height:24px 
+}.single-feature h3 a
+{
+    color:#081828;font-size:17px;line-height:25px;font-weight:600 
+}.single-feature h3 a:hover
+{
+    color:#473bf0 
+}.single-feature .icon
+{
+    margin-top:25px 
+}.single-feature .icon i
+{
+    font-size:32px;color:#473bf0 
+}.single-feature p
+{
+    font-size:14px;font-weight:500;color:#888;line-height:24px;margin-top:25px 
+}.feature-details .content .features .single-feature
+{
+    margin-top:30px 
+}.features .section-title
+{
+    margin-bottom:30px 
+}.features.style2 .section-title
+{
+    margin-bottom:30px 
+}.features.style2 .single-feature
+{
+    margin:0;margin-top:30px 
+}.features .single-feature
+{
+    margin-top:30px 
+}.features .single-head .feature-patern
+{
+    position:absolute;left:-30px;bottom:-30px 
+}

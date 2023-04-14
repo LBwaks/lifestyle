@@ -21,6 +21,8 @@ login to comment
 <hr>
 <hr>
 {% for comment in comments %}
+
+
 {% if comment.is_parent %}
 <h3><b>{{comment.user}} : </b> {{comment.comment}}</h3>
 &nbsp; &nbsp; &nbsp;
@@ -106,3 +108,5 @@ login to comment
   </script>
 </body>
 </html>
+
+

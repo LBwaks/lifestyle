@@ -35,7 +35,7 @@ been the industry's standard dummy text</p> {% endcomment %}
 <div class="form-main">
 <h3 class="inner-title left">Contact Form</h3>
 
-<form class="form" method="post" action="">
+<form class="form" method="POST" action="">
 {% csrf_token %}
 <div class="row">
 <div class="col-lg-6 col-12">
@@ -56,7 +56,7 @@ been the industry's standard dummy text</p> {% endcomment %}
 
 <div class="col-12">
 <div class="form-group message">
-<textarea name="message" placeholder="Your Message"></textarea>
+<textarea name="message" placeholder="Your Message" required="required"></textarea>
 </div>
 </div>
 <div class="col-12">

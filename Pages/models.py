@@ -111,6 +111,10 @@ class Work(models.Model):
         new_image = compress(self.image)
         self.image= new_image
         super().save(*args, **kwargs)
+    @property
+    def image_url(self):
+        if self.image and hasattr(self.image, "url"):
+            return self.image.url
 
     # def get_absolute_url(self):
     #     """Return absolute url for Work."""
