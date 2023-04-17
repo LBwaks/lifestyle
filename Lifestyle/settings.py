@@ -12,25 +12,28 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+
 import dj_database_url
 from decouple import config
 from django.conf import settings
 from django.contrib.messages import constants as messages
+from dotenv import load_dotenv
 from logtail import LogtailHandler
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 # 'localhost',
 #   '127.0.0.1',
 #   '111.222.333.444',
@@ -46,7 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-     "whitenoise.runserver_nostatic",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django.contrib.sites",
     "django.contrib.postgres",
@@ -111,30 +114,30 @@ WSGI_APPLICATION = "Lifestyle.wsgi.application"
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": config("NAME"),
-#         "USER": config("USER"),
-#         "PASSWORD": config("PASSWORD"),
-#         "HOST": config("HOST"),
-#         "PORT": config("PORT"),
+#         "NAME": os.getenv("NAME"),
+#         "USER": os.getenv("USER"),
+#         "PASSWORD": os.getenv("PASSWORD"),
+#         "HOST": os.getenv("HOST"),
+#         "PORT": os.getenv("PORT"),
 #     }
 # }
-# production db settings 
-DATABASE_URL = config('DATABASE_URL')
-DATABASES['default'] = dj_database_url.config(
+# production db settings
+DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASES["default"] = dj_database_url.config(
     conn_max_age=600,
     conn_health_checks=True,
 )
-SENDGRID_SANDBOX_MODE_IN_DEBUG=True
+SENDGRID_SANDBOX_MODE_IN_DEBUG = True
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST =  'smtp.sendgrid.net'
+EMAIL_HOST = "smtp.sendgrid.net"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-SENDGRID_API_KEY = config('SENDGRID_API_KEY')
-# RECIPIENT_ADDRESS = config("RECIPIENT_ADDRESS")
-# DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default='noreply@gmail.com')
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+# RECIPIENT_ADDRESS = os.getenv("RECIPIENT_ADDRESS")
+# DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", default='noreply@gmail.com')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -197,65 +200,93 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 CKEDITOR_RESTRICT_BY_DATE = True
 CKEDITOR_THUMBNAIL_SIZE = (500, 500)
-CKEDITOR_BROWSE_SHOW_DIRS =True
+CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_FORCE_JPEG_COMPRESSION = True
 CKEDITOR_IMAGE_QUALITY = 90
 
 
-
-
 CKEDITOR_CONFIGS = {
-    'default': {
+    "default": {
         # 'skin': 'moono',
         # 'skin': 'office2013',
-        'toolbar_Basic': [
-            ['Source', '-', 'Bold', 'Italic']
+        "toolbar_Basic": [["Source", "-", "Bold", "Italic"]],
+        "toolbar_YourCustomToolbarConfig": [
+            {
+                "name": "clipboard",
+                "items": ["Cut", "Copy", "Paste", "-", "Undo", "Redo"],
+            },
+            {
+                "name": "basicstyles",
+                "items": [
+                    "Bold",
+                    "Italic",
+                    "Underline",
+                    "Subscript",
+                    "Superscript",
+                    "-",
+                ],
+            },
+            {
+                "name": "paragraph",
+                "items": [
+                    "NumberedList",
+                    "BulletedList",
+                    "-",
+                    "Outdent",
+                    "Indent",
+                    "-",
+                    "Blockquote",
+                    "JustifyLeft",
+                    "JustifyCenter",
+                    "JustifyRight",
+                    "JustifyBlock",
+                    "-",
+                ],
+            },
+            {
+                "name": "insert",
+                "items": ["Image", "Flash", "Table", "HorizontalRule", "SpecialChar"],
+            },
+            {
+                "name": "links",
+                "items": [
+                    "Link",
+                    "Unlink",
+                ],
+            },
+            "/",
+            {"name": "styles", "items": ["Styles", "Format", "Font", "FontSize"]},
+            {"name": "colors", "items": ["TextColor", "BGColor"]},
+            {"name": "tools", "items": ["Maximize"]},
         ],
-        'toolbar_YourCustomToolbarConfig': [           
-            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo']},
-           
-            {'name': 'basicstyles',
-             'items': ['Bold', 'Italic', 'Underline','Subscript', 'Superscript', '-',]},
-            {'name': 'paragraph',
-             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 
-                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-']},
-          
-            {'name': 'insert',
-             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'SpecialChar']},
-            {'name': 'links', 'items': ['Link', 'Unlink',]},
-            '/',
-            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
-            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
-            {'name': 'tools', 'items': ['Maximize']},
-            
-        ],
-        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
+        "toolbar": "YourCustomToolbarConfig",  # put selected toolbar config here
         # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
-        'height': 291,
-        'width': '100%',
+        "height": 291,
+        "width": "100%",
         # 'filebrowserWindowHeight': 725,
         # 'filebrowserWindowWidth': 940,
         # 'toolbarCanCollapse': True,
         # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
-        'tabSpaces': 4,
+        "tabSpaces": 4,
         "removeDialogTabs": "link:advanced;link:upload;link:target;image:advanced;image:Link",
-        'extraPlugins': ','.join([
-            'uploadimage', # the upload image feature
-            # your extra plugins here
-            'div',
-            
-            'autolink',
-            'autoembed',
-            'embedsemantic',
-            'autogrow',
-            # 'devtools',
-            'widget',
-            'lineutils',
-            'clipboard',
-            'dialog',
-            'dialogui',
-            'elementspath'
-        ]),
+        "extraPlugins": ",".join(
+            [
+                "uploadimage",  # the upload image feature
+                # your extra plugins here
+                "div",
+                "autolink",
+                "autoembed",
+                "embedsemantic",
+                "autogrow",
+                # 'devtools',
+                "widget",
+                "lineutils",
+                "clipboard",
+                "dialog",
+                "dialogui",
+                "elementspath",
+            ]
+        ),
     }
 }
 # messages
@@ -291,7 +322,7 @@ SOCIALACCOUNT_PROVIDERS = {
         # For each OAuth based provider, either add a ``SocialApp``
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
-        "APP": {"client_id": config("client_id"), "secret": config("secret"), "key": ""}
+        "APP": {"client_id": os.getenv("client_id"), "secret": os.getenv("secret"), "key": ""}
     }
 }
 # ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
@@ -356,12 +387,11 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "simple",
         },
-        'logtail': {
-            'class': 'logtail.LogtailHandler',
-            'formatter': 'verbose',
-            'source_token': config('LOGTAIL_SOURCE_TOKEN')
+        "logtail": {
+            "class": "logtail.LogtailHandler",
+            "formatter": "verbose",
+            "source_token": os.getenv("LOGTAIL_SOURCE_TOKEN"),
         },
-        
         "warning_handler": {
             "class": "logging.handlers.RotatingFileHandler",
             "filename": f"{BASE_DIR}/logs/blog_warning.log",
@@ -402,26 +432,32 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console","error_handler",'critical_handler','warning_handler','logtail'],
+            "handlers": [
+                "console",
+                "error_handler",
+                "critical_handler",
+                "warning_handler",
+                "logtail",
+            ],
             "level": "INFO",
-            "propagate":True,
+            "propagate": True,
         },
         "django.request": {
-            "handlers": ["error_handler",'critical_handler','warning_handler'],
+            "handlers": ["error_handler", "critical_handler", "warning_handler"],
             "level": "INFO",
             "propagate": True,
         },
         "django.template": {
-            "handlers": ["error_handler",'critical_handler','warning_handler'],
+            "handlers": ["error_handler", "critical_handler", "warning_handler"],
             "level": "DEBUG",
             "propagate": True,
         },
         "django.server": {
-            "handlers": ["error_handler",'critical_handler','warning_handler'],
+            "handlers": ["error_handler", "critical_handler", "warning_handler"],
             "level": "INFO",
             "propagate": True,
-        }
-    }
+        },
+    },
 }
 # jazminn
 
@@ -457,7 +493,7 @@ LOGGING = {
 #     "copyright": "lifestyle Ltd",
 
 #     # List of model admins to search from the search bar, search bar omitted if excluded
-#     # If you want to use a single search field you dont need to use a list, you can use a simple string 
+#     # If you want to use a single search field you dont need to use a list, you can use a simple string
 #     "search_model": ["auth.User", "auth.Group"],
 
 #     # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
@@ -515,8 +551,8 @@ LOGGING = {
 #     # Custom links to append to app groups, keyed on app name
 #     "custom_links": {
 #         "books": [{
-#             "name": "Make Messages", 
-#             "url": "make_messages", 
+#             "name": "Make Messages",
+#             "url": "make_messages",
 #             "icon": "fas fa-comments",
 #             "permissions": ["books.view_book"]
 #         }]
@@ -586,12 +622,11 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = 'DENY'
-REFERRER_POLICY='same-origin'
+X_FRAME_OPTIONS = "DENY"
+REFERRER_POLICY = "same-origin"
 
 # # SECURE SSL REDIRECT
 SECURE_SSL_REDIRECT = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-
