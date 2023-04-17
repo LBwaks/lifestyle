@@ -410,15 +410,15 @@ LOGGING = {
             "backupCount": 5,
             "maxBytes": 1024 * 1024 * 5,  # 5 MB
         },
-        "debug_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": f"{BASE_DIR}/logs/blog_debug.log",
-            "mode": "a",
-            "formatter": "verbose",
-            "level": "DEBUG",
-            "backupCount": 5,
-            "maxBytes": 1024 * 1024 * 5,  # 5 MB
-        },
+        # "debug_handler": {
+        #     "class": "logging.handlers.RotatingFileHandler",
+        #     "filename": f"{BASE_DIR}/logs/blog_debug.log",
+        #     "mode": "a",
+        #     "formatter": "verbose",
+        #     "level": "DEBUG",
+        #     "backupCount": 5,
+        #     "maxBytes": 1024 * 1024 * 5,  # 5 MB
+        # },
         "info_handle": {
             "class": "logging.handlers.RotatingFileHandler",
             "filename": f"{BASE_DIR}/logs/blog_info.log",
@@ -435,7 +435,7 @@ LOGGING = {
             "handlers": [
                 "console",
                 "error_handler",
-                "debug_handler",
+                # "debug_handler",
                 "warning_handler",
                 "logtail",
             ],
@@ -443,17 +443,17 @@ LOGGING = {
             "propagate": True,
         },
         "django.request": {
-            "handlers": ["error_handler", "debug_handler", "warning_handler"],
+            "handlers": ["error_handler", "warning_handler"],
             "level": "INFO",
             "propagate": True,
         },
         "django.template": {
-            "handlers": ["error_handler", "debug_handler", "warning_handler"],
+            "handlers": ["error_handler", "warning_handler"],
             "level": "DEBUG",
             "propagate": True,
         },
         "django.server": {
-            "handlers": ["error_handler", "debug_handler", "warning_handler"],
+            "handlers": ["error_handler", "warning_handler"],
             "level": "INFO",
             "propagate": True,
         },
