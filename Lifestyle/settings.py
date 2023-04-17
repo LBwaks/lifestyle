@@ -33,7 +33,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["lifestyle-production.up.railway.app"]
 # 'localhost',
 #   '127.0.0.1',
 #   '111.222.333.444',
