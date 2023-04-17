@@ -368,97 +368,97 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # logging
 # LOGGING_CONFIG = None
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "{levelname} {asctime:s} {name} {threadName} {thread:d} {module} {filename} {lineno:d} {name} {funcName} {process:d} {message}",
-            "style": "{",
-        },
-        "simple": {
-            "format": "{levelname} {asctime:s} {name} {module} {filename} {lineno:d} {funcName} {message}",
-            "style": "{",
-        },
-    },
-    "handlers": {
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "simple",
-        },
-        "logtail": {
-            "class": "logtail.LogtailHandler",
-            "formatter": "verbose",
-            "source_token": os.getenv("LOGTAIL_SOURCE_TOKEN"),
-        },
-        "warning_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": f"{BASE_DIR}/logs/blog_warning.log",
-            "mode": "a",
-            "formatter": "verbose",
-            "level": "WARNING",
-            "backupCount": 5,
-            "maxBytes": 1024 * 1024 * 5,  # 5 MB
-        },
-        "error_handler": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": f"{BASE_DIR}/logs/blog_error.log",
-            "mode": "a",
-            "formatter": "verbose",
-            "level": "ERROR",
-            "backupCount": 5,
-            "maxBytes": 1024 * 1024 * 5,  # 5 MB
-        },
-        # "debug_handler": {
-        #     "class": "logging.handlers.RotatingFileHandler",
-        #     "filename": f"{BASE_DIR}/logs/blog_debug.log",
-        #     "mode": "a",
-        #     "formatter": "verbose",
-        #     "level": "DEBUG",
-        #     "backupCount": 5,
-        #     "maxBytes": 1024 * 1024 * 5,  # 5 MB
-        # },
-        "info_handle": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": f"{BASE_DIR}/logs/blog_info.log",
-            "mode": "a",
-            "encoding": "utf-8",
-            "formatter": "verbose",
-            "level": "INFO",
-            "backupCount": 5,
-            "maxBytes": 1024 * 1024 * 5,
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": [
-                "console",
-                "error_handler",
-                # "debug_handler",
-                "warning_handler",
-                "logtail",
-            ],
-            "level": "INFO",
-            "propagate": True,
-        },
-        "django.request": {
-            "handlers": ["error_handler", "warning_handler"],
-            "level": "INFO",
-            "propagate": True,
-        },
-        "django.template": {
-            "handlers": ["error_handler", "warning_handler"],
-            "level": "DEBUG",
-            "propagate": True,
-        },
-        "django.server": {
-            "handlers": ["error_handler", "warning_handler"],
-            "level": "INFO",
-            "propagate": True,
-        },
-    },
-}
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "formatters": {
+#         "verbose": {
+#             "format": "{levelname} {asctime:s} {name} {threadName} {thread:d} {module} {filename} {lineno:d} {name} {funcName} {process:d} {message}",
+#             "style": "{",
+#         },
+#         "simple": {
+#             "format": "{levelname} {asctime:s} {name} {module} {filename} {lineno:d} {funcName} {message}",
+#             "style": "{",
+#         },
+#     },
+#     "handlers": {
+#         "console": {
+#             "level": "DEBUG",
+#             "class": "logging.StreamHandler",
+#             "formatter": "simple",
+#         },
+#         "logtail": {
+#             "class": "logtail.LogtailHandler",
+#             "formatter": "verbose",
+#             "source_token": os.getenv("LOGTAIL_SOURCE_TOKEN"),
+#         },
+#         "warning_handler": {
+#             "class": "logging.handlers.RotatingFileHandler",
+#             "filename": f"{BASE_DIR}/logs/blog_warning.log",
+#             "mode": "a",
+#             "formatter": "verbose",
+#             "level": "WARNING",
+#             "backupCount": 5,
+#             "maxBytes": 1024 * 1024 * 5,  # 5 MB
+#         },
+#         "error_handler": {
+#             "class": "logging.handlers.RotatingFileHandler",
+#             "filename": f"{BASE_DIR}/logs/blog_error.log",
+#             "mode": "a",
+#             "formatter": "verbose",
+#             "level": "ERROR",
+#             "backupCount": 5,
+#             "maxBytes": 1024 * 1024 * 5,  # 5 MB
+#         },
+#         # "debug_handler": {
+#         #     "class": "logging.handlers.RotatingFileHandler",
+#         #     "filename": f"{BASE_DIR}/logs/blog_debug.log",
+#         #     "mode": "a",
+#         #     "formatter": "verbose",
+#         #     "level": "DEBUG",
+#         #     "backupCount": 5,
+#         #     "maxBytes": 1024 * 1024 * 5,  # 5 MB
+#         # },
+#         "info_handle": {
+#             "class": "logging.handlers.RotatingFileHandler",
+#             "filename": f"{BASE_DIR}/logs/blog_info.log",
+#             "mode": "a",
+#             "encoding": "utf-8",
+#             "formatter": "verbose",
+#             "level": "INFO",
+#             "backupCount": 5,
+#             "maxBytes": 1024 * 1024 * 5,
+#         },
+#     },
+#     "loggers": {
+#         "django": {
+#             "handlers": [
+#                 "console",
+#                 "error_handler",
+#                 # "debug_handler",
+#                 "warning_handler",
+#                 "logtail",
+#             ],
+#             "level": "INFO",
+#             "propagate": True,
+#         },
+#         "django.request": {
+#             "handlers": ["error_handler", "warning_handler"],
+#             "level": "INFO",
+#             "propagate": True,
+#         },
+#         "django.template": {
+#             "handlers": ["error_handler", "warning_handler"],
+#             "level": "DEBUG",
+#             "propagate": True,
+#         },
+#         "django.server": {
+#             "handlers": ["error_handler", "warning_handler"],
+#             "level": "INFO",
+#             "propagate": True,
+#         },
+#     },
+# }
 # jazminn
 
 # JAZZMIN_SETTINGS = {
