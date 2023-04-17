@@ -410,12 +410,12 @@ LOGGING = {
             "backupCount": 5,
             "maxBytes": 1024 * 1024 * 5,  # 5 MB
         },
-        "critical_handler": {
+        "debug_handler": {
             "class": "logging.handlers.RotatingFileHandler",
-            "filename": f"{BASE_DIR}/logs/blog_critical.log",
+            "filename": f"{BASE_DIR}/logs/blog_debug.log",
             "mode": "a",
             "formatter": "verbose",
-            "level": "CRITICAL",
+            "level": "DEBUG",
             "backupCount": 5,
             "maxBytes": 1024 * 1024 * 5,  # 5 MB
         },
@@ -435,7 +435,7 @@ LOGGING = {
             "handlers": [
                 "console",
                 "error_handler",
-                "critical_handler",
+                "debug_handler",
                 "warning_handler",
                 "logtail",
             ],
@@ -443,17 +443,17 @@ LOGGING = {
             "propagate": True,
         },
         "django.request": {
-            "handlers": ["error_handler", "critical_handler", "warning_handler"],
+            "handlers": ["error_handler", "debug_handler", "warning_handler"],
             "level": "INFO",
             "propagate": True,
         },
         "django.template": {
-            "handlers": ["error_handler", "critical_handler", "warning_handler"],
+            "handlers": ["error_handler", "debug_handler", "warning_handler"],
             "level": "DEBUG",
             "propagate": True,
         },
         "django.server": {
-            "handlers": ["error_handler", "critical_handler", "warning_handler"],
+            "handlers": ["error_handler", "debug_handler", "warning_handler"],
             "level": "INFO",
             "propagate": True,
         },
