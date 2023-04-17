@@ -123,10 +123,10 @@ WSGI_APPLICATION = "Lifestyle.wsgi.application"
 # }
 # production db settings
 DATABASE_URL = os.getenv("DATABASE_URL")
-DATABASES["default"] = dj_database_url.config(
+DATABASES ={"default": dj_database_url.config(
     conn_max_age=600,
     conn_health_checks=True,
-)
+)}
 SENDGRID_SANDBOX_MODE_IN_DEBUG = True
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
