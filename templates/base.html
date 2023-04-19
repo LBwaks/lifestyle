@@ -36,7 +36,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/css/glightbox.min.css" integrity="sha512-T+KoG3fbDoSnlgEXFQqwcTC9AdkFIxhBlmoaFqYaIjq2ShhNwNao9AKaLUPMfwiBPL0ScxAtc+UYbHAgvd+sjQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="{% static 'css/main.css' %}?{% now "U" %}"/>
 
-    
+    <style>
+      #likesarea .btn-link{
+        text-decoration:none;
+      }
+      #likesarea .btn-link span {
+        color:black;
+      }
+    </style>
 </head>
 
 <body>
@@ -118,7 +125,8 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 })
 
   var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
-  trigger: 'focus'
+  trigger: 'focus',
+  html:true
 })
 
 /*  for select in add blog */

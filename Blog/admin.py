@@ -8,10 +8,15 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name','description','is_published','is_featured','created_date')
     list_editable =('is_published','is_featured')
     # raw_id_fields = ('',)
-    # readonly_fields = ('',)
+    readonly_fields = ('user',)
     # search_fields = ('',)
     # date_hierarchy = ''
     # ordering = ('',)
+    def save_model(self, request, obj, form, change):
+        if not obj.user_id:
+            obj.user= request.user
+            obj.save()        
+        return super().save_model(request, obj, form, change)
     
     
     

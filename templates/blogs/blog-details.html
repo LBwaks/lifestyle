@@ -51,6 +51,7 @@
 
 <ul class="custom-flex post-meta">
   <li>
+    
 <a href="{% url 'user-blog' blog.user.username %}">
 <i class="lni lni-user"></i>
 {{blog.user.user_profile.firstname}} {{blog.user.user_profile.lastname}}
@@ -73,11 +74,15 @@
 <i class="lni lni-eye"></i>
 {% get_hit_count for blog %} 
 </a>
-</li>
+</li> 
+            {% include "includes/like.html" %}
+        
 
-{% if user.is_authenticated %}
 
-<form action="{% url 'like' blog.slug %}" method ='POST'>
+{% comment %} {% if user.is_authenticated %}
+
+<form action="
+" method ='POST'>
   {% csrf_token %}
 
   {% if liked %}
@@ -95,25 +100,37 @@
   {% endif %}
 
 </form>
-{% comment %} {% else %} {% endcomment %}
+{% comment %} {% else %} 
 
 
-{% endif %}
+{% endif %} 
+{% endcomment %}
 
 
 
-<li id="likesarea">
-  likes: {{blog.total_likes}}
-<a>
-<button  hx-post="{% url 'like' blog.slug %}" hx-target="#likesarea" hx-swap="outerHTML">
-{% if liked %}
+{% comment %} <li id="likesarea"> {% endcomment %}
+  {% comment %} likes: {{blog.total_likes}} {% endcomment %}
+{% comment %} <a> {% endcomment %}
+   {% comment %} <button hx-post="{% url 'like' pk=blog.pk %}" hx-target="#likesarea"> {{blog.likes}}Likes</button><span></span> {% endcomment %}
+{% comment %} <button  hx-post="{% url 'like' blog.slug %}" hx-target="#likesarea" hx-swap="outerHTML"> {% endcomment %}
+{% comment %} {% if liked %}
 unlike
 {% else %}
 like
 {% endif %}
 </button>
 </a>
-</li>
+</li> {% endcomment %}
+{% comment %} *******************<br>
+<button class="like-button" hx-post="{% url 'like' pk=blog.pk %}" ">
+        {% if request.user in blog.likes.all %}
+            Unlike
+        {% else %}
+            Like
+        {% endif %}
+    </button>
+    *************************
+    <br>   {% endcomment %}
 
 
 <li>

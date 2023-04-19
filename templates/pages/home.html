@@ -62,7 +62,9 @@ Ipsum available, but the majority have suffered alteration in some form.</p>
 <img class=thumb src="{{popular_blog.photo.url}}" alt="#" data-pagespeed-url-hash=1225493998 onload="pagespeed.CriticalImages.checkImageForCriticality(this);">
 </div>
 <div class=content-body>
-<a class=cat href="#">Career</a>
+    {% for tag in popular_blog.tags.all %}
+<a class="btn btn-outline-danger btn-sm" href="{% url 'tags' tag.name %}">{{ tag }}</a>
+{% endfor %}
 <h4 class=title><a href="{{popular_blog.get_absolute_url}}">{{popular_blog.title | truncatechars:50}}</a></h4>
 <p>{{popular_blog.content | truncatechars_html:150 }}.</p>
 

@@ -1,0 +1,30 @@
+
+{% if user.is_authenticated %}
+<li  id="likesarea" >
+   
+    
+        <button class="btn btn-link" hx-post="{% url 'like' blog.id %}" id="like-button" 
+          hx-target="#likesarea" hx-swap="outerHTML">
+          {% if request.user in blog.likes.all %}
+            {% comment %} <i class="material-icons" style="font-size:16px;color:green;">check_box</i> {% endcomment %}
+            <i class="lni lni-heart" style="color:red;text-decoration: none;"></i> <span>{{ blog.total_likes }}</span>
+          {% else %}
+          <i class="lni lni-heart"></i>  <span>{{ blog.total_likes }}</span>
+          {% endif %}
+        </button>
+
+   
+    
+</li>
+{% else %}
+<li  id="likesarea" >
+   
+    
+        <button class="btn btn-link" type="button" id="like-button" data-bs-toggle="popover" data-bs-trigger="focus" title="Not Yet Logged In!" data-bs-content="Login To Like Blog"   >   <i class="lni lni-heart"></i>  <span>{{ blog.total_likes }}</span>
+         
+        </button>
+{% comment %} <button type="button" class="btn btn-lg btn-danger" data-bs-toggle="popover" data-bs-title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button> {% endcomment %}
+   
+    
+</li>
+{% endif%}

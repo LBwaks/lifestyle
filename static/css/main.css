@@ -5112,6 +5112,7 @@ ul.custom-flex {
   margin-bottom: 20px;
   font-weight: 600;
   font-size: 16px;
+ 
 }
 
 .post-tags-media .share-title {
@@ -5189,7 +5190,7 @@ ul.custom-flex {
 }
 
 .post-details .post-meta li a {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   font-weight: 500;
   color: #081828;
@@ -5609,6 +5610,7 @@ ul.custom-flex {
 
 .sidebar .widget.popular-tag-widget {
   padding-bottom: 30px;
+   padding-left: 100px;
 }
 
 .popular-tag-widget .tags > a {

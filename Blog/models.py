@@ -93,8 +93,8 @@ class Blog(models.Model, HitCountMixin):
     photo = models.ImageField(
         _("Photo"),
         upload_to="blogs",
-        blank=True,
-        null=True,
+        # blank=True,
+        # null=True,
         height_field=None,
         width_field=None,
         max_length=None,

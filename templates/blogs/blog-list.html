@@ -36,9 +36,6 @@ breadcrumb START -->
  <!-- =======================
 breadcrumb end --> 
 
-
-
-
 <!-- =======================
 bloglist START --> 
 
@@ -71,7 +68,7 @@ bloglist START -->
 <h4 class="title mb-2"><a href="{{blog.get_absolute_url}}">{{blog.title}}.</a></h4>
 <a href="{% url 'user-blog' blog.user.username %}">
 <i class="lni lni-user  mx-2"></i>
-{{blog.user.username}}
+{{blog.user.user_profile.firstname}} {{blog.user.user_profile.lastname}}
 </a> 
 <a >
 <i class="lni lni-calendar mx-2"></i>
@@ -170,6 +167,19 @@ bloglist end -->
 </form> {% endcomment %}
 
 </div>
+
+<div class="widget popular-tag-widget">
+<h5 class="widget-title">Popular Tags</h5>
+<div class="tags">
+    {% tags as tags %}
+{% for tag in tags %}
+
+<a href="{% url 'tags' tag.name %}">{{tag.name}}</a>
+{% endfor %}
+</div>
+</div>
+
+
 <div class="widget popular-feeds">
 <h5 class="widget-title">Recently Posted</h5>
  {% resent_blogs  as blogs %}
@@ -197,26 +207,8 @@ bloglist end -->
 </div>
 </div>
 
-<div class="widget popular-tag-widget">
-<h5 class="widget-title">Popular Tags</h5>
 
-<div class="tags">
-    {% tags as tags %}
-{% for tag in tags %}
 
-<a href="{% url 'tags' tag.name %}">{{tag.name}}</a>
-{% endfor %}
-</div>
-</div>
-
-<div class="widget call-us">
-<div class="content">
-<h4>Call us need help?<span>01-2222-456</span></h4>
-<div class="button">
-<a href="#" class="btn">call us</a>
-</div>
-</div>
-</div>
 
 </div>
 </aside>

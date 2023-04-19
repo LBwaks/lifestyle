@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Profile{% endblock title %}
-{% comment %} {% load 'static' %} {% endcomment %}
+{% load static %}
 {% comment %} {% load hitcount_tags %} {% endcomment %}
 {% load crispy_forms_tags %}
 {% block content %}
@@ -30,7 +30,16 @@
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class=image>
-<img src="{{profile.profile_url}}" alt="..."  class="rounded-circle" height="200" width="200">
+    {% comment %} {{profile.profile_url}} {% endcomment %}
+{% if profile.profile_url == '/media/default_profile.png' %}
+<img  src="{% static 'images/default_profile.png' %}" alt="..."  class="rounded-circle" height="200" width="200">
+    
+    {% else %}
+
+   <img src="{{profile.profile_url}}" alt="..."  class="rounded-circle" height="200" width="200">
+{% endif %}
+    
+
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">

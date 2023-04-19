@@ -1,6 +1,7 @@
 import random
 
 from django.contrib import messages
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -324,13 +325,73 @@ class BlogBookmarks(LoginRequiredMixin, ListView):
         return context
 
 
-def likeView(request, slug):
-    blog = get_object_or_404(Blog, slug=request.POST.get("blog_slug"))
-    liked = False
-    if blog.likes.filter(id=request.user.id).exists():
-        blog.likes.remove(request.user)
-        liked = False
-    else:
-        blog.likes.add(request.user)
-        liked = True
-    return HttpResponseRedirect(reverse("blog-detail", args=[str(slug)]))
+# def likeView(request, slug):
+#     blog = get_object_or_404(Blog, slug=request.POST.get("blog_slug"))
+#     liked = False
+#     if blog.likes.filter(id=request.user.id).exists():
+#         blog.likes.remove(request.user)
+#         liked = False
+#     else:
+#         blog.likes.add(request.user)
+#         liked = True
+#     return HttpResponseRedirect(reverse("blog-detail", args=[str(slug)]))
+# def likeView(request, pk):
+#     blog = get_object_or_404(Blog, pk=pk)
+   
+#     blog.likes += 1
+#     blog.save()
+#     data = {
+#         'likes': blog.likes
+#     }
+#     return JsonResponse(data)
+
+
+# def likeView(request,pk):
+#     # blog_id = request.POST.get('blog_id')
+#     blog = get_object_or_404(Blog, pk=pk)
+#     if request.user in blog.likes.all():
+#         blog.likes.remove(request.user)
+#         message = 'unliked'
+#     else:
+#         blog.likes.add(request.user)
+#         message = 'liked'
+#     context = {
+#         'likes_count': blog.likes.count(),
+#         'message': message
+#     }
+#     return JsonResponse(context)
+
+
+def likeView(request, id):
+    # if request.method == "POST":
+        instance =  get_object_or_404(Blog,id=id)
+        
+        
+        if not instance.likes.filter(id=request.user.id).exists():
+            instance.likes.add(request.user)
+            # instance.save() 
+            return render( request, 'includes/like.html', context={'blog':instance})
+        else:
+            instance.likes.remove(request.user)
+            # instance.save() 
+            return render( request, 'includes/like.html', context={'blog':instance})
+# <script>
+# document.addEventListener('DOMContentLoaded', function() {
+#   var likeBtn = document.querySelector('#like-btn');
+#   likeBtn.addEventListener('click', function() {
+#     var data = new FormData();
+#     data.append('id', {{ obj.id }});
+#     htmx.ajax(likeBtn, {
+#       method: 'POST',
+#       body: data,
+#       headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+#       onComplete: function(xhr) {
+#         if (xhr.status == 200 && xhr.response.success) {
+#           likeBtn.innerHTML = 'Liked';
+#           likeBtn.disabled = true;
+#         }
+#       }
+#     });
+#   });
+# });
+# </script>
