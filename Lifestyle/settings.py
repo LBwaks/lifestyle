@@ -12,14 +12,15 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
+
 import dj_database_url
+import sentry_sdk
 from decouple import config
 from django.conf import settings
 from django.contrib.messages import constants as messages
 from dotenv import load_dotenv
 from logtail import LogtailHandler
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,7 +35,14 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.getenv("DEBUG")
 DEBUG = True
-ALLOWED_HOSTS = ['.railway.app','127.0.0.1']
+ALLOWED_HOSTS = [".railway.app", "127.0.0.1"]
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
+
 # 'localhost',
 #   '127.0.0.1',
 #   '111.222.333.444',
@@ -74,13 +82,16 @@ INSTALLED_APPS = [
     "django_social_share",
     "django_cleanup.apps.CleanupConfig",
     "phonenumber_field",
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
+   
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -124,10 +135,12 @@ WSGI_APPLICATION = "Lifestyle.wsgi.application"
 # }
 # production db settings
 DATABASE_URL = os.getenv("DATABASE_URL")
-DATABASES ={"default": dj_database_url.config(
-    conn_max_age=600,
-    conn_health_checks=True,
-)}
+DATABASES = {
+    "default": dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+}
 SENDGRID_SANDBOX_MODE_IN_DEBUG = True
 EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 # EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -323,7 +336,11 @@ SOCIALACCOUNT_PROVIDERS = {
         # For each OAuth based provider, either add a ``SocialApp``
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
-        "APP": {"client_id": os.getenv("client_id"), "secret": os.getenv("secret"), "key": ""}
+        "APP": {
+            "client_id": os.getenv("client_id"),
+            "secret": os.getenv("secret"),
+            "key": "",
+        }
     }
 }
 # ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
@@ -612,35 +629,33 @@ LOGGING = {
 # deployment
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# after https is configured
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# # after https is configured
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
-SECURE_BROWSER_XSS_FILTER = True
-# http sttrict transport security
-SECURE_HSTS_SECONDS = 1
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
+# SECURE_BROWSER_XSS_FILTER = True
+# # http sttrict transport security
+# SECURE_HSTS_SECONDS = 1
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SECURE_HSTS_PRELOAD = True
 
-SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = "DENY"
-REFERRER_POLICY = "same-origin"
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# X_FRAME_OPTIONS = "DENY"
+# REFERRER_POLICY = "same-origin"
 
-# SECURE SSL REDIRECT
-SECURE_SSL_REDIRECT = True
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# # SECURE SSL REDIRECT
+# SECURE_SSL_REDIRECT = True
+# SECURE_BROWSER_XSS_FILTER = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
-
-# sentry 
+# sentry
 sentry_sdk.init(
     dsn="https://d5ae51a5355c403d85995fe7d3724224@o4504099387342848.ingest.sentry.io/4505028709974016",
-    
     integrations=[
         DjangoIntegration(
-            transaction_style='url',
+            transaction_style="url",
             middleware_spans=True,
             signals_spans=False,
         ),
@@ -649,6 +664,5 @@ sentry_sdk.init(
     # of transactions for performance monitoring.
     # We recommend adjusting this value in production,
     traces_sample_rate=1.0,
-    send_default_pii=True
-    
+    send_default_pii=True,
 )

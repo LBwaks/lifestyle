@@ -36,8 +36,12 @@ from .models import Blog, Category, Comment
 class BlogListView(ListView):
     model = Blog
     template_name = "blogs/blog-list.html"
-    paginate_by = 10
+    paginate_by = 1
 
+    def get_queryset(self):
+        # blogs= 
+        return Blog.objects.prefetch_related('tags').select_related('category','user').all()
+    
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context["blogs"] = Blog.objects.all()
@@ -64,10 +68,10 @@ class BlogDetailView(HitCountDetailView):
         context["liked"] = liked
         # similar_blogs = random.choice(similar_blogs)
         context["similar_blogs"] = similar_blogs
-        popular_blogs = Blog.objects.order_by("-hit_count_generic__hits")[:5]
+        popular_blogs = Blog.objects.prefetch_related('tags').select_related('category','user').order_by("-hit_count_generic__hits")[:5]
 
         context["popular_blogs"] = popular_blogs
-        context["comments"] = Comment.objects.filter(blog=self.get_object())
+        context["comments"] = Comment.objects.select_related('parent','user').filter(blog=self.get_object())
         # context['comment_count'] = comments.count()
         context["form"] = CommentForm()
         bookmarked = bool
@@ -154,7 +158,7 @@ class BlogTagsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tag = get_object_or_404(Tag, name=self.kwargs.get("name"))
-        blogs = Blog.objects.filter(tags=tag)
+        blogs = Blog.objects.filter(tags=tag).prefetch_related('tags').select_related('category','user')
 
         page_num = self.request.GET.get("page", 1)
         paginator = Paginator(blogs, 6)
@@ -190,7 +194,7 @@ class CategoryListView(ListView):
         context = super().get_context_data(**kwargs)
         category = get_object_or_404(Category, name=self.kwargs.get("name"))
         blogs = Blog.objects.filter(category=category)
-        category_most_viewed = Blog.objects.filter(category=category).order_by(
+        category_most_viewed = Blog.objects.prefetch_related('tags').select_related('category','user').filter(category=category).order_by(
             "-hit_count_generic__hits"
         )[:5]
         context["category_most_viewed"] = category_most_viewed
@@ -216,7 +220,7 @@ class UsersListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(UsersListView, self).get_context_data(**kwargs)
         blog_by = get_object_or_404(User, username=self.kwargs.get("username"))
-        blogs = Blog.objects.filter(user=blog_by)
+        blogs = Blog.objects.prefetch_related('tags').select_related('category','user').filter(user=blog_by)
 
         page_num = self.request.GET.get("page", 1)
         paginator = Paginator(blogs, 6)
@@ -238,7 +242,7 @@ class MyBlogsListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        my_blogs = Blog.objects.filter(user=self.request.user)
+        my_blogs = Blog.objects.prefetch_related('tags').select_related('category','user').filter(user=self.request.user)
         context["my_blogs"] = my_blogs
 
         page_num = self.request.GET.get("page", 1)
@@ -309,7 +313,7 @@ class BlogBookmarks(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        bookmarks = Blog.objects.filter(bookmarks=self.request.user)
+        bookmarks = Blog.objects.prefetch_related('tags').select_related('category','user').filter(bookmarks=self.request.user)
 
         page_num = self.request.GET.get("page", 1)
         paginator = Paginator(bookmarks, 10)
@@ -325,41 +329,6 @@ class BlogBookmarks(LoginRequiredMixin, ListView):
         return context
 
 
-# def likeView(request, slug):
-#     blog = get_object_or_404(Blog, slug=request.POST.get("blog_slug"))
-#     liked = False
-#     if blog.likes.filter(id=request.user.id).exists():
-#         blog.likes.remove(request.user)
-#         liked = False
-#     else:
-#         blog.likes.add(request.user)
-#         liked = True
-#     return HttpResponseRedirect(reverse("blog-detail", args=[str(slug)]))
-# def likeView(request, pk):
-#     blog = get_object_or_404(Blog, pk=pk)
-   
-#     blog.likes += 1
-#     blog.save()
-#     data = {
-#         'likes': blog.likes
-#     }
-#     return JsonResponse(data)
-
-
-# def likeView(request,pk):
-#     # blog_id = request.POST.get('blog_id')
-#     blog = get_object_or_404(Blog, pk=pk)
-#     if request.user in blog.likes.all():
-#         blog.likes.remove(request.user)
-#         message = 'unliked'
-#     else:
-#         blog.likes.add(request.user)
-#         message = 'liked'
-#     context = {
-#         'likes_count': blog.likes.count(),
-#         'message': message
-#     }
-#     return JsonResponse(context)
 
 
 def likeView(request, id):
@@ -375,23 +344,4 @@ def likeView(request, id):
             instance.likes.remove(request.user)
             # instance.save() 
             return render( request, 'includes/like.html', context={'blog':instance})
-# <script>
-# document.addEventListener('DOMContentLoaded', function() {
-#   var likeBtn = document.querySelector('#like-btn');
-#   likeBtn.addEventListener('click', function() {
-#     var data = new FormData();
-#     data.append('id', {{ obj.id }});
-#     htmx.ajax(likeBtn, {
-#       method: 'POST',
-#       body: data,
-#       headers: { 'X-CSRFToken': '{{ csrf_token }}' },
-#       onComplete: function(xhr) {
-#         if (xhr.status == 200 && xhr.response.success) {
-#           likeBtn.innerHTML = 'Liked';
-#           likeBtn.disabled = true;
-#         }
-#       }
-#     });
-#   });
-# });
-# </script>
+

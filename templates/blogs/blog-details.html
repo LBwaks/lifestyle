@@ -230,13 +230,24 @@ like
 <div class="desc-top">
 <h6>{{comment.user}}</h6>
 <span class="date">{{comment.created|naturalday}} created</span>
-<a href="javascript:replyForm(id)" data-id="{{comment.id}}" class="reply-link"><i class="lni lni-reply"></i>Reply</a>
+{% comment %} <a href="javascript:replyForm(id)" data-id="{{comment.id}}" class="reply-link"><i class="lni lni-reply"></i>Reply</a> {% endcomment %}
+
+
+
+<button class="btn btn-link reply-link" onclick="toggleReplyForm('{{ comment.id }}')"><i class="lni lni-reply"></i>Reply</button> 
+
+
 
 </div>
 <p>
 {{comment.comment}}
+
 </p>
-<form action="" method="POST" id="{{comment.pk}}" style="display:none;"> 
+
+
+
+
+<form action="" method="POST" id="replyForm-{{ comment.id }}" style="display:none;"> 
    {% csrf_token %}
 
 
@@ -260,14 +271,7 @@ like
 </div>
 </div>
 
-
-    {% comment %} <div>
-            &nbsp; &nbsp; &nbsp; <label for="comment">Reply</label>
-&nbsp; &nbsp; &nbsp;
-<input type="text" name="comment" class="form-control">
-<input type="hidden" name="parent" value={{comment.pk}}>
-<input type="submit" class="btn btn-sm btn-primary" value="Reply"></div>  {% endcomment %}
-         
+  
 
 </form>  
 </div>
@@ -300,7 +304,8 @@ like
 <div class="comment-form"  hx-target="this" hx-swap="none">
 <h3 class="comment-reply-title">Leave a comment</h3>
 
-<form  method="POST" hx-post=".">
+
+<form  method="POST" >
    {% csrf_token %}
 <div class="row">
 
@@ -308,7 +313,7 @@ like
 <div class="col-12">
 <div class="button">
   {% if user.is_authenticated %}
-<button type="submit" class="btn mouse-dir white-bg">Add Comment <span class="dir-part"></span></button>
+<button type="submit"  class="btn mouse-dir white-bg">Add Comment <span class="dir-part"></span></button>
 {% else %}
 <a tabindex="0" class="btn mouse-dir white-bg" role="button" data-bs-toggle="popover" data-bs-trigger="focus" title="Not Yet Logged In!" data-bs-content="Login To Post Comment">Add Comment</a>
 
@@ -318,6 +323,7 @@ like
 </div>
 </div>
 </form>
+
 </div>
 </div>
 </div>
@@ -407,6 +413,18 @@ like
 <!-- end blog detail-->
 </main>
 <script>
+
+function toggleReplyForm(commentId) {
+  const form = document.getElementById("replyForm-" + commentId);
+  if (form.style.display === "none") {
+    form.style.display = "block";
+  } else {
+    form.style.display = "none";
+  }
+}
+
+
+  
   var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   return new bootstrap.Popover(popoverTriggerEl)
@@ -416,31 +434,8 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
   trigger: 'focus'
 })
 
-function replyForm(id) {
-  var c_id =id.target
-  var x = document.getElementById(c_id.id);
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } else {
-    x.style.display = "none";
-  }
-} 
+
 </script>
 
 {% endblock content %}
 
-<div class="list-group list-group-horizontal btn-group" id="likesarea" role="group">
-    <p>{{ post.likes.count }} likes
-    
-        <button hx-post="{% url 'posts:like_post' post.id %}" id="like-button" hx-target="#likesarea" hx-swap="outerHTML">
-
-          {% if request.user in post.likes.all %}
-            <i class="material-icons" style="font-size:16px;color:green;">check_box</i>
-          {% else %}
-          <i class="material-icons" style="font-size:16px;color:yellowgreen;">check_box_outline_blank</i>
-          {% endif %}
-        </button>
-
-    </p> 
-    
-</div>
