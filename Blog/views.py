@@ -13,7 +13,7 @@ from django.contrib.postgres.search import (
     SearchVector,
 )
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
@@ -29,6 +29,7 @@ from taggit.models import Tag
 
 from .forms import BlogForm, CommentForm, EditBlogForm
 from .models import Blog, Category, Comment
+from django.core.cache import cache
 
 # Create your views here.
 
@@ -55,23 +56,35 @@ class BlogDetailView(HitCountDetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # blog_slug =self.kwargs['slug']
+        # if cache.get(blog_slug):
+        #     blog = cache.get(blog_slug)
+        #     print('hit the cache')
+            
+        # else:
+            # try:
         blog = get_object_or_404(Blog, slug=self.kwargs.get("slug"))
+                # cache.set(blog_slug,Blog)
+                # print('hit the db')
+            # except Blog.DoesNotExist:
+            #     return HttpResponse('Blog does not exist')
+        
         similar_blogs = blog.tags.similar_objects()[:5]
 
         # likes
-        blog_to_like = get_object_or_404(Blog, slug=self.kwargs["slug"])
-        total_likes = blog_to_like.total_likes()
+        # blog_to_like = get_object_or_404(Blog, slug=self.kwargs["slug"])
+        total_likes = blog.total_likes()
         liked = False
-        if blog_to_like.likes.filter(id=self.request.user.id).exists():
+        if blog.likes.filter(id=self.request.user.id).exists():
             liked = True
         context["total_likes"] = total_likes
         context["liked"] = liked
         # similar_blogs = random.choice(similar_blogs)
         context["similar_blogs"] = similar_blogs
-        popular_blogs = Blog.objects.prefetch_related('tags').select_related('category','user').order_by("-hit_count_generic__hits")[:5]
+        popular_blogs = Blog.objects.order_by("-hit_count_generic__hits")[:5]
 
         context["popular_blogs"] = popular_blogs
-        context["comments"] = Comment.objects.select_related('parent','user').filter(blog=self.get_object())
+        context["comments"] = Comment.objects.filter(blog=self.get_object())
         # context['comment_count'] = comments.count()
         context["form"] = CommentForm()
         bookmarked = bool
@@ -80,7 +93,8 @@ class BlogDetailView(HitCountDetailView):
         context["bookmarked"] = bookmarked
 
         return context
-
+    
+    @login_required
     def post(self, request, slug, *args, **kwargs):
         if self.request.method == "POST":
             form = CommentForm(self.request.POST)
@@ -330,7 +344,7 @@ class BlogBookmarks(LoginRequiredMixin, ListView):
 
 
 
-
+@login_required
 def likeView(request, id):
     # if request.method == "POST":
         instance =  get_object_or_404(Blog,id=id)
