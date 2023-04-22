@@ -37,7 +37,7 @@ from django.core.cache import cache
 class BlogListView(ListView):
     model = Blog
     template_name = "blogs/blog-list.html"
-    paginate_by = 1
+    paginate_by = 10
 
     def get_queryset(self):
         # blogs= 

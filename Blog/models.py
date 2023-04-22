@@ -14,10 +14,11 @@ from django.contrib.postgres.search import SearchVectorField
 from taggit.managers import TaggableManager
 from .managers import CategoryManager, BlogManager
 from .validators import validate_file_size
+from django.core.validators import FileExtensionValidator
 from django.contrib.postgres.indexes import GinIndex
 # Create your models here.
 
-
+ext_validator =FileExtensionValidator(['jpg','png','jpeg','gif'])
 def my_slugify_function(content):
     return content.replace("_", "-").lower()
 
@@ -98,7 +99,7 @@ class Blog(models.Model, HitCountMixin):
         height_field=None,
         width_field=None,
         max_length=None,
-        validators=[validate_file_size],
+        validators=[validate_file_size,ext_validator],
         
     )
 

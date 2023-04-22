@@ -32,7 +32,7 @@ class BlogForm(forms.ModelForm):
             "category": forms.Select(
                 attrs={"class": "form-control category" "required"}
             ),
-            "photo": forms.ClearableFileInput(attrs={"class": "form-control"}),
+            "photo": forms.ClearableFileInput(attrs={"class": "form-control","accept":".png,.jpg,.jpeg"}),
         }
 
     def clean_title(self):

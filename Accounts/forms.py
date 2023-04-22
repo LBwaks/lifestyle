@@ -37,7 +37,7 @@ class UpdateProfileForm(forms.ModelForm):
             "dob": forms.DateTimeInput(attrs={"class": "form-control dob" "required"}),
             "location": forms.TextInput(attrs={"class": "form-control location"}),
             "bio": forms.Textarea(attrs={"class": "form-control bio" "required"}),
-            "profile": forms.ClearableFileInput(attrs={"class": "form-control"}),
+            "profile": forms.ClearableFileInput(attrs={"class": "form-control","accept":".png,.jpg,.jpeg"}),
             "twitter": forms.URLInput(attrs={"class": "form-control twitter"}),
             "facebook": forms.URLInput(attrs={"class": "form-control facebook"}),
             "instagram": forms.URLInput(attrs={"class": "form-control instagram"}),

@@ -22,10 +22,18 @@ from dotenv import load_dotenv
 from logtail import LogtailHandler
 from sentry_sdk.integrations.django import DjangoIntegration
 
+import environ
+import os
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(os.path.join(BASE_DIR, ".env"))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -197,14 +205,6 @@ USE_TZ = True
 
 # static settings
 
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-
-# media settings
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR / "media")
-CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -635,6 +635,39 @@ LOGGING = {
 
 # deployment
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+# aws
+
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_DEFAULT_ACL = "public-read"
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+# AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+AWS_QUERYSTRING_AUTH = False
+AWS_QUERYSTRING_EXPIRE= 8
+# AWS_S3_OBJECT_PARAMETERS = {"Access-Control-Allow-Origin": "*"}
+
+AWS_S3_CUSTOM_DOMAIN = 'https://d2n7j1cvfar59p.cloudfront.net'
+AWS_CLOUDFRONT_KEY = env.str("AWS_CLOUDFRONT_KEY", multiline=True).encode('ascii').strip()
+AWS_CLOUDFRONT_KEY_ID =env.str("AWS_CLOUDFRONT_KEY_ID").strip()
+# s3 static settings
+AWS_LOCATION = "static"
+STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+# media settings
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR / "media")
+CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
+
 
 # after https is configured
 CSRF_COOKIE_SECURE = True

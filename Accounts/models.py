@@ -10,8 +10,9 @@ from PIL import Image
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from Blog.validators import validate_file_size
-
+from django.core.validators import FileExtensionValidator
 # Create your models here.
+ext_validator =FileExtensionValidator(['jpg','png','jpeg','gif'])
 my_gender = [
     ("Male", "Male"),
     ("Female", "Female"),
@@ -53,7 +54,7 @@ class Profile(models.Model):
         null=True,
         blank=True,
         default="default_profile.png",
-        validators=[validate_file_size],
+        validators=[validate_file_size,ext_validator],
     )
     twitter = models.URLField(
         _("Twitter"),
@@ -91,17 +92,17 @@ class Profile(models.Model):
         """Unicode representation of Profile."""
         return str(self.firstname) + " " + str(self.lastname)
 
-    def save(self, *args, **kwargs):
-    # #     """Save method for Profile."""
-    # #     new_profile = compress(self.profile)
-    # #     self.profile = new_profile
-        super().save(*args, **kwargs)
-        img = Image.open(self.profile.path)
+    # def save(self, *args, **kwargs):
+    # # #     """Save method for Profile."""
+    # # #     new_profile = compress(self.profile)
+    # # #     self.profile = new_profile
+    #     super().save(*args, **kwargs)
+    #     img = Image.open(self.profile.name)
         
-        if  img.height > 300 or img.width >300:
-            output_size =(300,300)
-            img.thumbnail(output_size)
-            img.save(self.profile.path)
+    #     if  img.height > 300 or img.width >300:
+    #         output_size =(300,300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.profile.name)
 
     def get_absolute_url(self):
         """Return absolute url for Profile."""
