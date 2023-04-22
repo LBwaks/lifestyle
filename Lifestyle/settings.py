@@ -649,8 +649,8 @@ AWS_QUERYSTRING_EXPIRE= 8
 # AWS_S3_OBJECT_PARAMETERS = {"Access-Control-Allow-Origin": "*"}
 
 AWS_S3_CUSTOM_DOMAIN = 'https://d2n7j1cvfar59p.cloudfront.net'
-AWS_CLOUDFRONT_KEY = os.getenv("AWS_CLOUDFRONT_KEY")
-AWS_CLOUDFRONT_KEY_ID =os.getenv("AWS_CLOUDFRONT_KEY_ID")
+AWS_CLOUDFRONT_KEY = os.getenv("AWS_CLOUDFRONT_KEY",None).encode('ascii')
+AWS_CLOUDFRONT_KEY_ID =os.getenv("AWS_CLOUDFRONT_KEY_ID",None)
 # s3 static settings
 # AWS_LOCATION = "static"
 # STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
