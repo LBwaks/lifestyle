@@ -217,7 +217,7 @@ like
 </div>
 
 <div class="post-comments">
-<h3 class="comment-title">Post comments</h3>
+<h3 class="comment-title">Blog comments</h3>
 <ul class="comments-list" id="comment-list">
   {% for comment in comments %}
 {% if comment.is_parent %}
@@ -396,14 +396,14 @@ like
 
 
 
-<div class="widget call-us">
+{% comment %} <div class="widget call-us">
 <div class="content">
 <h4>Call us need help?<span>01-2222-456</span></h4>
 <div class="button">
 <a href="#" class="btn">call us</a>
 </div>
 </div>
-</div>
+</div> {% endcomment %}
 
 </div>
 </aside>
@@ -422,17 +422,6 @@ function toggleReplyForm(commentId) {
     form.style.display = "none";
   }
 }
-
-
-  
-  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
-var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-  return new bootstrap.Popover(popoverTriggerEl)
-})
-
-  var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
-  trigger: 'focus'
-})
 
 
 </script>

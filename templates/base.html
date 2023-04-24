@@ -10,8 +10,17 @@
     {% block title %} {% endblock title %}</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.svg" />
-    <!-- Place favicon.ico in the root directory -->
+    
+    <!-- Place favicon.ico  -->
+
+<link rel="apple-touch-icon" type="image/png"sizes="180x180" href="{% static 'images/fav/apple-touch-icon.png' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/fav/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/fav/favicon-16x16.png' %}">
+<link rel="icon" type="image/png" sizes="512*512" href="{% static 'images/fav/android-chrome-512x512.png' %}">
+<link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/fav/android-chrome-192x192.png' %}">
+<link rel="icon" href="{% static 'images/fav/favicon.ico' %}" sizes="any">
+<link rel="manifest" href="{% static 'images/fav/site.webmanifest' %}">
+<meta name="theme-color" content="#209CEE" />
 
     <!-- Web Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel=stylesheet>
@@ -110,7 +119,7 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" integrity="sha512-Eak/29OTpb36LLo2r47IpVzPBLXnAMPAVypbSZiZ4Qkf8p/7S/XRG5xp7OKWPPYfJT6metI+IORkR5G8F900+g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>   <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>   
    <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/js/glightbox.min.js" integrity="sha512-S/H9RQ6govCzeA7F9D0m8NGfsGf0/HjJEiLEfWGaMCjFzavo+DkRbYtZLSO+X6cZsIKQ6JvV/7Y9YMaYnSGnAA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.min.js" integrity="sha512-GNb4Gyn5ZK+XcsnKg8jeo5olNYWqH+j+gMvbG1X5Z9Vz7bv/tQ2spLUuKcXo8T3r4p3IxVt0e/ARNwFftqCt+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.min.js" integrity="sha512-GNb4Gyn5ZK+XcsnKg8jeo5olNYWqH+j+gMvbG1X5Z9Vz7bv/tQ2spLUuKcXo8T3r4p3IxVt0e/ARNwFftqCt+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> {% endcomment %}
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     {% comment %} <script src="https://code.jquery.com/jquery-3.5.1.js"></script> {% endcomment %}
 
@@ -136,7 +145,7 @@ var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
 })
 
   var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
-  trigger: 'focus',
+  triggr: 'focus',
   html:true
 })
 

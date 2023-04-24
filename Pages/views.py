@@ -26,10 +26,10 @@ class Home(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["featured_blogs"] = Blog.objects.filter(is_featured=True).order_by(
+        context["featured_blogs"] = Blog.objects.prefetch_related('tags').select_related('category','user').filter(is_featured=True).order_by(
             "-created"
         )[:4]
-        context["popular_blogs"] = Blog.objects.order_by("-hit_count_generic__hits")[:4]
+        context["popular_blogs"] = Blog.objects.prefetch_related('tags').select_related('category','user').order_by("-hit_count_generic__hits")[:4]
         context["works"] = Work.objects.order_by("-created")
         return context
 
