@@ -229,7 +229,7 @@ CKEDITOR_IMAGE_QUALITY = 90
 
 CKEDITOR_CONFIGS = {
     "default": {
-        # 'skin': 'moono',
+        'skin': 'moono',
         # 'skin': 'office2013',
         "toolbar_Basic": [["Source", "-", "Bold", "Italic"]],
         "toolbar_YourCustomToolbarConfig": [
@@ -284,7 +284,7 @@ CKEDITOR_CONFIGS = {
         "toolbar": "YourCustomToolbarConfig",  # put selected toolbar config here
         # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
         "height": 291,
-        "width": "100%",
+        "width": "auto",
         # 'filebrowserWindowHeight': 725,
         # 'filebrowserWindowWidth': 940,
         # 'toolbarCanCollapse': True,
@@ -669,7 +669,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR / "media")
 CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 
-# after https is configured
+# # after https is configured
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
