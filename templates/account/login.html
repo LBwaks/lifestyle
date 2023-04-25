@@ -22,14 +22,14 @@
 {% if socialaccount_providers %}
 
 
-       
-{% comment %} <div class="socialaccount_ballot"> {% endcomment %}
+{% comment %}        
+<div class="socialaccount_ballot">
 
-  <div>
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %} acccount 
-  </div>
+  <ul class="socialaccount_providers"> {% endcomment %}
+    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+  {% comment %} </ul>
 
-{% comment %} </div> {% endcomment %}
+</div> {% endcomment %}
 
 {% include "socialaccount/snippets/login_extra.html" %}
 <div class="or-seperator"><i>or</i></div>
