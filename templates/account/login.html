@@ -2,7 +2,7 @@
 
 {% load i18n %}
 {% load account socialaccount %}
-
+{% load socialaccount %}
 {% block title %}{% trans "Sign In" %}{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
@@ -27,6 +27,26 @@
 
   <ul class="socialaccount_providers"> {% endcomment %}
     {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+
+{% get_providers as socialaccount_providers %}
+
+{% for provider in socialaccount_providers %}
+{% if provider.id == "openid" %}
+{% for brand in provider.get_brands %}
+<div class="d-grid gap-2 col-9 mx-auto">
+  <a title="{{brand.name}}" 
+     class="btn btn-danger social-btn  mx-auto {{provider.id}} {{brand.id}}" 
+     href="{% provider_login_url provider.id openid=brand.openid_url process=process %}"
+     >{{brand.name}} </a>
+</div>
+{% endfor %}
+{% endif %}
+<div class="d-grid gap-2 col-9 mx-auto">
+  <a title="{{provider.name}}" class="btn btn-danger social-btn  mx-auto {{provider.id}}" 
+     href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><b>{{provider.name}}</b></a>
+</div>
+{% endfor %}
+
   {% comment %} </ul>
 
 </div> {% endcomment %}
