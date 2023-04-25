@@ -26,8 +26,8 @@
 <div class="socialaccount_ballot">
 
   <ul class="socialaccount_providers"> {% endcomment %}
-    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-
+    {% comment %} {% include "socialaccount/snippets/provider_list.html" with process="login" %} {% endcomment %}
+<div class="or-seperator"><i>with</i></div>
 {% get_providers as socialaccount_providers %}
 
 {% for provider in socialaccount_providers %}
