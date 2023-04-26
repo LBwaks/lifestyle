@@ -21,9 +21,9 @@ from django.urls import include, path
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("blogs/", include("Blog.urls")),
-    path('',include('Pages.urls')),
-    path('__debug__/', include('debug_toolbar.urls')),
-    path('profile/',include('Accounts.urls')),
+    path("", include("Pages.urls")),
+    path("__debug__/", include("debug_toolbar.urls")),
+    path("profile/", include("Accounts.urls")),
     path("ckeditor/", include("ckeditor_uploader.urls")),
     path("accounts/", include("allauth.urls")),
     path("hitcount/", include(("hitcount.urls", "hitcount"), namespace="hitcount")),
