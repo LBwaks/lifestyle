@@ -157,17 +157,19 @@ DATABASES = {
         conn_health_checks=True,
     )
 }
-SENDGRID_SANDBOX_MODE_IN_DEBUG = True
-EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.sendgrid.net"
+# SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+# EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-# EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
-# RECIPIENT_ADDRESS = os.getenv("RECIPIENT_ADDRESS")
-# DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", default='noreply@gmail.com')
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+# SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+RECIPIENT_ADDRESS = os.getenv("RECIPIENT_ADDRESS")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", default='noreply@gmail.com')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -329,7 +331,7 @@ LOGIN_REDIRECT_URL = "blogs"
 LOGOUT_REDIRECT_URL = "blogs"
 
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
@@ -669,7 +671,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR / "media")
 CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 
-# # after https is configured
+# after https is configured
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
