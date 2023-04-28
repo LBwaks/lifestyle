@@ -16,6 +16,7 @@ from .managers import CategoryManager, BlogManager
 from .validators import validate_file_size
 from django.core.validators import FileExtensionValidator
 from django.contrib.postgres.indexes import GinIndex
+
 # Create your models here.
 
 ext_validator =FileExtensionValidator(['jpg','png','jpeg','gif'])
@@ -155,6 +156,7 @@ class Blog(models.Model, HitCountMixin):
         string = self.title + unescape(strip_tags(self.content))
         total_words = len((string).split())
         return round(total_words / 265)
+
 
     @property
     def photo_url(self):

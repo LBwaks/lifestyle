@@ -82,6 +82,7 @@ class BlogDetailView(HitCountDetailView):
         # similar_blogs = random.choice(similar_blogs)
         context["similar_blogs"] = similar_blogs
         popular_blogs = Blog.objects.order_by("-hit_count_generic__hits")[:5]
+        
 
         context["popular_blogs"] = popular_blogs
         context["comments"] = Comment.objects.filter(blog=self.get_object())
