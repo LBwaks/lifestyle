@@ -93,16 +93,16 @@ class Profile(models.Model):
         return str(self.firstname) + " " + str(self.lastname)
 
     # def save(self, *args, **kwargs):
-    # # #     """Save method for Profile."""
-    # # #     new_profile = compress(self.profile)
-    # # #     self.profile = new_profile
-    #     super().save(*args, **kwargs)
-    #     img = Image.open(self.profile.name)
+    # #     """Save method for Profile."""
+    # #     new_profile = compress(self.profile)
+    # #     self.profile = new_profile
+        # super().save(*args, **kwargs)
+        # img = Image.open(self.profile.name)
         
-    #     if  img.height > 300 or img.width >300:
-    #         output_size =(300,300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.profile.name)
+        # if  img.height > 300 or img.width >300:
+        #     output_size =(300,300)
+        #     img.thumbnail(output_size)
+        #     img.save(self.profile.name)
 
     def get_absolute_url(self):
         """Return absolute url for Profile."""

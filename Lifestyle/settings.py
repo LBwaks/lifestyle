@@ -21,6 +21,7 @@ from django.contrib.messages import constants as messages
 from dotenv import load_dotenv
 from logtail import LogtailHandler
 from sentry_sdk.integrations.django import DjangoIntegration
+from datetime import timedelta
 
 import environ
 import os
@@ -80,6 +81,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     "django.contrib.postgres",
     "django.contrib.humanize",
+    'hijack.contrib.admin',
     # created app
     "Blog",
     "Accounts",
@@ -91,6 +93,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "hitcount",
     "crispy_forms",
+     'defender',
     "crispy_bootstrap5",
     "allauth",
     "allauth.account",
@@ -100,6 +103,8 @@ INSTALLED_APPS = [
     "django_cleanup.apps.CleanupConfig",
     "phonenumber_field",
     "debug_toolbar",
+    'hijack',
+    # 'imagekit' ,
      
 ]
 
@@ -112,8 +117,11 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+     'defender.middleware.FailedLoginMiddleware',
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    'hijack.middleware.HijackUserMiddleware',
+    'django_auto_logout.middleware.auto_logout',
 ]
 
 ROOT_URLCONF = "Lifestyle.urls"
@@ -129,6 +137,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'django_auto_logout.context_processors.auto_logout_client', #autologout
             ],
         },
     },
@@ -228,7 +237,7 @@ CKEDITOR_RESTRICT_BY_DATE = True
 CKEDITOR_THUMBNAIL_SIZE = (500, 500)
 CKEDITOR_BROWSE_SHOW_DIRS = True
 CKEDITOR_FORCE_JPEG_COMPRESSION = True
-CKEDITOR_IMAGE_QUALITY = 90
+CKEDITOR_IMAGE_QUALITY = 80
 
 
 CKEDITOR_CONFIGS = {
@@ -236,6 +245,10 @@ CKEDITOR_CONFIGS = {
         'skin': 'moono',
         # 'skin': 'office2013',
         "toolbar_Basic": [["Source", "-", "Bold", "Italic"]],
+         # 'filebrowserUploadUrl': '/your-file-upload-url/',
+        # 'filebrowserUploadMethod': 'form',
+        'filebrowserImageUploadAllowed': True,
+        'filebrowserImageMaxSize': 5242880,  # 5MB in bytes
         "toolbar_YourCustomToolbarConfig": [
             {
                 "name": "clipboard",
@@ -673,7 +686,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR / "media")
 CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 
-# after https is configured
+# # after https is configured
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
@@ -694,6 +707,12 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 
+# autologout
+AUTO_LOGOUT = {
+    'IDLE_TIME': timedelta(minutes=10),
+    'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
+}
+
 # sentry
 sentry_sdk.init(
     dsn="https://d5ae51a5355c403d85995fe7d3724224@o4504099387342848.ingest.sentry.io/4505028709974016",
@@ -710,3 +729,4 @@ sentry_sdk.init(
     traces_sample_rate=1.0,
     send_default_pii=True,
 )
+

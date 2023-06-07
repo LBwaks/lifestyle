@@ -26,10 +26,13 @@ from django.views.generic import (
 )
 from hitcount.views import HitCountDetailView
 from taggit.models import Tag
-
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .forms import BlogForm, CommentForm, EditBlogForm
 from .models import Blog, Category, Comment
 from django.core.cache import cache
+from django.views.decorators.cache import cache_page
+
 
 # Create your views here.
 
@@ -41,7 +44,7 @@ class BlogListView(ListView):
 
     def get_queryset(self):
         # blogs= 
-        return Blog.objects.prefetch_related('tags').select_related('category','user').all()
+        return Blog.objects.prefetch_related('tags').select_related('category','user')
     
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -49,53 +52,47 @@ class BlogListView(ListView):
     #     return context
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class BlogDetailView(HitCountDetailView):
     model = Blog
     template_name = "blogs/blog-details.html"
     count_hit = True
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # blog_slug =self.kwargs['slug']
-        # if cache.get(blog_slug):
-        #     blog = cache.get(blog_slug)
-        #     print('hit the cache')
-            
-        # else:
-            # try:
-        blog = get_object_or_404(Blog, slug=self.kwargs.get("slug"))
-                # cache.set(blog_slug,Blog)
-                # print('hit the db')
-            # except Blog.DoesNotExist:
-            #     return HttpResponse('Blog does not exist')
-        
-        similar_blogs = blog.tags.similar_objects()[:5]
+        context = super().get_context_data(**kwargs)      
+        blog = self.get_object()
+               
+        # Fetch similar blogs from cache if available
+        similar_blogs = cache.get(f"similar_blogs_{blog.slug}")
+        if similar_blogs is None:
+            similar_blogs = blog.tags.similar_objects()[:5]
+            cache.set(f"similar_blogs_{blog.slug}", similar_blogs)
+
+        context["similar_blogs"] = similar_blogs
 
         # likes
         # blog_to_like = get_object_or_404(Blog, slug=self.kwargs["slug"])
         total_likes = blog.total_likes()
-        liked = False
-        if blog.likes.filter(id=self.request.user.id).exists():
-            liked = True
+        liked = blog.likes.filter(id=self.request.user.id).exists()
+        
+            # liked = True
         context["total_likes"] = total_likes
         context["liked"] = liked
-        # similar_blogs = random.choice(similar_blogs)
-        context["similar_blogs"] = similar_blogs
-        popular_blogs = Blog.objects.order_by("-hit_count_generic__hits")[:5]
         
+        popular_blogs = Blog.objects.prefetch_related('tags').select_related('category','user').order_by("-hit_count_generic__hits")[:5]        
 
         context["popular_blogs"] = popular_blogs
-        context["comments"] = Comment.objects.filter(blog=self.get_object())
+        context["comments"] = Comment.objects.filter(blog=blog).select_related('user')
         # context['comment_count'] = comments.count()
         context["form"] = CommentForm()
-        bookmarked = bool
-        if blog.bookmarks.filter(id=self.request.user.id).exists():
-            bookmarked = True
-        context["bookmarked"] = bookmarked
+        
+            # bookmarked = True
+        context["bookmarked"] = blog.bookmarks.filter(id=self.request.user.id).exists()
 
         return context
     
-    @login_required
+    # @login_required
     def post(self, request, slug, *args, **kwargs):
         if self.request.method == "POST":
             form = CommentForm(self.request.POST)
@@ -170,6 +167,7 @@ class BlogTagsListView(ListView):
     model = Blog
     template_name = "blogs/tag-blogs.html"
 
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tag = get_object_or_404(Tag, name=self.kwargs.get("name"))

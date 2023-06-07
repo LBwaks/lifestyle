@@ -8,4 +8,9 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	// config.skin = 'kama';
+	config.imageUploadUrl = 'ckeditor/uploads';  // Specify the image upload URL
+	config.imageUploadMethod = 'xhr';  // Use XHR for image uploads
+	config.image2_prefillDimensions = true;  // Pre-fill image dimensions when inserting
+	config.image2_compressQuality = 0.8;  // Specify the image compression quality (0.0 - 1.0)
+
 };
