@@ -150,24 +150,24 @@ WSGI_APPLICATION = "Lifestyle.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 # development db settings
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("NAME"),
-        "USER": os.getenv("USER"),
-        "PASSWORD": os.getenv("PASSWORD"),
-        "HOST": os.getenv("HOST"),
-        "PORT": os.getenv("PORT"),
-    }
-}
-# production db settings
-# DATABASE_URL = os.getenv("DATABASE_URL")
 # DATABASES = {
-#     "default": dj_database_url.config(
-#         conn_max_age=600,
-#         conn_health_checks=True,
-#     )
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": os.getenv("NAME"),
+#         "USER": os.getenv("USER"),
+#         "PASSWORD": os.getenv("PASSWORD"),
+#         "HOST": os.getenv("HOST"),
+#         "PORT": os.getenv("PORT"),
+#     }
 # }
+# production db settings
+DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASES = {
+    "default": dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+}
 # SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
