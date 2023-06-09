@@ -71,7 +71,7 @@ def compress(photo):
     im = Image.open(photo)
     im_io = BytesIO()
     im = im.resize((800, 432), Image.ANTIALIAS)
-    im.save(im_io, "JPEG", quality=70)
+    im.save(im_io, "JPEG", quality=80)
     # im_io.seek(0)
     new_image = File(im_io, name=photo.name)
     return new_image

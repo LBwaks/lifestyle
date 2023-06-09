@@ -52,7 +52,6 @@ class BlogListView(ListView):
     #     return context
 
 
-@method_decorator(login_required, name='dispatch')
 @method_decorator(cache_page(60 * 15), name='dispatch')
 class BlogDetailView(HitCountDetailView):
     model = Blog
@@ -93,6 +92,8 @@ class BlogDetailView(HitCountDetailView):
         return context
     
     # @login_required
+    
+    @method_decorator(login_required, name='dispatch')
     def post(self, request, slug, *args, **kwargs):
         if self.request.method == "POST":
             form = CommentForm(self.request.POST)

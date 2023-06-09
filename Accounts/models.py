@@ -1,6 +1,6 @@
 import uuid
 from io import BytesIO
-
+from django.core.files.storage import default_storage
 from django.contrib.auth.models import User
 from django.core.files import File
 from django.db import models
@@ -53,7 +53,7 @@ class Profile(models.Model):
         # max_length=100,
         null=True,
         blank=True,
-        default="default_profile.png",
+        # default="default_profile.png",
         validators=[validate_file_size,ext_validator],
     )
     twitter = models.URLField(
@@ -96,13 +96,42 @@ class Profile(models.Model):
     # #     """Save method for Profile."""
     # #     new_profile = compress(self.profile)
     # #     self.profile = new_profile
-        # super().save(*args, **kwargs)
-        # img = Image.open(self.profile.name)
-        
-        # if  img.height > 300 or img.width >300:
-        #     output_size =(300,300)
-        #     img.thumbnail(output_size)
-        #     img.save(self.profile.name)
+    #     # super().save(*args, **kwargs)
+    #     super().save(*args, **kwargs)
+    #     if self.profile:
+    #         # with default_storage.open(self.profile.name, "rb") as file:
+    #         #     img = Image.open(file)
+    #             img = Image.open(self.profile.name)
+    #             if img.height > 300 or img.width > 300:
+    #                 output_size = (300, 300)
+    #                 img.thumbnail(output_size)
+    #                 # Create a new filename for the resized image
+    #                 # Create a new filename for the resized image
+    #                 # resized_filename = f"resized_{self.profile.name}"
+    #                 # resized_filepath = default_storage.save(resized_filename, img)
+
+    #                 # # Create a new ImageField instance with the resized image
+    #                 # resized_profile = models.ImageField()
+    #                 # resized_profile.name = resized_filepath
+
+    #                 # # Update the profile field with the new instance
+    #                 # self.profile = resized_profile
+    #                 img.save(self.profile.path)
+    #                 super().save(*args, **kwargs)
+
+
+       
+        # if self.pk is None:  # Only resize when the profile is being created
+        #     if self.profile:  # Check if a profile picture is provided
+        #         super().save(*args, **kwargs)  # Save the model instance first
+        #         img = Image.open(self.profile.name)
+
+        #         if img.height > 300 or img.width > 300:
+        #             output_size = (300, 300)
+        #             img.thumbnail(output_size)
+        #             img.save(self.profile.path)
+        # else:
+        #     super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         """Return absolute url for Profile."""

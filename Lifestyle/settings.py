@@ -44,7 +44,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.getenv("DEBUG")
 DEBUG = True
-ALLOWED_HOSTS = [".railway.app", "127.0.0.1"]
+ALLOWED_HOSTS = [".railway.app", "lovubi.com","127.0.0.1"]
 
 INTERNAL_IPS = [
     # ...
@@ -150,24 +150,24 @@ WSGI_APPLICATION = "Lifestyle.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 # development db settings
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("NAME"),
-#         "USER": os.getenv("USER"),
-#         "PASSWORD": os.getenv("PASSWORD"),
-#         "HOST": os.getenv("HOST"),
-#         "PORT": os.getenv("PORT"),
-#     }
-# }
-# production db settings
-DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {
-    "default": dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("NAME"),
+        "USER": os.getenv("USER"),
+        "PASSWORD": os.getenv("PASSWORD"),
+        "HOST": os.getenv("HOST"),
+        "PORT": os.getenv("PORT"),
+    }
 }
+# production db settings
+# DATABASE_URL = os.getenv("DATABASE_URL")
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         conn_max_age=600,
+#         conn_health_checks=True,
+#     )
+# }
 # SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
@@ -186,15 +186,15 @@ DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", default='noreply@gmail.com'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
+    # {
+    #     "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    # },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
-    {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
-    },
+    # {
+    #     "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+    # },
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
@@ -686,7 +686,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR / "media")
 CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 
-# # after https is configured
+# after https is configured
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
