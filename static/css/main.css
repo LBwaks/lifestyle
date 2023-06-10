@@ -1161,7 +1161,7 @@ ol {
   color: #fff !important;
   border-radius: 0;
   position: fixed;
-  bottom: 30px;
+  bottom: 100px;
   right: 30px;
   z-index: 9;
   cursor: pointer;
@@ -1989,7 +1989,7 @@ ol {
   content: "";
   left: 0;
   top: 0;
-  background-image: url("../images/hero/shape2.png");
+  background-image: url("../images/shape2.png");
   background-repeat: no-repeat;
   height: 100px;
   width: 100px;
@@ -6621,7 +6621,8 @@ ul.custom-flex {
 }
 .features .single-head
 {
-    position:relative 
+    position:relative ;
+    /* max-height: 150px; */
 }
 .single-feature
 {
@@ -6678,4 +6679,11 @@ ul.custom-flex {
 .features .single-head .feature-patern
 {
     position:absolute;left:-30px;bottom:-30px 
+}
+
+/* astrick */
+
+.asteriskField {
+  color:red;
+  margin:5px;
 }

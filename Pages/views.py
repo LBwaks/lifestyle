@@ -64,6 +64,7 @@ def ContactView(request):
         form = ContactForm()
     else:
         form = ContactForm(request.POST)
+    
         if form.is_valid():
             name = form.cleaned_data.get("name")
             from_emaill = form.cleaned_data.get("email")
@@ -71,6 +72,8 @@ def ContactView(request):
             message = f"{name} with email {from_emaill} said:"
             message += f'\n Subject: "{subject}"\n\n'
             message += form.cleaned_data.get("message")
+            print(name)
+            print(form.cleaned_data.get("name"))
 
             context = {
                 "name": name,
@@ -78,6 +81,7 @@ def ContactView(request):
                 "subject": subject,
                 "message": message,
             }
+            print(context)
             text_content = render_to_string("email/contact-email.txt", context)
             html_content = render_to_string("email/contact-email.txt", context)
 
@@ -101,7 +105,8 @@ def ContactView(request):
                 #     print('mail sent')
             except BadHeaderError:
                 return HttpResponse("Invalid Header Found")
-            return redirect("contact")
+            return redirect("home")
+        print('done2')
 
     return render(request, "pages/contact.html", {"form": form})
 

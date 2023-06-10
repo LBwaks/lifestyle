@@ -34,7 +34,7 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(os.path.join(BASE_DIR, ".env"))
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -43,8 +43,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.getenv("DEBUG")
-DEBUG = True
-ALLOWED_HOSTS = [".railway.app", "lovubi.com","127.0.0.1"]
+DEBUG = False
+ALLOWED_HOSTS = [".railway.app", "lovubi.com","127.0.0.1","https://lovubi.com/"]
 
 INTERNAL_IPS = [
     # ...
@@ -160,7 +160,7 @@ WSGI_APPLICATION = "Lifestyle.wsgi.application"
 #         "PORT": os.getenv("PORT"),
 #     }
 # }
-# production db settings
+# # production db settings
 DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {
     "default": dj_database_url.config(
@@ -171,7 +171,7 @@ DATABASES = {
 # SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST = "smtp.sendgrid.net"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -686,9 +686,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR / "media")
 CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 
-# after https is configured
+# # after https is configured
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
+##allauth
+USE_X_FORWARDED_HOST = True
 
 SECURE_BROWSER_XSS_FILTER = True
 # http sttrict transport security
