@@ -43,7 +43,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.getenv("DEBUG")
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = [".railway.app", "lovubi.com","127.0.0.1","https://lovubi.com/"]
 
 INTERNAL_IPS = [
@@ -160,7 +160,7 @@ WSGI_APPLICATION = "Lifestyle.wsgi.application"
 #         "PORT": os.getenv("PORT"),
 #     }
 # }
-# # production db settings
+# production db settings
 DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {
     "default": dj_database_url.config(
@@ -689,7 +689,7 @@ CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 # # after https is configured
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
-##allauth
+## allauth
 USE_X_FORWARDED_HOST = True
 
 SECURE_BROWSER_XSS_FILTER = True
