@@ -35,9 +35,9 @@
 <div class="single-footer sm-custom-border f-link">
 <h3>Pages</h3>
 <ul>
-<li><a href="#">About Us</a></li>
+<li><a href="{% url 'about' %}">About Us</a></li>
 
-<li><a href="#">Contact Us</a></li>
+<li><a href="{% url 'contact' %}">Contact Us</a></li>
 
 </ul>
 </div>
@@ -48,8 +48,8 @@
 <div class="single-footer sm-custom-border f-link">
 <h3>Blog</h3>
 <ul>
-<li><a href="#">Blogs</a></li>
-<li><a href="#">Add Blogs</a></li>
+<li><a href="{% url 'blogs' %}">Blogs</a></li>
+<li><a href="{% url 'add_blog' %}">Add Blogs</a></li>
 
 </ul>
 </div>
@@ -61,9 +61,10 @@
 <div class="single-footer md-custom-border sm-custom-border f-link">
 <h3>Legal</h3>
 <ul>
-<li><a href="#">Privacy Policy</a></li>
-<li><a href="#">Terms & Conditions</a></li>
-<li><a href="#">Support Team</a></li>
+    
+<li><a href="https://www.privacypolicygenerator.info/live.php?token=1I6T08zO55cWOd47G9TUKBJM79WZwqha">Privacy Policy</a></li>
+<li><a href="https://www.termsandconditionsgenerator.com/live.php?token=rhNa8caApbhsQvaVcvQ6ejYwcSR9plIz">Terms & Conditions</a></li>
+{% comment %} <li><a href="#">Support Team</a></li> {% endcomment %}
 
 </ul>
 </div>

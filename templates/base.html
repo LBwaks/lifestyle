@@ -10,7 +10,7 @@
     {% block title %} {% endblock title %}</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta property="og:site_name" content="YOUR_WEBSITE_NAME">
+    <meta property="og:site_name" content="Lovubi">
     <!--<meta property="og:title" content="TITLE_OF_YOUR_WEBSITE"> 
     <meta property="og:description" content="DESCRIPTION_OF_YOUR_WEBSITE"> -->
         <meta property="og:image" content="YOURIMAGEURL.JPG">
@@ -149,9 +149,7 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/js/glightbox.min.js" integrity="sha512-S/H9RQ6govCzeA7F9D0m8NGfsGf0/HjJEiLEfWGaMCjFzavo+DkRbYtZLSO+X6cZsIKQ6JvV/7Y9YMaYnSGnAA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
    {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.min.js" integrity="sha512-GNb4Gyn5ZK+XcsnKg8jeo5olNYWqH+j+gMvbG1X5Z9Vz7bv/tQ2spLUuKcXo8T3r4p3IxVt0e/ARNwFftqCt+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> {% endcomment %}
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-    {% comment %} <script src="https://code.jquery.com/jquery-3.5.1.js"></script> {% endcomment %}
-
-
+    
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
@@ -160,27 +158,26 @@
     
     <script src="https://kit.fontawesome.com/63f52e4970.js" crossorigin="anonymous"></script>
 
-    <script>
-        document.body.addEventListener('htmx:configRequest', function(evt) {
-    evt.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; // add a new parameter into the mix
+<script>
+  /*htmx */
+document.body.addEventListener('htmx:configRequest', function(evt) {
+evt.detail.headers['X-CSRFToken'] = '{{ csrf_token }}'; // add a new parameter into the mix
 });
-    </script>
-    <script>
+    
        /*for popover in detail-page */
-  var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
 var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-  return new bootstrap.Popover(popoverTriggerEl)
+return new bootstrap.Popover(popoverTriggerEl)
 })
 
-  var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
-  triggr: 'focus',
-  html:true
+var popover = new bootstrap.Popover(document.querySelector('.popover-dismiss'), {
+triggr: 'focus',
+html:true
 })
 
 /*  for select in add blog */
 
-</script>
-<script>
+
   $(document).ready(function() {
     $('.tag-multiple').select2({
       placeholder: "Select Blog Tags ",

@@ -47,7 +47,7 @@ class UpdateProfileForm(forms.ModelForm):
     def clean_profile(self):
             data = self.cleaned_data.get("profile")
             if data:
-                if data.size > 2 * 1024 * 1024:
+                if data.size > 5 * 1024 * 1024:
                     raise ValidationError("Profile should be less than 5mbs")
 
             return data
