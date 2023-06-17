@@ -23,13 +23,13 @@ from logtail import LogtailHandler
 from sentry_sdk.integrations.django import DjangoIntegration
 from datetime import timedelta
 
-# import environ
+import environ
 import os
 
-# env = environ.Env(
-#     # set casting, default value
-#     DEBUG=(bool, False)
-# )
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
