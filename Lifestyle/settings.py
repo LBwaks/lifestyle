@@ -43,7 +43,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.getenv("DEBUG")
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = [".railway.app", "lovubi.com","127.0.0.1","https://lovubi.com/"]
 
 INTERNAL_IPS = [
