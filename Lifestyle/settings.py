@@ -183,6 +183,7 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 # SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 RECIPIENT_ADDRESS = os.getenv("RECIPIENT_ADDRESS")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+SERVER_EMAIL = os.getenv('SERVER_EMAIL')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
