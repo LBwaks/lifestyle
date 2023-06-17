@@ -23,13 +23,13 @@ from logtail import LogtailHandler
 from sentry_sdk.integrations.django import DjangoIntegration
 from datetime import timedelta
 
-import environ
+# import environ
 import os
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+# env = environ.Env(
+#     # set casting, default value
+#     DEBUG=(bool, False)
+# )
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -43,7 +43,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.getenv("DEBUG")
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = [".railway.app", "lovubi.com","127.0.0.1","https://lovubi.com/"]
 
 INTERNAL_IPS = [
@@ -152,24 +152,24 @@ WSGI_APPLICATION = "Lifestyle.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 # development db settings
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": os.getenv("NAME"),
-#         "USER": os.getenv("USER"),
-#         "PASSWORD": os.getenv("PASSWORD"),
-#         "HOST": os.getenv("HOST"),
-#         "PORT": os.getenv("PORT"),
-#     }
-# }
-# production db settings
-DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {
-    "default": dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("NAME"),
+        "USER": os.getenv("USER"),
+        "PASSWORD": os.getenv("PASSWORD"),
+        "HOST": os.getenv("HOST"),
+        "PORT": os.getenv("PORT"),
+    }
 }
+# production db settings
+# DATABASE_URL = os.getenv("DATABASE_URL")
+# DATABASES = {
+#     "default": dj_database_url.config(
+#         conn_max_age=600,
+#         conn_health_checks=True,
+#     )
+# }
 # SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 # EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
