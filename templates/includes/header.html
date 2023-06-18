@@ -3,13 +3,14 @@
 {% load admin_urls %}
 {{ redirect_to_login_immediately }}
  <!-- Start Header Area -->
+ {% with request.resolver_match.url_name as url_name %}
     <header class="header">
         <div class="header-inner">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <nav class="navbar navbar-expand-lg">
-                            <a class="navbar-brand" href="index.html">Lovubi</a>
+                            <a class="navbar-brand" href="{% url 'home' %}">Lovubi</a>
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -26,41 +27,12 @@
                                      <li class="nav-item dropdown">
                                         <a class="nav-link {% if url_name == 'add_blog' %} active {% endif %}" href="{% url 'add_blog' %}">Post Blog</a>
                                     </li>
-                                    {% comment %} {% if user.is_authenticated and user.role == 'clients' %}
-                                    <li class="nav-item dropdown">
-                                        <a class="{% if url_name == 'kazi' %} nav-link active {% endif %}" href="{% url 'my-tasks' %}">My Tasks </a>
-                                    </li>
-                                    {% elif user.is_authenticated and user.role != 'clients'  %}
-                                     <li class="nav-item dropdown">
-   <a class="{% if url_name == 'kazi' %} nav-link active {% endif %}" href="{% url 'kazi' %}">Tasks </a>
-   </li>
-                                    {% endif %} {% endcomment %}
                                     
-                                   
-                                   {% comment %} {% if user.is_authenticated and user.is_staff %} {% endcomment %}
-                                     {% comment %} <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            Assigments
-                                        </a>
-                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item" href="{% url 'assigned-tasks' %}">All Assignments</a></li>
-                                             <li><a class="dropdown-item" href="{% url 'my-assigned-tasks' %}">My assigment</a></li>
-                                             
-                                        </ul>
-                                    </li>  {% endcomment %}
-                                   {% comment %} {% endif %} {% endcomment %}
-                                    
-                                   
-                                    {% comment %} <li class="nav-item dropdown">
-                                        <a class="{% if url_name == 'service' %} nav-link active {% endif %}" href="{% url 'services' %}">Services</a>
-                                    </li> {% endcomment %}
-                                   
                                      <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'about' %}">About Us </a>
+                                        <a class="nav-link {% if url_name == 'about' %} active {% endif %}" href="{% url 'about' %}">About Us </a>
                                     </li> 
                                      <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'contact' %}">Contacts Us</a>
+                                        <a class="nav-link {% if url_name == 'contact' %} active {% endif %}" href="{% url 'contact' %}">Contacts Us</a>
                                     </li> 
 
                                      
@@ -76,21 +48,21 @@
                                                 {% if user.is_staff %}
                                             <li><a class="dropdown-item" href="{% url 'admin:index' %}">Dashboard</a></li> 
                                             {% endif %}
-                                           <li><a class="dropdown-item" href="{% url 'my-blogs' %}">My blogs</a></li> 
-                                           <li><a class="dropdown-item" href="{% url 'bookmarks' %}">Bookmarks</a></li> 
+                                           <li><a class="dropdown-item {% if url_name == 'my-blogs' %} active {% endif %}" href="{% url 'my-blogs' %}">My blogs</a></li> 
+                                           <li><a class="dropdown-item {% if url_name == 'bookmarks' %} active {% endif %}" href="{% url 'bookmarks' %}">Bookmarks</a></li> 
                                            
-                                            <li><a class="dropdown-item" href="{% url 'user-profile' user.user_profile.slug %}">Profile</a></li> 
-                                            <li><a class="dropdown-item" href="{% url 'account_logout' %}">Sign Out</a></li> 
+                                            <li><a class="dropdown-item {% if url_name == 'user-profile' %} active {% endif %}" href="{% url 'user-profile' user.user_profile.slug %}">Profile</a></li> 
+                                            <li><a class="dropdown-item {% if url_name == 'logout' %} active {% endif %}" href="{% url 'account_logout' %}">Sign Out</a></li> 
                                        
                                         </ul>
                                     </li>
                                     
                                     {% else %}
  <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'account_login' %}">Sign In</a>
+                                        <a class="nav-link {% if url_name == 'account_login' %} active {% endif %}" href="{% url 'account_login' %}">Sign In</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+                                        <a class="nav-link {% if url_name == 'account_signup' %} active {% endif %}" href="{% url 'account_signup' %}">Sign Up</a>
                                     </li>
                                     {% endif %}
                                    
@@ -104,5 +76,5 @@
             </div>
         </div>
     </header>
-    
+    {% endwith %}
     <!-- End Header Area -->

@@ -1927,7 +1927,7 @@ ol {
 
 .hero-area .hero-text {
   float: none;
-  margin-top: 275px;
+  margin-top: 175px;
 }
 
 .hero-area .hero-text h5 {
@@ -1971,12 +1971,12 @@ ol {
 
 .hero-area .hero-image {
   float: right;
-  margin-top: 200px;
+  margin-top: 150px;
   height: 550px;
   width: 550px;
   display: block;
   border-radius: 5px;
-  background-image: url("../images/splash.jpg");
+  background-image: url("../images/home.avif");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -6463,7 +6463,7 @@ ul.custom-flex {
     CTA CSS
 ========================================*/
 .cta-section {
-  background-image: url("../images/splash.jpg");
+  background-image: url("../images/home.avif");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

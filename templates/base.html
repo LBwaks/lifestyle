@@ -104,7 +104,7 @@
     <![endif]-->
 {% include 'includes/header.html' %}
 {% endblock %}
-{% if debug %}
+{% comment %} {% if debug %}
     if (typeof window.htmx !== "undefined") {
         htmx.on("htmx:afterSettle", function(detail) {
             if (
@@ -115,7 +115,7 @@
             }
         });
     }
-{% endif %}
+{% endif %} {% endcomment %}
 {% block content %}
     
 
