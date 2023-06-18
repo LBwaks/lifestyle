@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-# import os
+import os
 from pathlib import Path
 
 import dj_database_url
@@ -75,7 +75,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    # "whitenoise.runserver_nostatic",
+    "whitenoise.runserver_nostatic",
     "django.contrib.staticfiles",
     "django.contrib.sites",
     'django.contrib.sitemaps',
@@ -505,6 +505,9 @@ LOGGING = {
         },
     },
 }
+DEBUG_PROPAGATE_EXCEPTIONS = True
+
+COMPRESS_ENABLED = os.getenv('COMPRESS_ENABLED', False)
 # jazminn
 
 JAZZMIN_SETTINGS = {
@@ -653,7 +656,7 @@ JAZZMIN_SETTINGS = {
 
 
 # deployment
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 # aws
 
@@ -686,6 +689,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR / "media")
 CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
+
 
 
 # # after https is configured

@@ -879,7 +879,7 @@ ol {
 
 /* Bread Crumbs */
 .breadcrumbs {
- 
+  /* background-image: url("../images/breadcrumb/breadcrumb-bg.jpg"); */
   /* background-size: cover; */
   /* background-position: center; */
   /* background-repeat: no-repeat; */
@@ -1161,7 +1161,7 @@ ol {
   color: #fff !important;
   border-radius: 0;
   position: fixed;
-  bottom: 30px;
+  bottom: 100px;
   right: 30px;
   z-index: 9;
   cursor: pointer;
@@ -1927,7 +1927,7 @@ ol {
 
 .hero-area .hero-text {
   float: none;
-  margin-top: 275px;
+  margin-top: 175px;
 }
 
 .hero-area .hero-text h5 {
@@ -1971,12 +1971,12 @@ ol {
 
 .hero-area .hero-image {
   float: right;
-  margin-top: 200px;
+  margin-top: 150px;
   height: 550px;
   width: 550px;
   display: block;
   border-radius: 5px;
-  background-image: url("../images/splash.jpg");
+  background-image: url("../images/home.avif");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1989,7 +1989,7 @@ ol {
   content: "";
   left: 0;
   top: 0;
- 
+  background-image: url("../images/shape2.png");
   background-repeat: no-repeat;
   height: 100px;
   width: 100px;
@@ -6463,7 +6463,7 @@ ul.custom-flex {
     CTA CSS
 ========================================*/
 .cta-section {
-  background-image: url("../images/splash.jpg");
+  background-image: url("../images/home.avif");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -6621,7 +6621,8 @@ ul.custom-flex {
 }
 .features .single-head
 {
-    position:relative 
+    position:relative ;
+    /* max-height: 150px; */
 }
 .single-feature
 {
@@ -6678,4 +6679,11 @@ ul.custom-flex {
 .features .single-head .feature-patern
 {
     position:absolute;left:-30px;bottom:-30px 
+}
+
+/* astrick */
+
+.asteriskField {
+  color:red;
+  margin:5px;
 }
