@@ -110,6 +110,8 @@ def ContactView(request):
 
     return render(request, "pages/contact.html", {"form": form})
 
+def privacy(request):
+    return render(request,'pages/privacy-policy.html')
 
 def error_404(request, exception):
     return render(request,'errors/404.html',status=404)

@@ -1,3 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Privacy Policy {% endblock title %}
+{% block content %}
+
+<div class="breadcrumbs overlay">
+<div class="container">
+<div class="row align-items-center">
+<div class="col-lg-6 col-md-6 col-12">
+<div class="breadcrumbs-content">
+<h1 class="page-title">Privacy Policy</h1>
+{% comment %} <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+been the industry's standard dummy text</p> {% endcomment %}
+</div>
+</div>
+<div class="col-lg-6 col-md-6 col-12">
+<ul class="breadcrumb-nav">
+<li><a href="{% url 'home' %}">Home</a></li>
+<li>Privacy Policy</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<section class="why-choose section">
+<div class=container>
+<div class=row>
+
+<div class="row align-items-center">
+
+<div class="col-md-12 col-12">
+<div class="right wow fadeInRight" data-wow-delay=.5s>
+<ul>
+
+
+<li>
+
+<div class=content>
 <h1>Privacy Policy for Lovubi</h1>
 
 <p>At Lovubi, accessible from https://lovubi.com/, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Lovubi and how we use it.</p>
@@ -101,3 +140,18 @@
 <h2>Contact Us</h2>
 
 <p>If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+
+
+
+
+
+{% endblock content %}
