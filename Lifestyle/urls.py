@@ -29,7 +29,8 @@ sitemaps = {
 urlpatterns = [
     path("admin/defender/", include("defender.urls")),  # defender admin
     path('hijack/', include('hijack.urls')),
-    path("admin/", admin.site.urls),
+    path('admin/', include('admin_honeypot.urls')),
+    path("allowmepass/", admin.site.urls),
     path("blogs/", include("Blog.urls")),
     path("", include("Pages.urls")),
     path("__debug__/", include("debug_toolbar.urls")),

@@ -43,7 +43,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.getenv("DEBUG")
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = [".railway.app", "lovubi.com","127.0.0.1","https://lovubi.com/"]
 
 INTERNAL_IPS = [
@@ -90,6 +90,7 @@ INSTALLED_APPS = [
     "ckeditor",
     "ckeditor_uploader",
     "taggit",
+    "admin_honeypot",
     "django_extensions",
     "hitcount",
     "crispy_forms",
@@ -533,7 +534,7 @@ JAZZMIN_SETTINGS = {
     "site_brand": "Lovubi",
 
     # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "static/images/splash.jpg",
+    "site_logo": "images/Lovubi1.png",
 
     # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
     "login_logo": None,
@@ -704,7 +705,7 @@ CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 
 
-# # after https is configured
+# after https is configured
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
  # #  allauth
