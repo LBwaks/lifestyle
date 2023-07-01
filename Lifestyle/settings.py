@@ -43,7 +43,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.getenv("DEBUG")
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = [".railway.app", "lovubi.com","127.0.0.1","https://lovubi.com/"]
 
 INTERNAL_IPS = [
@@ -423,7 +423,9 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_MIN_LENGTH = 5
 ACCOUNT_USERNAME_REQUIRED = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
-
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+ACCOUNT_USER_MODEL_EMAIL_FIELD ="email"
+SOCIALACCOUNT_ADAPTER = "Accounts.adapters.CustomSocialAccountAdapter"
 
 # logging
 LOGGING_CONFIG = None
@@ -469,15 +471,15 @@ LOGGING = {
             "backupCount": 5,
             "maxBytes": 1024 * 1024 * 5,  # 5 MB
         },
-        # "debug_handler": {
-        #     "class": "logging.handlers.RotatingFileHandler",
-        #     "filename": f"{BASE_DIR}/logs/blog_debug.log",
-        #     "mode": "a",
-        #     "formatter": "verbose",
-        #     "level": "DEBUG",
-        #     "backupCount": 5,
-        #     "maxBytes": 1024 * 1024 * 5,  # 5 MB
-        # },
+        "debug_handler": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": f"{BASE_DIR}/logs/blog_debug.log",
+            "mode": "a",
+            "formatter": "verbose",
+            "level": "DEBUG",
+            "backupCount": 5,
+            "maxBytes": 1024 * 1024 * 5,  # 5 MB
+        },
         "info_handle": {
             "class": "logging.handlers.RotatingFileHandler",
             "filename": f"{BASE_DIR}/logs/blog_info.log",
@@ -735,7 +737,7 @@ AUTO_LOGOUT = {
     'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
 }
 
-# sentry
+# # sentry
 sentry_sdk.init(
     dsn="https://d5ae51a5355c403d85995fe7d3724224@o4504099387342848.ingest.sentry.io/4505028709974016",
     integrations=[
