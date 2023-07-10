@@ -22,7 +22,7 @@ from dotenv import load_dotenv
 from logtail import LogtailHandler
 from sentry_sdk.integrations.django import DjangoIntegration
 from datetime import timedelta
-
+import logging.config
 import environ
 import os
 
@@ -449,6 +449,10 @@ LOGGING = {
             "class": "logging.StreamHandler",
             "formatter": "simple",
         },
+        "sentry":{
+            'level': 'ERROR',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+        },
         "logtail": {
             "class": "logtail.LogtailHandler",
             "formatter": "verbose",
@@ -515,7 +519,7 @@ LOGGING = {
             "propagate": True,
         },
         "django.server": {
-            "handlers": ["error_handler", "warning_handler"],
+            "handlers": ["error_handler", "warning_handler","sentry",],
             "level": "INFO",
             "propagate": True,
         },

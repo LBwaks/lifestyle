@@ -31,7 +31,7 @@ class BlogAdmin(admin.ModelAdmin):
     #     Inline,
     # ]
     # raw_id_fields = ('',)
-    readonly_fields = ('user',)
+    # readonly_fields = ('user',)
     search_fields = ('title','content')
     # date_hierarchy = ''
     ordering = ('-created',)
@@ -42,9 +42,9 @@ class BlogAdmin(admin.ModelAdmin):
     def tag_list(self, obj):
         return u", ".join(o.name for o in obj.tags.all())
     
-    def save_model(self, request, obj, form, change):
-        obj.user = request.user
-        super().save_model(request, obj, form, change)
+    # def save_model(self, request, obj, form, change):
+    #     obj.user = request.user
+        # super().save_model(request, obj, form, change)
             
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
