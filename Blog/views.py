@@ -126,7 +126,7 @@ class BlogCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         f = form.save(commit=False)
         f.user = self.request.user
         f.save()
-        return super(BlogCreateView, self).form_valid(form)
+        return super().form_valid(form)
 
 
 class BlogUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
