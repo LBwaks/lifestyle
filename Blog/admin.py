@@ -42,11 +42,10 @@ class BlogAdmin(admin.ModelAdmin):
     def tag_list(self, obj):
         return u", ".join(o.name for o in obj.tags.all())
     
-    def save_model(self, request, obj, form, change):
-        if not obj.user_id:
-            obj.user= request.user
-            obj.save()        
-        return super().save_model(request, obj, form, change)
+    def save_model(self, request, obj, form, change):        
+            obj.user= request.user                    
+            super().save_model(request, obj, form, change)
+            
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     '''Admin View for Comment'''
