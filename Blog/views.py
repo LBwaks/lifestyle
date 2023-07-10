@@ -123,9 +123,9 @@ class BlogCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     success_message = "Blog created successfully!"
 
     def form_valid(self, form):
-        f = form.save(commit=False)
-        f.user = self.request.user
-        f.save()
+        # f = form.save(commit=False)
+        form.instance.user = self.request.user
+        # f.save()
         return super().form_valid(form)
 
 
