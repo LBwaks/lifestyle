@@ -51,15 +51,15 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://lifestyle-production.up.railway.app:6379/1",
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         }
-#     }
-# }
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": os.getenv("REDIS_URL"),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
 # 'localhost',
 #   '127.0.0.1',
 #   '111.222.333.444',
@@ -759,3 +759,7 @@ sentry_sdk.init(
 MAINTENANCE_MODE = None
 MAINTENANCE_MODE_IGNORE_ADMIN_SITE = False
 MAINTENANCE_MODE_TEMPLATE = "errors/503.html"
+
+
+
+# <a href="https://www.freepik.com/free-photo/world-diabetes-day-sugar-wooden-bowl-dark-surface_10401423.htm#query=sugar&position=0&from_view=keyword&track=sph">Image by jcomp</a> on Freepik
