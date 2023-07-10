@@ -95,10 +95,7 @@ class Blog(models.Model, HitCountMixin):
     photo = models.ImageField(
         _("Photo"),
         upload_to="blogs",
-        # blank=True,
-        # null=True,
-        height_field=None,
-        width_field=None,
+       
         max_length=None,
         validators=[validate_file_size,ext_validator],
         
@@ -138,11 +135,11 @@ class Blog(models.Model, HitCountMixin):
         """Unicode representation of Blog."""
         return self.title
 
-    def save(self, *args, **kwargs):
-        """Save method for photo."""
-        new_photo = compress(self.photo)
-        self.photo = new_photo
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     """Save method for photo."""
+    #     new_photo = compress(self.photo)
+    #     self.photo = new_photo
+    #     super().save(*args, **kwargs)
 
     def get_absolute_url(self):
         """Return absolute url for Blog."""
