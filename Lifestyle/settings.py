@@ -51,16 +51,16 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
-CACHES = {
-    "default": {
-        "BACKEND":"django_redis.cache.RedisCache",
-        "LOCATION": os.getenv("REDIS_URL"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "IGNORE_EXCEPTIONS": True,
-        }
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND":"django_redis.cache.RedisCache",
+#         "LOCATION": os.getenv("REDIS_URL"),
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#             "IGNORE_EXCEPTIONS": True,
+#         }
+#     }
+# }
 # 'localhost',
 #   '127.0.0.1',
 #   '111.222.333.444',
