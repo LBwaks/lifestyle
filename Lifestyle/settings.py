@@ -701,7 +701,7 @@ CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 
 
-after https is configured
+# after https is configured
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
  # #  allauth
