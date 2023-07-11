@@ -684,6 +684,9 @@ AWS_S3_ACCESS_KEY_ID = os.getenv("AWS_S3_ACCESS_KEY_ID")
 AWS_S3_SECRET_ACCESS_KEY = os.getenv("AWS_S3_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
 AWS_DEFAULT_ACL = "public-read"
+AWS_S3_CUSTOM_DOMAIN = 'https://d2n7j1cvfar59p.cloudfront.net'
+AWS_QUERYSTRING_AUTH = False
+
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # localhost static 
@@ -698,7 +701,7 @@ CKEDITOR_UPLOAD_PATH = "ckeditor/uploads"
 
 
 
-# after https is configured
+after https is configured
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
  # #  allauth
