@@ -74,8 +74,8 @@ def ContactView(request):
                 mail = EmailMultiAlternatives(
                     subject=subject,
                     body=message,
-                    from_email=from_emaill,
-                    to=["lovubi@gmail.com"],
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=["lovubi1@gmail.com"],
                 )
                 mail.attach_alternative(html_content, "text/html")
                 mail.send()
