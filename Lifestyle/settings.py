@@ -173,19 +173,27 @@ DATABASES = {
     )
 }
 # SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+# for sendgrid
 
 # EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = "smtp.sendgrid.net"
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = "smtp.sendgrid.net"
+
+# for gmail
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com' 
+# EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+# for sendgrid 
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD=os.getenv("SENDGRID_API_KEY")
+
+# other email ettings 
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
-# SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
-RECIPIENT_ADDRESS = os.getenv("RECIPIENT_ADDRESS")
-DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
-SERVER_EMAIL = os.getenv('SERVER_EMAIL')
+# RECIPIENT_ADDRESS = os.getenv("RECIPIENT_ADDRESS")
+# DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+# SERVER_EMAIL = os.getenv('SERVER_EMAIL')
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -684,7 +692,9 @@ AWS_S3_ACCESS_KEY_ID = os.getenv("AWS_S3_ACCESS_KEY_ID")
 AWS_S3_SECRET_ACCESS_KEY = os.getenv("AWS_S3_SECRET_ACCESS_KEY")
 AWS_STORAGE_BUCKET_NAME = os.getenv("AWS_STORAGE_BUCKET_NAME")
 AWS_DEFAULT_ACL = "public-read"
-AWS_S3_CUSTOM_DOMAIN = 'https://d2n7j1cvfar59p.cloudfront.net'
+# AWS_S3_CUSTOM_DOMAIN = 'd2n7j1cvfar59p.cloudfront.net'
+# AWS_CLOUDFRONT_KEY = os.getenv("AWS_CLOUDFRONT_KEY",None).encode('ascii')
+# AWS_CLOUDFRONT_KEY_ID =os.getenv("AWS_CLOUDFRONT_KEY_ID",None)
 AWS_QUERYSTRING_AUTH = False
 
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"

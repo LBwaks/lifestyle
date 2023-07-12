@@ -16,7 +16,7 @@ from Blog.models import Blog
 
 from .forms import ContactForm
 from .models import AboutUsPage, Contact, Team, Work
-
+from django.contrib import messages
 # Create your views here.
 
 
@@ -47,33 +47,18 @@ class About(ListView):
         return context
 
 
-# class ContactCreateView(CreateView):
-#     model = Contact
-#     template_name = "pages/contact.html"
-#     form_class = ContactForm
-
-
-#     def form_valid(self,form):
-
-#       form.send()
-#   return super().form_valid(form)
-
 
 def ContactView(request):
-    if request.method == "GET":
-        form = ContactForm()
-    else:
+    if request.method == "POST":        
         form = ContactForm(request.POST)
     
         if form.is_valid():
             name = form.cleaned_data.get("name")
             from_emaill = form.cleaned_data.get("email")
             subject = form.cleaned_data.get("subject")
-            message = f"{name} with email {from_emaill} said:"
-            message += f'\n Subject: "{subject}"\n\n'
-            message += form.cleaned_data.get("message")
-            print(name)
-            print(form.cleaned_data.get("name"))
+            # message = f"{name} with email {from_emaill} said:"
+            # message += f'\n Subject: "{subject}"\n\n'
+            message = form.cleaned_data.get("message")           
 
             context = {
                 "name": name,
@@ -81,34 +66,31 @@ def ContactView(request):
                 "subject": subject,
                 "message": message,
             }
-            print(context)
-            text_content = render_to_string("email/contact-email.txt", context)
-            html_content = render_to_string("email/contact-email.txt", context)
+           
+            # text_content = render_to_string("email/contact-email.txt", context)
+            html_content = render_to_string("email/contact-email.html", context)
 
             try:
                 mail = EmailMultiAlternatives(
                     subject=subject,
                     body=message,
                     from_email=from_emaill,
-                    to=["obwakuvictor@gmail.com"],
+                    to=["lovubi@gmail.com"],
                 )
                 mail.attach_alternative(html_content, "text/html")
-                # mail.send(fail_silently=False)
-                # send_mail(subject,message,from_emaill,[settings.RECIPIENT_ADDRESS])
-                #  if send_mail(
-                #     "subject",
-                #     "with gmail",
-                #     "obwakuvictor@gmail.com",
-                #     ["victorobwaku@gmail.com"],
-                # ):
-               
-                #     print('mail sent')
+                mail.send()
+                if mail.send():
+                     print(context)
+                     print('mail sent')
+                messages.success(request, "seeeeeeeeeeeeeeeeeeee.")
             except BadHeaderError:
                 return HttpResponse("Invalid Header Found")
-            return redirect("home")
-        print('done2')
+            return HttpResponseRedirect(request.META["HTTP_REFERER"])
+        
+    else:
+            form =ContactForm()
 
-    return render(request, "pages/contact.html", {"form": form})
+    return render(request, "pages/contact.html", {"form":form})
 
 def privacy(request):
     return render(request,'pages/privacy-policy.html')

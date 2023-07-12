@@ -24,16 +24,16 @@ class ContactForm(forms.ModelForm):
                 raise ValidationError( _("Name should be more than 3 characters"), code="invalid")
             return name
         
-    def clean_message(self):
-            message = self.cleaned_data['message']
-            if len(message) < 10 :
-                raise ValidationError( _("Message should be more than 10 characters"), code="invalid")
-            return message
-    def clean_content(self):
-            content = self.cleaned_data['content']
-            if len(content) < 10:
-                raise ValidationError( _("cDescription should be more than 10 characters"), code="invalid")
-            return content
+    # def clean_message(self):
+    #         message = self.cleaned_data['message']
+    #         if len(message) < 10 :
+    #             raise ValidationError( _("Message should be more than 10 characters"), code="invalid")
+    #         return message
+    # def clean_content(self):
+    #         content = self.cleaned_data['content']
+    #         if len(content) < 10:
+    #             raise ValidationError( _("cDescription should be more than 10 characters"), code="invalid")
+    #         return content
     # def get_info(self):
     #     cleaned_data = super(ContactForm,self).clean()
     #     name = cleaned_data.get('name')
