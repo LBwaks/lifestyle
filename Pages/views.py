@@ -70,21 +70,22 @@ def ContactView(request):
             # text_content = render_to_string("email/contact-email.txt", context)
             html_content = render_to_string("email/contact-email.html", context)
 
-            try:
-                mail = EmailMultiAlternatives(
+            # try:
+            mail = EmailMultiAlternatives(
                     subject=subject,
                     body=message,
                     from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=["lovubi1@gmail.com"],
+                    to=["obwakuvictor@gmail.com"],
                 )
-                mail.attach_alternative(html_content, "text/html")
-                mail.send()
-                if mail.send():
+            mail.attach_alternative(html_content, "text/html")
+            mail.send()
+            if mail.send():
                      print(context)
+                     print(settings.DEFAULT_FROM_EMAIL)
                      print('mail sent')
-                messages.success(request, "seeeeeeeeeeeeeeeeeeee.")
-            except BadHeaderError:
-                return HttpResponse("Invalid Header Found")
+            messages.success(request, "seeeeeeeeeeeeeeeeeeee.")
+            # except BadHeaderError:
+                # return HttpResponse("Invalid Header Found")
             return HttpResponseRedirect(request.META["HTTP_REFERER"])
         
     else:
