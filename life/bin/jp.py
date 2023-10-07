@@ -1,4 +1,4 @@
-#!/home/bwaks/Desktop/lifestyle/life/bin/python3.10
+#!/home/bwaks/Desktop/lifestyle/life/bin/python3.11
 
 import sys
 import json

@@ -299,7 +299,7 @@ def SearchListView(request):
         results_count = results.count()
 
         page = request.GET.get("page", 1)
-        paginator = Paginator(results, 3)
+        paginator = Paginator(results, 10)
         try:
             results = paginator.page(page)
         except PageNotAnInteger:

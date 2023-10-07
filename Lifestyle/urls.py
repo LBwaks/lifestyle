@@ -22,6 +22,7 @@ from  django.conf.urls import handler404,handler500
 
 from Blog.sitemaps import BlogSitemap
 
+
 sitemaps = {
     "blogs": BlogSitemap,
 }

@@ -1,4 +1,4 @@
-#!/home/bwaks/Desktop/lifestyle/life/bin/python3.10
+#!/home/bwaks/Desktop/lifestyle/life/bin/python3.11
 # EASY-INSTALL-ENTRY-SCRIPT: 'python-card-me==0.9.3','console_scripts','ics_diff'
 import re
 import sys

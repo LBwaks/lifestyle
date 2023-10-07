@@ -4959,6 +4959,13 @@ text-align: left;
   color: #081828;
   font-size: 17px;
   font-weight: 600;
+  text-transform: lowercase;
+}
+.latest-news-area .single-news .content-body .title a::first-letter {
+  color: #081828;
+  font-size: 17px;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .latest-news-area .single-news .content-body .title a:hover {

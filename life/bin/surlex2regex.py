@@ -1,4 +1,4 @@
-#!/home/bwaks/Desktop/lifestyle/life/bin/python3.10
+#!/home/bwaks/Desktop/lifestyle/life/bin/python3.11
 from surlex import Surlex
 import sys
 from optparse import OptionParser
