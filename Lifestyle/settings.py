@@ -738,7 +738,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # autologout
 AUTO_LOGOUT = {
-    'IDLE_TIME': timedelta(minutes=10),
+    'IDLE_TIME': timedelta(minutes=60),
     'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
 }
 

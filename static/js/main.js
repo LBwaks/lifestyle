@@ -103,3 +103,13 @@ Author: GrayGrids
     // });
     // cu.start();
 })();
+
+
+  $(document).ready(function() {
+    
+   $("#blog_tags_id").select2({
+    placeholder: 'Select Tag',
+    width:'resolve',    
+   }); 
+
+   });

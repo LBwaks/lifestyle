@@ -83,7 +83,7 @@ class Blog(models.Model, HitCountMixin):
 
     # TODO: Define fields here
     user = models.ForeignKey(
-        User, verbose_name=_("blog_author"), on_delete=models.CASCADE
+        User, verbose_name=_("blog_author"), on_delete=models.CASCADE,editable = False
     )
     title = models.CharField(_("Title"), max_length=100)
     slug = AutoSlugField(populate_from='title')

@@ -9,10 +9,23 @@ from .models import Blog, Comment
 
 
 class BlogForm(forms.ModelForm):
-    """Form definition for Blog.""" 
+    """Form definition for Blog."""
+
     # class="form-select form-select-sm" id="small-bootstrap-class-single-field"
 
-    tags = forms.ModelMultipleChoiceField(label="Tags", widget=forms.SelectMultiple(attrs={"class":"form-select  form-control tag-multiple" ,"style":"width:100%" ,"multiple":'multiple' "required"}),queryset=Tag.objects.all())
+    tags = forms.ModelMultipleChoiceField(
+        label="Tags",
+        widget=forms.SelectMultiple(
+            attrs={
+                "class": "form-select",                
+                "required": True,
+                "id":"blog_tags_id",
+                'style':"width:100 %;"
+                
+            }
+        ),
+        queryset=Tag.objects.all(),
+    )
     # tags = forms.ModelMultipleChoiceField(label="Tags", widget=forms.SelectMultiple(attrs={"class":"form-select form-select-sm" ,"id":"small-bootstrap-class-single-field" ,"multiple":'multiple'}),queryset=Tag.objects.all())
     content = (forms.CharField(widget=CKEditorUploadingWidget()),)
 
@@ -24,15 +37,17 @@ class BlogForm(forms.ModelForm):
             "title",
             "category",
             "tags",
-            "content",            
+            "content",
             "photo",
         )
         widgets = {
             "title": forms.TextInput(attrs={"class": "form-control title" "required"}),
             "category": forms.Select(
-                attrs={"class": "form-control category" "required"}
+                attrs={"class": "form-control category","required":True}
             ),
-            "photo": forms.ClearableFileInput(attrs={"class": "form-control","accept":".png,.jpg,.jpeg"}),
+            "photo": forms.ClearableFileInput(
+                attrs={"class": "form-control", "accept": ".png,.jpg,.jpeg"}
+            ),
         }
 
     def clean_title(self):
@@ -54,7 +69,7 @@ class BlogForm(forms.ModelForm):
     def clean_photo(self):
         photo = self.cleaned_data.get("photo", False)
         if photo:
-            if photo.size > 5*1024*1024:
+            if photo.size > 5 * 1024 * 1024:
                 raise ValidationError(
                     _("Photo should be less than 5mbs"), code="invalid"
                 )
@@ -65,7 +80,18 @@ class BlogForm(forms.ModelForm):
 class EditBlogForm(forms.ModelForm):
     """Form definition for Blog."""
 
-    tags = forms.ModelMultipleChoiceField(label="Tags", widget=forms.SelectMultiple(attrs={"class":"form-select form-select-sm" ,"id":"small-bootstrap-class-single-field" ,"multiple":'multiple'}),queryset=Tag.objects.all())
+    tags = forms.ModelMultipleChoiceField(
+        label="Tags",
+        widget=forms.SelectMultiple(
+            attrs={
+                "class": "form-select form-select-sm",
+                "id": "small-bootstrap-class-single-field",
+                "multiple": "multiple",
+                "id":"blog_tags_id"
+            }
+        ),
+        queryset=Tag.objects.all(),
+    )
     content = (forms.CharField(widget=CKEditorUploadingWidget()),)
 
     class Meta:
@@ -88,25 +114,25 @@ class EditBlogForm(forms.ModelForm):
         }
 
     def clean_title(self):
-            title = self.cleaned_data["title"]
-            if len(title) <= 5:
-                raise ValidationError(
-                    _("Title should be more than 5 Characters"), code="invalid"
-                )
-            return title
+        title = self.cleaned_data["title"]
+        if len(title) <= 5:
+            raise ValidationError(
+                _("Title should be more than 5 Characters"), code="invalid"
+            )
+        return title
 
     def clean_content(self):
-            content = self.cleaned_data["content"]
-            if len(content) <= 100:
-                raise ValidationError(
-                    _("Characters should be more than 100"), code="invalid"
-                )
-            return content
+        content = self.cleaned_data["content"]
+        if len(content) <= 100:
+            raise ValidationError(
+                _("Characters should be more than 100"), code="invalid"
+            )
+        return content
 
     def clean_photo(self):
         photo = self.cleaned_data.get("photo", False)
         if photo:
-            if photo.size > 5*1024*1024:
+            if photo.size > 5 * 1024 * 1024:
                 raise ValidationError(
                     _("Photo should be less than 5mbs"), code="invalid"
                 )
@@ -125,5 +151,5 @@ class CommentForm(forms.ModelForm):
             "comment": forms.Textarea(
                 attrs={"class": "form-control comment" "required"}
             ),
-            'parent': forms.HiddenInput()
+            "parent": forms.HiddenInput(),
         }
